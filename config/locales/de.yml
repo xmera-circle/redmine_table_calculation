@@ -2,3 +2,4 @@ de:
   label_redmine_table_calculator: Redmine Tabellenkalkulation # Plugin name
   project_module_table_calculator: Tabellenkalkulation # Module name
   menu_table_calculator: Tabellenkalkulation # Menu item name
+  table_calculation: Tabellenkalkulation # Tab name of custom fields  

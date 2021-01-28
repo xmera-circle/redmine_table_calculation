@@ -9,4 +9,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* initialize plugin as project module with global settings
+* initial plugin with project module and global settings
+* custom fields
