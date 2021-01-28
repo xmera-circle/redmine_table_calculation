@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculator.
+# This file is part of the Plugin Redmine Table Calculation.
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -18,11 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module RedmineTableCalculator
+module RedmineTableCalculation
   module_function
 
   def partial
-    'settings/redmine_table_calculator_settings'
+    'settings/redmine_table_calculation_settings'
   end
 
   def defaults

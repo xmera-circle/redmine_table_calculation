@@ -1,5 +1,5 @@
 class TableCustomField < CustomField
   def type_name
-    :menu_table_calculator
+    :menu_table_calculation
   end
 end

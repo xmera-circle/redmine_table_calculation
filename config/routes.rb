@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculator.
+# This file is part of the Plugin Redmine Table Calculation.
 #
 # Copyright (C) 2020-2021 Liane Hampe <liaham@xmera.de>, xmera.
 #

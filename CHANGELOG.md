@@ -1,4 +1,5 @@
-# Changelog for Redmine Table Calculator
+# Changelog for Redmine Table Calculation
+
 
 All notable changes to this project will be documented in this file.
 

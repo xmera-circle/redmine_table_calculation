@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculator.
+# This file is part of the Plugin Redmine Table Calculation.
 #
 # Copyright (C) 2020-2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -19,6 +19,5 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 class TablesController < ApplicationController
-  menu_item :table_calculator
-
+  menu_item :table_calculation
 end

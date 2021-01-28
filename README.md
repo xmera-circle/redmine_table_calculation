@@ -1,1 +1,1 @@
-# Redmine Table Calculator
+# Redmine Table Calculation
