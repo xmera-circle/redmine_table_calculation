@@ -44,9 +44,9 @@ Redmine::Plugin.register :redmine_table_calculation do
   end
 end
 
-#ActiveSupport::Reloader.to_prepare do
+ActiveSupport::Reloader.to_prepare do
   table_custom_fields = { name: 'TableCustomField', 
                           partial: 'custom_fields/index',
                           label: :table_calculation }
   CustomFieldsHelper::CUSTOM_FIELDS_TABS << table_custom_fields
-#end
+end
