@@ -33,14 +33,15 @@ Redmine::Plugin.register :redmine_table_calculation do
   settings  partial: TableCalculation.partial,
             default: TableCalculation.defaults
 
-  menu :project_menu, 
-       :table_calculation, 
-       { controller: 'tables', action: 'index' }, 
-        caption: :menu_table_calculation, 
-        html: { class: 'icon icon-types' }
+  # menu :project_menu, 
+  #      :table_calculation, 
+  #      { controller: 'tables', action: 'index' }, 
+  #       caption: :menu_table_calculation, 
+  #       html: { class: 'icon icon-types' }
   project_module :table_calculation do
     permission :view_tables, { :tables => [:index, :show] }, :public => true
     permission :destroy_tables, { :tables => :destroy }
+    permission :edit_tables, { tables: :edit }
   end
 end
 

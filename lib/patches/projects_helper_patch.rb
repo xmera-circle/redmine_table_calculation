@@ -18,37 +18,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class TablesController < ApplicationController
-  menu_item :label_table_plural
-
-  before_action :find_project
-  before_action :authorize
-
-  def index
-    
-  end
-
-  def new
-
-  end
-
-  def create
-
-  end
-
-  def show
-
-  end
-
-  def edit
-
-  end
-
-  def update
-
-  end
-
-  def destroy
-
+module TableCalculation
+  module Patches 
+    module ProjectsHelperPatch 
+      def project_settings_tabs
+        tabs = super
+        table_tabs = [
+          { name: 'tables', action:  { controller: 'tables', action: 'index' },
+          partial: 'tables/main', label: :label_table }
+        ]
+        tabs.concat(table_tabs.select { |table_tab| User.current.allowed_to?(table_tab[:action], @project) })
+        tabs
+      end
+    end
   end
 end
+
+ProjectsController.send :helper, TableCalculation::Patches::ProjectsHelperPatch
