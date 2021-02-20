@@ -18,23 +18,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module RedmineTableCalculation
-  module_function
+# Suppresses ruby gems warnings when running tests
+$VERBOSE = nil
 
-  def partial
-    'settings/redmine_table_calculation_settings'
-  end
+# Load the Redmine helper
+require File.expand_path('../../../test/test_helper', __dir__)
+require_relative 'load_fixtures'
+require_relative 'authenticate_user'
+require_relative 'create_project_type'
 
-  def defaults
-    attr = [attr_one, attr_two]
-    attr.inject(&:merge)
-  end
-
-  def attr_one
-    { attr_one: '' }
-  end
-
-  def attr_two
-    { attr_two: '' }
-  end
-end
+# The gem minitest-reporters gives color to the command-line
+require 'minitest/reporters'
+Minitest::Reporters.use!
+# require "minitest/rails/capybara"
+require 'mocha/minitest'

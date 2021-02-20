@@ -18,22 +18,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class Table < ActiveRecord::Base
-  include Redmine::SafeAttributes
+module TableCalculation
+  module_function
 
-  belongs_to :project
+  def partial
+    'settings/table_calculation_settings'
+  end
 
-  has_and_belongs_to_many :columns,
-                          lambda {order(:position)},
-                          :class_name => 'TableCustomField',
-                          :join_table => "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
+  def defaults
+    attr = [attr_one, attr_two]
+    attr.inject(&:merge)
+  end
 
-  safe_attributes(
-    :name,
-    :description,
-    :project_id,
-    :columns
-  )
+  def attr_one
+    { attr_one: '' }
+  end
 
+  def attr_two
+    { attr_two: '' }
+  end
 end

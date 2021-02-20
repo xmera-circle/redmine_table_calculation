@@ -18,22 +18,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class Table < ActiveRecord::Base
-  include Redmine::SafeAttributes
+class CreateCustomFieldsTables < ActiveRecord::Migration[4.2]
+  def self.up
+    create_table :custom_fields_tables, id: false do |t|
+      t.column :custom_field_id, :integer, default: 0, null: false
+      t.column :table_id, :integer, default: 0, null: false
+    end
+    add_index :custom_fields_tables,
+              %i[table_id],
+              name: :custom_fields_by_table
+  end
 
-  belongs_to :project
-
-  has_and_belongs_to_many :columns,
-                          lambda {order(:position)},
-                          :class_name => 'TableCustomField',
-                          :join_table => "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
-
-  safe_attributes(
-    :name,
-    :description,
-    :project_id,
-    :columns
-  )
-
+  def self.down
+    drop_table :custom_fields_tables
+  end
 end

@@ -18,22 +18,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class Table < ActiveRecord::Base
-  include Redmine::SafeAttributes
+class CreateCalculationResults < ActiveRecord::Migration[4.2]
+  def self.up
+    unless table_exists?(:calculation_results)
+      create_table :calculation_results do |t|
+        t.string :type, limit: 30, default: "", null: false
+        t.string :name, limit: 60, default: "", null: false
+        t.integer :calculation_id, default: 0, null: false
+        t.text :comment
+        t.timestamp :created_on
+        t.timestamp :updated_on
+      end
 
-  belongs_to :project
+      add_index :calculation_results, %i[calculation_id], name: 'calculation_results_by_calculation'
+      add_index :calculation_results, %i[type calculation_id], name: 'calculation_results_by_calculation_and_type'
+    end
+  end
 
-  has_and_belongs_to_many :columns,
-                          lambda {order(:position)},
-                          :class_name => 'TableCustomField',
-                          :join_table => "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
-
-  safe_attributes(
-    :name,
-    :description,
-    :project_id,
-    :columns
-  )
-
+  def self.down
+    drop_table :calculation_results if table_exists?(:calculation_results)
+  end
 end

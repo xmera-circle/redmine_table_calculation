@@ -18,22 +18,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class Table < ActiveRecord::Base
+class CalculationResult < ActiveRecord::Base
   include Redmine::SafeAttributes
+  acts_as_customizable type_class: :table
 
-  belongs_to :project
-
-  has_and_belongs_to_many :columns,
-                          lambda {order(:position)},
-                          :class_name => 'TableCustomField',
-                          :join_table => "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
+  belongs_to :calculation
 
   safe_attributes(
     :name,
-    :description,
-    :project_id,
-    :columns
+    :comment,    
+    :calculation_id,
+    :custom_fields,
+    :custom_field_values
   )
+
+  def available_custom_fields
+    CustomField.where("type = '#{type_class}CustomField'").sorted.to_a
+  end
+
+  private
+
+  def type_class
+    self.class.customizable_options.fetch(:type_class, self.class).to_s.classify
+  end
 
 end

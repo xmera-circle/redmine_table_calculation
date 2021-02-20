@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-require_dependency 'redmine_table_calculation'
+require_dependency 'table_calculation'
 
 Redmine::Plugin.register :redmine_table_calculation do
   name 'Redmine Table Calculation'
@@ -30,8 +30,8 @@ Redmine::Plugin.register :redmine_table_calculation do
 
   requires_redmine version_or_higher: '4.1.0'
 
-  settings  partial: RedmineTableCalculation.partial,
-            default: RedmineTableCalculation.defaults
+  settings  partial: TableCalculation.partial,
+            default: TableCalculation.defaults
 
   menu :project_menu, 
        :table_calculation, 

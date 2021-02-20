@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2021 Liane Hampe <liaham@xmera.de>, xmera.
+# Redmine plugin for xmera called Project Types Relations Plugin.
 #
-# This plugin program is free software; you can redistribute it and/or
+# Copyright (C) 2017-21 Liane Hampe <liaham@xmera.de>, xmera.
+#
+# This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
@@ -18,8 +19,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class TableCustomField < CustomField
-  def type_name
-    :menu_table_calculation
+module TableCalculation
+  ##
+  # Provide user login test
+  #
+  module CreateProjectType
+    def project_type_create_params(associates)
+      { project_type:
+        { name: 'Lore ipsum',
+          description: 'for testing',
+          is_public: 0,
+          default_member_role_id: 3,
+          position: 4 }.merge(associates) }
+    end
   end
 end

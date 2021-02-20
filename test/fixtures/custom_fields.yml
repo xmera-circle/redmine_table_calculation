@@ -1,0 +1,15 @@
+--- 
+custom_fields_001: 
+  name: Field1
+  regexp: ""
+  is_for_all: true
+  is_filter: true
+  type: TableCustomField
+  possible_values: 
+  - A
+  - B
+  - C
+  is_required: false
+  field_format: list
+  default_value: ""
+  editable: true
