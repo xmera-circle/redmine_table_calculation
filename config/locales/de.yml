@@ -4,6 +4,7 @@ de:
   label_menu_table_calculation: Tabellenkalkulation # Project menu item name
   label_menu_table_config: Tabellenkonfiguration # Admin menu item name
   table_calculation: Tabellenkalkulation # Tab name in project settings
+  menu_table_calculation: Tabellenkalkulation # TableCustomField
 
   label_table: Tabelle
   label_table_plural: Tabellen

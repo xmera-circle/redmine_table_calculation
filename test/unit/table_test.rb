@@ -22,12 +22,9 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class TableTest < ActiveSupport::TestCase
+    extend TableCalculation::LoadFixtures
 
-    test 'should belong to project' do
-      association = Table.reflect_on_association(:project)
-      assert_equal :project, association.name
-      assert_equal :belongs_to, association.macro
-    end
+    fixtures :tables, :project_types
 
     test 'should have many columns' do
       association = Table.reflect_on_association(:columns)
@@ -45,12 +42,50 @@ module TableCaclulation
       assert Table.respond_to? :safe_attributes
     end
 
-    test 'should find columns' do
-      cf = custom_field
+    test 'should respond to column_assigned?' do
+      assert Table.find(1).respond_to? :column_assigned?
+    end
+
+    test 'should respond to project_type_assigned?' do
+      assert Table.find(1).respond_to? :project_type_assigned?
+    end
+
+    test 'table should not be valid without name' do
       table = Table.new
+      assert_not table.valid?
+      assert_equal [:name], table.errors.keys
+    end
+
+    test 'two tables with identical names should not be valid' do
+      table = Table.new(name: 'Table1')
+      assert_not table.valid?
+      assert_equal [:name], table.errors.keys
+    end
+
+    test 'should find columns and project types' do
+      cf = custom_field
+      table = Table.find(1)
       table.columns << cf
       assert table.save
       assert table.columns.count == 1
+      pt = ProjectType.find(1)
+      table.project_types << pt
+      assert table.save
+      assert table.project_types.count == 1
+    end
+
+    test 'should update table' do
+      table = Table.new(name: 'Table to update')
+      name = 'Updated Table'
+      table.name = name
+      assert table.save
+      assert table.name == name
+    end
+
+    test 'should delete table' do
+      table = Table.new(name: 'Table to delete')
+      assert table.destroy
+      assert table.destroyed?
     end
 
     private

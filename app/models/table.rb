@@ -21,8 +21,6 @@
 class Table < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  belongs_to :project
-
   has_and_belongs_to_many :columns,
                           lambda {order(:position)},
                           :class_name => 'TableCustomField',
@@ -33,6 +31,9 @@ class Table < ActiveRecord::Base
                           lambda {order(:position)},
                           :join_table => "#{table_name_prefix}project_types_tables#{table_name_suffix}",
                           :association_foreign_key => 'project_type_id'
+  
+  validates_presence_of :name
+  validates_uniqueness_of :name
 
   safe_attributes(
     :name,
@@ -40,5 +41,13 @@ class Table < ActiveRecord::Base
     :column_ids,
     :project_type_ids
   )
+
+  def column_assigned?(id)
+    columns.to_a.map(&:id).include? id.to_i
+  end
+
+  def project_type_assigned?(id)
+    project_types.to_a.map(&:id).include? id.to_i
+  end
 
 end

@@ -27,7 +27,7 @@ module TableCaclulation
     include TableCalculation::CreateProjectType
     include Redmine::I18n
 
-    fixtures :users, :tables
+    fixtures :users, :tables, :project_types
 
     test 'index by anonymous should redirect to login form' do
       User.anonymous
@@ -45,12 +45,11 @@ module TableCaclulation
       log_user('admin', 'admin')
       get tables_path
       assert_response :success
-      assert_select 'table.config-tables'
     end
 
     test 'should get new' do
       log_user('admin', 'admin')
-      get new_table_url
+      get new_table_path
       assert_response :success
       assert_template 'new'
     end
@@ -60,6 +59,63 @@ module TableCaclulation
       get edit_table_url(id: 1)
       assert_response :success
       assert_template 'edit'
+    end
+
+    test 'should redirect after create' do
+      log_user('admin', 'admin')
+      name = 'Another table'
+      assert_difference after_create do
+        post tables_url, params: table_create_params(name: name)
+      end
+      assert_redirected_to(controller: 'tables', action: 'index')
+      table = Table.last
+      assert_equal name, table.name
+      assert_equal 1, table.columns.count
+      assert_equal 1, table.project_types.count
+    end
+
+    test 'should update' do
+      log_user('admin', 'admin')
+      table_to_change = Table.first
+      patch table_url(table_to_change), params: table_update_params
+      table_to_change.reload
+      assert_equal 'changed', table_to_change.name
+    end
+
+    test 'should delete when it has no projects' do
+      log_user('admin', 'admin')
+      post tables_url, params: table_create_params(name: 'One more table')
+      assert_redirected_to(controller: 'tables', action: 'index')
+      assert_difference after_delete do
+        delete "/tables/#{Table.last.id}", params: nil
+      end
+      assert_redirected_to(controller: 'tables', action: 'index')
+    end
+
+    private
+
+    def table_create_params(name:, associates: {})
+      cf = CustomField.generate!(name: 'Field1',
+                                 type: 'TableCustomField',
+                                 field_format: 'string' )
+      { table:
+        { name: name,
+          description: 'for testing',
+          column_ids: ['', cf.id],
+          project_type_ids: ['', 1]}
+        .merge(associates) }
+    end
+
+    def table_update_params
+      { table: { name: 'changed' } }
+    end
+
+    def after_create
+      { -> { Table.count } => 1 }
+    end
+
+    def after_delete
+      { -> { Table.count } => -1 }
     end
   end
 end

@@ -23,8 +23,6 @@ require File.expand_path('../test_helper', __dir__)
 module TableCaclulation
   class CalculatedResultTest < ActiveSupport::TestCase
 
-    fixtures :projects
-
     test 'should save calculated calculation result' do
       name = 'Result'
       calculated_result = CalculatedResult.new(name: name)

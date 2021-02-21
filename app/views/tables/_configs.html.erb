@@ -25,6 +25,7 @@
     <%= content_tag :thead do %>
       <%= content_tag :tr do %>
         <%= content_tag(:th, l(:label_name), class: 'name') %>
+        <%= content_tag(:th, l(:label_description), class: 'name') %>
         <%= content_tag(:th, l(:label_column_plural), class: 'name') %>
         <%= content_tag(:th, l(:label_project_type_plural), class: 'name') %>
         <%= content_tag(:th, '') %>
@@ -35,8 +36,9 @@
       <% @tables.each do |table| %>
         <%= content_tag :tr do %>
           <%= content_tag(:td, link_to(table.name, edit_table_path(table)), class: 'name') %>
-          <%= content_tag(:td, table.name, class: 'name') %>
-          <%= content_tag(:td, table.name, class: 'name') %>
+          <%= content_tag(:td, table.description, class: 'name') %>
+          <%= content_tag(:td, table.columns.map(&:name).join(', '), class: 'name') %>
+          <%= content_tag(:td, table.project_types.map(&:name).join(', '), class: 'name') %>
           <%= content_tag(:td, '') %>
           <%= tag.td class: 'buttons' do %>
             <%= delete_link table_path(table) %>

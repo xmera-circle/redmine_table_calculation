@@ -39,41 +39,41 @@ class TablesController < ApplicationController
   end
 
   def create
-    @table = ProjectType.new
+    @table = Table.new
     @table.safe_attributes = params[:table]
     if @table.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to table_path
+      redirect_to tables_path
     else
       render :new
     end
   end
 
-  def show
+  def show; end
 
-  end
-
-  def edit
-
-  end
+  def edit; end
 
   def update
-
+    @table.safe_attributes = params[:table]
+    if @table.save
+      respond_to do |format|
+        format.html do
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to tables_path
+        end
+      end
+    else
+      respond_to do |format|
+        format.html do
+          edit
+          render action: 'edit'
+        end
+      end
+    end
   end
 
   def destroy
     @table.destroy
     redirect_to tables_path
   end
-
-  private
-
-  ##
-  # Intermediate state for @project as long as project settings tag
-  # is deactivated.
-  #
-  def find_project
-    @project = nil
-  end
-
 end

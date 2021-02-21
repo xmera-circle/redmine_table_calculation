@@ -29,6 +29,48 @@ module TablesHelper
        label: :label_tab_calculations }]
   end
 
+  def columns_multiselect(table, choices)
+    hidden_field_tag('table[column_ids][]', '').html_safe +
+      choices.collect do |choice|
+        text, value = (choice.is_a?(Array) ? choice : [choice, choice])
+        content_tag(
+          'label',
+          check_box_tag(
+            'table[column_ids][]',
+            value,
+            @table.column_assigned?(value),
+            id: nil
+          ) + text.to_s,
+          class: 'floating'
+        )
+      end.join.html_safe
+  end
+
+  def project_types_multiselect(table, choices)
+    hidden_field_tag('table[project_type_ids][]', '').html_safe +
+      choices.collect do |choice|
+        text, value = (choice.is_a?(Array) ? choice : [choice, choice])
+        content_tag(
+          'label',
+          check_box_tag(
+            'table[project_type_ids][]',
+            value,
+            @table.project_type_assigned?(value),
+            id: nil
+          ) + text.to_s,
+          class: 'floating'
+        )
+      end.join.html_safe
+  end
+
+  def available_columns
+    TableCustomField.sorted.collect { |t| [t.name, t.id.to_s] }
+  end
+
+  def available_project_types
+    ProjectType.sorted.collect { |t| [t.name, t.id.to_s] }
+  end
+
   # def create_table(object, fields)
   #   content_tag :table, create_table_head_and_body(object, fields), class: 'list'
   # end
