@@ -24,12 +24,9 @@ class CreateTables < ActiveRecord::Migration[4.2]
       create_table :tables do |t|
         t.string :name, limit: 60, default: "", null: false
         t.text :description
-        t.integer :project_id, default: 0, null: false
         t.timestamp :created_on
         t.timestamp :updated_on
       end
-
-      add_index :tables, %i[project_id], name: 'tables_by_project'
     end
   end
 

@@ -18,62 +18,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class TablesController < ApplicationController
-  model_object Table
-  menu_item :menu_table_config
+class CreateProjectTypesTables < ActiveRecord::Migration[4.2]
+  def self.up
+    unless table_exists?(:project_types_tables)
+      create_table :project_types_tables, id: false do |t|
+        t.integer :project_type_id, default: 0, null: false
+        t.integer :table_id, default: 0, null: false
+      end
 
-  before_action :find_model_object, except: %i[index new create]
-  
-  ## modify the next three lines if project settings tab enabled
-  before_action :require_admin
-  layout 'admin'
-  self.main_menu = false
-  ##
-
-  def index
-    @tables = Table.all
-  end
-
-  def new
-    @table = Table.new
-  end
-
-  def create
-    @table = ProjectType.new
-    @table.safe_attributes = params[:table]
-    if @table.save
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to table_path
-    else
-      render :new
+      add_index :project_types_tables, %i[project_type_id table_id]
     end
   end
 
-  def show
-
+  def self.down
+    drop_table :project_types_tables if table_exists?(:project_types_tables)
   end
-
-  def edit
-
-  end
-
-  def update
-
-  end
-
-  def destroy
-    @table.destroy
-    redirect_to tables_path
-  end
-
-  private
-
-  ##
-  # Intermediate state for @project as long as project settings tag
-  # is deactivated.
-  #
-  def find_project
-    @project = nil
-  end
-
 end

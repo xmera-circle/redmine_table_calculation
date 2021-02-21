@@ -1,4 +1,5 @@
 --- 
-tables_001: 
+tables_001:
+  id: 1
   name: Table1
   description: A table for testing purposes

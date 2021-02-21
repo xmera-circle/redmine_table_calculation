@@ -29,11 +29,16 @@ class Table < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
+  has_and_belongs_to_many :project_types,
+                          lambda {order(:position)},
+                          :join_table => "#{table_name_prefix}project_types_tables#{table_name_suffix}",
+                          :association_foreign_key => 'project_type_id'
+
   safe_attributes(
     :name,
     :description,
-    :project_id,
-    :columns
+    :column_ids,
+    :project_type_ids
   )
 
 end

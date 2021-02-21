@@ -35,6 +35,12 @@ module TableCaclulation
       assert_equal :has_and_belongs_to_many, association.macro
     end
 
+    test 'should have many project types' do
+      association = Table.reflect_on_association(:project_types)
+      assert_equal :project_types, association.name
+      assert_equal :has_and_belongs_to_many, association.macro
+    end
+
     test 'should respond to safe attributes' do
       assert Table.respond_to? :safe_attributes
     end

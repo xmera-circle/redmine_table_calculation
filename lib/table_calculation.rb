@@ -20,6 +20,7 @@
 
 require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
 require 'table_calculation/patches/projects_helper_patch'
+require 'table_calculation/patches/project_type_patch'
 
 module TableCalculation
   module_function

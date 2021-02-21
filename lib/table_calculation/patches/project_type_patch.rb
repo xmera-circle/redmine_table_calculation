@@ -18,62 +18,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class TablesController < ApplicationController
-  model_object Table
-  menu_item :menu_table_config
+module TableCalculation
+  module Patches
+    module ProjectTypePatch
+      def self.prepended(base)
+        base.extend(ClassMethods)
+        base.prepend(InstanceMethods)
+        base.class_eval do
+          has_and_belongs_to_many :tables,
+                                  :join_table => "#{table_name_prefix}project_types_tables#{table_name_suffix}",
+                                  :association_foreign_key => 'table_id'
+        end
+      end
 
-  before_action :find_model_object, except: %i[index new create]
-  
-  ## modify the next three lines if project settings tab enabled
-  before_action :require_admin
-  layout 'admin'
-  self.main_menu = false
-  ##
+      module ClassMethods; end
 
-  def index
-    @tables = Table.all
-  end
-
-  def new
-    @table = Table.new
-  end
-
-  def create
-    @table = ProjectType.new
-    @table.safe_attributes = params[:table]
-    if @table.save
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to table_path
-    else
-      render :new
+      module InstanceMethods; end
     end
   end
+end
 
-  def show
-
+# Apply patch
+Rails.configuration.to_prepare do
+  unless ProjectType.included_modules.include?(TableCalculation::Patches::ProjectTypePatch)
+    ProjectType.prepend TableCalculation::Patches::ProjectTypePatch
   end
-
-  def edit
-
-  end
-
-  def update
-
-  end
-
-  def destroy
-    @table.destroy
-    redirect_to tables_path
-  end
-
-  private
-
-  ##
-  # Intermediate state for @project as long as project settings tag
-  # is deactivated.
-  #
-  def find_project
-    @project = nil
-  end
-
 end
