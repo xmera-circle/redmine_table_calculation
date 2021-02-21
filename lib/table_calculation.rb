@@ -18,7 +18,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-require 'patches/projects_helper_patch'
+require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
+require 'table_calculation/patches/projects_helper_patch'
 
 module TableCalculation
   module_function

@@ -38,11 +38,18 @@ Redmine::Plugin.register :redmine_table_calculation do
   #      { controller: 'tables', action: 'index' }, 
   #       caption: :menu_table_calculation, 
   #       html: { class: 'icon icon-types' }
-  project_module :table_calculation do
-    permission :view_tables, { :tables => [:index, :show] }, :public => true
-    permission :destroy_tables, { :tables => :destroy }
-    permission :edit_tables, { tables: :edit }
-  end
+
+  menu :admin_menu, 
+       :menu_table_config, 
+       { controller: 'tables', action: 'index' }, 
+        caption: :label_menu_table_config, 
+        html: { class: 'icon icon-tables' }
+
+  # project_module :table_calculation do
+  #   permission :view_tables, { :tables => [:index, :show] }
+  #   permission :destroy_tables, { :tables => :destroy }
+  #   permission :edit_tables, { tables: :edit }
+  # end
 end
 
 ActiveSupport::Reloader.to_prepare do
