@@ -8,3 +8,8 @@ de:
   label_table: Tabelle
   label_table_plural: Tabellen
   label_table_config: Tabellenkonfiguration
+  label_table_new: Neue Tabelle
+  label_tab_configs: Konfigurationen
+  label_tab_calculations: Berechnungen
+  label_name: Name 
+  label_column_plural: Spalten

@@ -19,8 +19,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 class TablesController < ApplicationController
+  model_object Table
   menu_item :menu_table_config
 
+  before_action :find_model_object, except: %i[index new create]
   before_action :find_project
   
   ## modify the next three lines if project settings tab enabled
@@ -30,15 +32,22 @@ class TablesController < ApplicationController
   ##
 
   def index
-    
+    @tables = Table.all
   end
 
   def new
-
+    @table = Table.new
   end
 
   def create
-
+    @table = ProjectType.new
+    @table.safe_attributes = params[:table]
+    if @table.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to table_path
+    else
+      render :new
+    end
   end
 
   def show
@@ -54,7 +63,8 @@ class TablesController < ApplicationController
   end
 
   def destroy
-
+    @table.destroy
+    redirect_to tables_path
   end
 
   private
@@ -66,4 +76,5 @@ class TablesController < ApplicationController
   def find_project
     @project = nil
   end
+
 end

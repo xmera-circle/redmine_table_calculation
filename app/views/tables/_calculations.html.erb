@@ -20,17 +20,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% html_title(l(:label_table_config)) %>
-
-<div class="contextual">
-<%= link_to l(:label_table_new), new_table_path, :class => 'icon icon-add' %>
-</div>
-
-<%= tag.h2 l(:label_table_plural) %>
-
-<%= tag.div class: 'table-settings' do %>
-  <%= render_tabs table_settings_tabs %>
+<% if @tables.any? %>
+  <p>Tables here</p>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
-
-
