@@ -25,7 +25,7 @@ module TablesHelper
        partial: 'tables/configs',
        label: :label_tab_configs },
      { name: 'table_calculations',
-       partial: 'tables/calculations',
+       partial: 'calculations/configs',
        label: :label_tab_calculations }]
   end
 

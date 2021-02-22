@@ -1,8 +1,9 @@
+<%
 # frozen_string_literal: true
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2021 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,8 +18,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+%>
 
-resources :tables, except: %i[show]
-#match 'tables/config', controller: 'tables', action: 'index', via: :get
-resources :calculations, except: %i[show]
-#match 'calculations/config', controller: 'calculations', action: 'index', via: :get
+<%= title [l(:label_table_plural), tables_path], [l(:label_calculation_plural), calculations_path], l(:label_calculation_new) %>
+
+<%= labelled_form_for @calculation do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_create) %>
+<% end %>

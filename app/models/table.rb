@@ -32,6 +32,8 @@ class Table < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}project_types_tables#{table_name_suffix}",
                           :association_foreign_key => 'project_type_id'
   
+  has_many :calculations, dependent: :destroy
+  
   validates_presence_of :name
   validates_uniqueness_of :name
 

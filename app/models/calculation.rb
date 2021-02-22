@@ -21,13 +21,59 @@
 class Calculation < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  belongs_to :project
-  has_one :calculated_result
-  has_one :adapted_result
+  belongs_to :table
+
+  has_and_belongs_to_many :fields,
+                          lambda {order(:position)},
+                          :class_name => 'TableCustomField',
+                          :join_table => "#{table_name_prefix}custom_fields_calculations#{table_name_suffix}",
+                          :association_foreign_key => 'custom_field_id'
+
+  # has_one :calculated_result
+
+  # has_one :adapted_result
+
+  validates_presence_of :name, :formula, :field_ids
+  validates_uniqueness_of :name
+  validate :validate_table_presence
+  validate :validate_fields
+  validate :validate_columns_and_rows
 
   safe_attributes(
     :name,
     :description,
-    :project_id
+    :table_id,
+    :formula,
+    :field_ids,
+    :columns,
+    :rows
   )
+
+  def locale_formula
+    Formula.operators[self.formula.to_sym]
+  end
+
+  private
+
+  def validate_table_presence
+    errors.add :table, l(:error_table_id_not_present) unless table_id&.positive?
+  end
+
+  def validate_fields
+    return unless table_id&.positive?
+
+    errors.add :fields, l(:error_field_ids_invalid) unless field_ids_belong_to?(table)
+  end
+
+  def field_ids_belong_to?(table)
+    (field_ids - table.column_ids).empty?
+  end
+
+  def validate_columns_and_rows
+    # both are true
+    errors.add :columns_and_rows, l(:error_columns_and_rows_selected) if columns && rows
+    # both are false
+    errors.add :columns_and_rows, l(:error_columns_and_rows_unselected) if !columns && !rows
+  end
+
 end

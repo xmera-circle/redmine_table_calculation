@@ -1,1 +1,4 @@
 .icon-tables { background-image: url(../../../images/table_multiple.png); }
+.edit_calculation a[data-expands] > .toggle-multiselect{
+  display: unset;
+}

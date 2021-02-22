@@ -21,30 +21,33 @@
 require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
-  class TablesLayoutTest < ActionDispatch::IntegrationTest
+  class CalculationsLayoutTest < ActionDispatch::IntegrationTest
     extend TableCalculation::LoadFixtures
     include TableCalculation::AuthenticateUser
     include TableCalculation::CreateProjectType
     include Redmine::I18n
 
-    fixtures :users, :tables
+    fixtures :users, :tables, :calculations
 
-    test 'should render index with config tables' do
+    test 'should render index with config calculations' do
       log_user('admin', 'admin')
-      get tables_path
+      get calculations_path
       assert_response :success
-      assert_select 'table.config-tables'
-      assert_select 'table.list.config-tables tbody tr', 2
+      assert_select 'table.config-calculations'
+      assert_select 'table.list.config-calculations tbody tr', 2
     end
 
     test 'should render new form' do
       log_user('admin', 'admin')
-      get new_table_path
+      get new_calculation_path
       assert_response :success
-      assert_select '#table_name'
-      assert_select '#table_description'
-      assert_select '#columns'
-      assert_select '#project-types'
+      assert_select '#calculation_name'
+      assert_select '#calculation_description'
+      assert_select '#calculation_table_id'
+      assert_select '#calculation_formula'
+      assert_select '#calculation_field_ids'
+      assert_select '#calculation_columns'
+      assert_select '#calculation_rows'
     end
 
   end

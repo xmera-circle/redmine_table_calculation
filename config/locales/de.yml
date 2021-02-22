@@ -10,7 +10,29 @@ de:
   label_table_plural: Tabellen
   label_table_config: Tabellenkonfiguration
   label_table_new: Neue Tabelle
-  label_tab_configs: Konfigurationen
-  label_tab_calculations: Berechnungen
   label_name: Name 
   label_column_plural: Spalten
+  label_row_plural: Reihen
+  label_calculation: Berechnung
+  label_calculation_plural: Berechnungen
+  label_calculation_new: Neue Berechnung
+  label_formula: Formel
+  label_field_plural: Felder
+  label_max: Maximum 
+  label_min: Minimum
+  label_sum: Summe
+
+  text_calculate_over: 'Berechnung über:'
+  text_no_multiple_choice: Keine Mehrfachauswahl
+
+  field_columns: Tabellenspalten
+  field_rows: Tabellenreihen
+  field_table: Tabelle
+  field_fields: Felder
+  field_columns_and_rows: Spalten und Zeilen
+
+  error_table_id_not_present: muss ausgewählt werden.
+  error_field_ids_invalid: gehören zu einer anderen Tabelle.
+  error_columns_and_rows_selected: können nicht beide aktiviert werden.
+  error_columns_and_rows_unselected: können nicht beide deaktiviert sein.
+  
