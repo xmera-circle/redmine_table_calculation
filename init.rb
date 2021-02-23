@@ -35,11 +35,11 @@ Redmine::Plugin.register :redmine_table_calculation do
   settings  partial: TableCalculation.partial,
             default: TableCalculation.defaults
 
-  # menu :project_menu, 
-  #      :table_calculation, 
-  #      { controller: 'tables', action: 'index' }, 
-  #       caption: :menu_table_calculation, 
-  #       html: { class: 'icon icon-types' }
+  menu :project_menu, 
+       :menu_table_calculation, 
+       { controller: 'spreadsheets', action: 'index' },
+        param: :project_id,
+        caption: :label_menu_table_calculation
 
   menu :admin_menu, 
        :menu_table_config, 
@@ -47,11 +47,12 @@ Redmine::Plugin.register :redmine_table_calculation do
         caption: :label_menu_table_config, 
         html: { class: 'icon icon-tables' }
 
-  # project_module :table_calculation do
-  #   permission :view_tables, { :tables => [:index, :show] }
-  #   permission :destroy_tables, { :tables => :destroy }
-  #   permission :edit_tables, { tables: :edit }
-  # end
+  project_module :table_calculation do
+    permission :add_spreadsheet, { spreadsheets: %i[new create] }
+    permission :view_spreadsheets, { spreadsheets: %i[index show] }
+    permission :destroy_spreadsheets, { spreadsheets: :destroy }
+    permission :edit_spreadsheets, { spreadsheets: :edit }
+  end
 end
 
 ActiveSupport::Reloader.to_prepare do

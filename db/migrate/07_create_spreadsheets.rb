@@ -18,28 +18,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
-require 'table_calculation/patches/projects_helper_patch'
-require 'table_calculation/patches/project_patch'
-require 'table_calculation/patches/project_type_patch'
-
-module TableCalculation
-  module_function
-
-  def partial
-    'settings/table_calculation_settings'
+class CreateSpreadsheets < ActiveRecord::Migration[4.2]
+  def self.up
+    unless table_exists?(:spreadsheets)
+      create_table :spreadsheets do |t|
+        t.string :name, limit: 60, default: "", null: false
+        t.text :description
+        t.integer :project_id
+        t.integer :author_id
+        t.integer :table_id
+        t.timestamp :created_on
+        t.timestamp :updated_on
+      end
+    end
   end
 
-  def defaults
-    attr = [attr_one, attr_two]
-    attr.inject(&:merge)
-  end
-
-  def attr_one
-    { attr_one: '' }
-  end
-
-  def attr_two
-    { attr_two: '' }
+  def self.down
+    drop_table :spreadsheets if table_exists?(:spreadsheets)
   end
 end

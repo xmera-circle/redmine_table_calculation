@@ -18,7 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-resources :tables, except: %i[show]
-#match 'tables/config', controller: 'tables', action: 'index', via: :get
-resources :calculations, except: %i[show]
-#match 'calculations/config', controller: 'calculations', action: 'index', via: :get
+scope '/admin' do
+  resources :tables, except: %i[show]
+  resources :calculations, except: %i[show]
+end
+
+resources :projects do
+  resources :spreadsheets
+end

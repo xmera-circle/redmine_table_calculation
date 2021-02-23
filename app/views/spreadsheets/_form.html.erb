@@ -1,6 +1,7 @@
+<%
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculation.
+# This file is part of the Plugin Redmine Table spreadsheet.
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -17,29 +18,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+%>
 
-require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
-require 'table_calculation/patches/projects_helper_patch'
-require 'table_calculation/patches/project_patch'
-require 'table_calculation/patches/project_type_patch'
+<%= error_messages_for 'spreadsheet' %>
 
-module TableCalculation
-  module_function
-
-  def partial
-    'settings/table_calculation_settings'
-  end
-
-  def defaults
-    attr = [attr_one, attr_two]
-    attr.inject(&:merge)
-  end
-
-  def attr_one
-    { attr_one: '' }
-  end
-
-  def attr_two
-    { attr_two: '' }
-  end
-end
+<%= tag.div class: 'box tabular settings' do %>
+  <%= content_tag :p, f.text_field(:name, size: 30, required: true) %>
+  <%= content_tag :p, f.text_area(:description, size: '5x5') %>
+  <%= tag.p do %>
+    <%= label(:spreadsheet, :table_id) do %>
+				<%= l(:label_table) %><span class="required"> *</span>
+		<% end %>
+    <%= f.collection_select(:table_id, @project.project_type.tables.collect, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
+  <% end %>
+<% end %>

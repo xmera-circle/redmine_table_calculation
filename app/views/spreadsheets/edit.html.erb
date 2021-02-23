@@ -1,3 +1,4 @@
+<%
 # frozen_string_literal: true
 
 # This file is part of the Plugin Redmine Table Calculation.
@@ -17,29 +18,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+%>
 
-require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
-require 'table_calculation/patches/projects_helper_patch'
-require 'table_calculation/patches/project_patch'
-require 'table_calculation/patches/project_type_patch'
+<%= title [l(:label_table_plural), project_spreadsheets_path], @spreadsheet.name %>
 
-module TableCalculation
-  module_function
-
-  def partial
-    'settings/table_calculation_settings'
-  end
-
-  def defaults
-    attr = [attr_one, attr_two]
-    attr.inject(&:merge)
-  end
-
-  def attr_one
-    { attr_one: '' }
-  end
-
-  def attr_two
-    { attr_two: '' }
-  end
-end
+<%= labelled_form_for @spreadsheet, :url => project_spreadsheet_path(@project) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_create) %>
+<% end %>

@@ -21,6 +21,9 @@ de:
   label_max: Maximum 
   label_min: Minimum
   label_sum: Summe
+  label_spreadsheet: Datenblatt
+  label_spreadsheet_new: Neues Datenblatt
+  label_spreadsheet_plural: Datenblätter
 
   text_calculate_over: 'Berechnung über:'
   text_no_multiple_choice: Keine Mehrfachauswahl
