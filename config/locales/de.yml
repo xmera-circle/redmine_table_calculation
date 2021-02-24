@@ -23,7 +23,12 @@ de:
   label_sum: Summe
   label_spreadsheet: Datenblatt
   label_spreadsheet_new: Neues Datenblatt
+  label_spreadsheet_edit: Konfiguration
   label_spreadsheet_plural: Datenblätter
+  label_spreadsheet_row: Zeile %{count}
+  label_spreadsheet_row_edit: bearbeiten
+  label_spreadsheet_row_new: Neue Zeile
+  label_spreadsheet_row_result: Ergebnis
 
   text_calculate_over: 'Berechnung über:'
   text_no_multiple_choice: Keine Mehrfachauswahl

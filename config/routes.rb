@@ -24,5 +24,7 @@ scope '/admin' do
 end
 
 resources :projects do
-  resources :spreadsheets
+  resources :spreadsheets do
+    resources :spreadsheet_rows, shallow: true
+  end
 end

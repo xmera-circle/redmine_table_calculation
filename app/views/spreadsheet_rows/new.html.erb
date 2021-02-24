@@ -1,7 +1,7 @@
 <%
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table spreadsheet.
+# This file is part of the Plugin Redmine Table Calculation.
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -20,15 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<%= error_messages_for 'spreadsheet' %>
-
-<%= tag.div class: 'box tabular settings' do %>
-  <%= content_tag :p, f.text_field(:name, size: 30, required: true) %>
-  <%= content_tag :p, f.text_area(:description, size: '5x5') %>
-  <%= tag.p do %>
-    <%= label(:spreadsheet, :table_id) do %>
-				<%= l(:label_table) %><span class="required"> *</span>
-		<% end %>
-    <%= f.collection_select(:table_id, @project.project_type.tables.collect, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
-  <% end %>
+<%= labelled_form_for @spreadsheet_row, :url => project_spreadsheet_spreadsheet_rows_path(@project, @spreadsheet) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_create) %>
 <% end %>

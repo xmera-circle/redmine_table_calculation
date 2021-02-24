@@ -1,7 +1,6 @@
-<%
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table spreadsheet.
+# This file is part of the Plugin Redmine Table Calculation.
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -18,17 +17,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-%>
 
-<%= error_messages_for 'spreadsheet' %>
+class CreateSpreadsheetRows < ActiveRecord::Migration[4.2]
+  def self.up
+    unless table_exists?(:spreadsheet_rows)
+      create_table :spreadsheet_rows do |t|
+        t.integer :spreadsheet_id
+        t.integer :position
+        t.timestamp :created_on
+        t.timestamp :updated_on
+      end
+      add_index :spreadsheet_rows,
+          %i[spreadsheet_id],
+          name: :rows_by_spreadsheet
+    end
+  end
 
-<%= tag.div class: 'box tabular settings' do %>
-  <%= content_tag :p, f.text_field(:name, size: 30, required: true) %>
-  <%= content_tag :p, f.text_area(:description, size: '5x5') %>
-  <%= tag.p do %>
-    <%= label(:spreadsheet, :table_id) do %>
-				<%= l(:label_table) %><span class="required"> *</span>
-		<% end %>
-    <%= f.collection_select(:table_id, @project.project_type.tables.collect, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
-  <% end %>
-<% end %>
+  def self.down
+    drop_table :spreadsheet_rows if table_exists?(:spreadsheet_rows)
+  end
+end

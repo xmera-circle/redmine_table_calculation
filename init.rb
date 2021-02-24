@@ -49,9 +49,9 @@ Redmine::Plugin.register :redmine_table_calculation do
 
   project_module :table_calculation do
     permission :add_spreadsheet, { spreadsheets: %i[new create] }
-    permission :view_spreadsheets, { spreadsheets: %i[index show] }
-    permission :destroy_spreadsheets, { spreadsheets: :destroy }
-    permission :edit_spreadsheets, { spreadsheets: :edit }
+    permission :view_spreadsheet, { spreadsheets: %i[index show] }
+    permission :destroy_spreadsheet, { spreadsheets: :destroy }
+    permission :edit_spreadsheet, { spreadsheets: :edit }
   end
 end
 

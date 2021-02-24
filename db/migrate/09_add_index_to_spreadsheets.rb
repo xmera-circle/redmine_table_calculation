@@ -1,7 +1,6 @@
-<%
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table spreadsheet.
+# This file is part of the Plugin Redmine Table Calculation.
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -18,17 +17,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-%>
 
-<%= error_messages_for 'spreadsheet' %>
+class AddIndexToSpreadsheets < ActiveRecord::Migration[4.2]
+  def self.up
+    add_index :spreadsheets, :table_id
+    add_index :spreadsheets, :project_id
+  end
 
-<%= tag.div class: 'box tabular settings' do %>
-  <%= content_tag :p, f.text_field(:name, size: 30, required: true) %>
-  <%= content_tag :p, f.text_area(:description, size: '5x5') %>
-  <%= tag.p do %>
-    <%= label(:spreadsheet, :table_id) do %>
-				<%= l(:label_table) %><span class="required"> *</span>
-		<% end %>
-    <%= f.collection_select(:table_id, @project.project_type.tables.collect, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
-  <% end %>
-<% end %>
+  def self.down
+    remove_index :spreadsheets, :table_id
+    remove_index :spreadsheets, :project_id
+  end
+end

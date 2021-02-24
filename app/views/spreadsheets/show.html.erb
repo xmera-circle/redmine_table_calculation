@@ -1,1 +1,66 @@
-Das Spreadsheet!
+<%
+# frozen_string_literal: true
+
+# This file is part of the Plugin Redmine Table Calculation.
+#
+# Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
+#
+# This plugin program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+%>
+
+<% # %>
+  <%= tag.div class: 'contextual' do %>
+    <%= link_to(l(:label_spreadsheet_edit), edit_project_spreadsheet_path(@project), class: 'icon icon-settings')  %>
+  <% end %>
+<% # %>
+
+<%= tag.h2 @spreadsheet.name %>
+<%= tag.p do %>
+  <%= tag.em @spreadsheet.description %>
+<% end %>
+
+<%= tag.fieldset do %>
+  <%= tag.legend l(:label_spreadsheet_row_result) %>
+  <%= tag.p 'hier muss das Ergebnis stehen' %>
+<% end %>
+
+<%= content_tag :table, class: 'list' do %>
+  <%= content_tag :head do %>
+    <%= content_tag :tr do %>
+      <% @spreadsheet.table.columns.each do |column| %>
+        <%= content_tag(:th, column.name, class: 'name') %>
+      <% end %>
+      <%= content_tag(:th, '') %>
+    <% end %>
+  <% end %>
+  <%= content_tag :tbody do %>
+    <% @spreadsheet.rows.each do |row| %> 
+      <%= content_tag :tr do %>
+        <% row.custom_field_values.each do |field| %> 
+          <%= content_tag(:td, field.value, class: 'name') %>
+        <% end %>
+        <td class="buttons">
+          <% if User.current.allowed_to?(:edit_spreadsheet, @project) %>
+            <%= link_to l(:button_edit), edit_spreadsheet_row_path(row, spreadsheet_id: @spreadsheet), :class => 'icon icon-edit' %>
+            <%= delete_link '#' %>
+          <% end %>
+        </td>
+      <% end %>
+    <% end %>
+    <%=tag.p link_to l(:label_spreadsheet_row_new), new_project_spreadsheet_spreadsheet_row_path(@project, @spreadsheet), class: 'icon icon-add' %>
+  <% end %>
+<% end %>
+
+<% html_title @spreadsheet.name %>

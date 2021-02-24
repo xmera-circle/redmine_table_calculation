@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% if User.current.allowed_to?(:add_documents, @project) %>
+<% if User.current.allowed_to?(:add_spreadsheet, @project) %>
   <%= tag.div class: 'contextual' do %>
     <%= link_to(l(:label_spreadsheet_new), new_project_spreadsheet_path(@project), :class => 'icon icon-add')  %>
   <% end %>

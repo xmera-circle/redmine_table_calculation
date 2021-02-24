@@ -18,31 +18,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class SpreadsheetsController < ApplicationController
-  model_object Spreadsheet
+class SpreadsheetRowsController < ApplicationController
+  model_object SpreadsheetRow
   menu_item :menu_table_calculation
 
-  before_action :find_project_by_project_id
+  before_action :find_project_by_project_id, only: %i[new create]
+  before_action :find_spreadsheet
   before_action :find_model_object, except: %i[index new create]
 
-  helper :tables
+  # helper :tables
   helper :custom_fields
   
   def index
-    @spreadsheets = @project.spreadsheets
+    
   end
 
   def new
-    @spreadsheet ||= Spreadsheet.new(project_id: @project, 
-                                   author_id: User.current)
-    @spreadsheet.safe_attributes = params[:spreadsheet]                              
+    @spreadsheet_row ||= SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
+                                            position: @spreadsheet.rows.count + 1)
+    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]                             
   end
 
   def create
-    @spreadsheet ||= Spreadsheet.new(project_id: @project.id, 
-                                   author_id: User.current.id)
-    @spreadsheet.safe_attributes = params[:spreadsheet]
-    if @spreadsheet.save
+    @spreadsheet_row ||= SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
+                                            position: @spreadsheet.rows.count + 1)
+    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]   
+    if @spreadsheet_row.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_spreadsheet_path @project, @spreadsheet
     else
@@ -50,20 +51,17 @@ class SpreadsheetsController < ApplicationController
     end
   end
 
-  def show; end
+  # def show; end
 
-  def edit
-    @spreadsheet.rows << SpreadsheetRow.new(position: 1) if @spreadsheet.rows.empty?
-    @spreadsheet.safe_attributes = params[:spreadsheet]
-  end
+  def edit; end
 
   def update
-    @spreadsheet.safe_attributes = params[:spreadsheet]
-    if @spreadsheet.save
+    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]   
+    if @spreadsheet_row.save
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to project_spreadsheet_path @project, @spreadsheet
+          redirect_to project_spreadsheet_path @spreadsheet_row.spreadsheet.project, @spreadsheet_row.spreadsheet
         end
       end
     else
@@ -76,8 +74,14 @@ class SpreadsheetsController < ApplicationController
     end
   end
 
-  def destroy
-    @spreadsheet.destroy
-    redirect_to project_spreadsheets_path
+  # def destroy
+  #   @spreadsheet.destroy
+  #   redirect_to project_spreadsheets_path
+  # end
+
+  private
+
+  def find_spreadsheet
+    @spreadsheet = Spreadsheet.find(params[:spreadsheet_id].to_i)
   end
 end
