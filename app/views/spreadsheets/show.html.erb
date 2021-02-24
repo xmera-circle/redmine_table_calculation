@@ -33,20 +33,47 @@
 
 <%= tag.fieldset do %>
   <%= tag.legend l(:label_spreadsheet_row_result) %>
-  <%= tag.p 'hier muss das Ergebnis stehen' %>
+  <%= tag.p do %>
+    <%= content_tag :table, class: 'list' do %>
+      <%= content_tag :head do %>
+        <%= content_tag :tr do %>
+          <%= content_tag(:th, l(:label_calculation), class: 'name') %>
+          <% @columns.each do |column| %>
+            <%= content_tag(:th, column.name, class: 'name') %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= content_tag :tbody do %>
+        <% @calculations.each do |calc| %> 
+          <% data = DataMatrix.new(@row_ids, calc.column_ids) %>
+          <%= content_tag :tr do %>
+            <%= content_tag(:td, calc.name, class: 'name') %>
+            <% @columns.each do |column| %>
+                <% if calc.field_ids.include? column.id %>
+                  <% value = Formula.new(calc.formula, data.values_of_column(column.id)).exec %>
+                  <%= content_tag(:td, value, class: 'name') %>
+                <% else %>
+                  <%= content_tag(:td, '-', class: 'name') %>
+                <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>
 
 <%= content_tag :table, class: 'list' do %>
   <%= content_tag :head do %>
     <%= content_tag :tr do %>
-      <% @spreadsheet.table.columns.each do |column| %>
+      <% @columns.each do |column| %>
         <%= content_tag(:th, column.name, class: 'name') %>
       <% end %>
       <%= content_tag(:th, '') %>
     <% end %>
   <% end %>
   <%= content_tag :tbody do %>
-    <% @spreadsheet.rows.each do |row| %> 
+    <% @rows.each do |row| %> 
       <%= content_tag :tr do %>
         <% row.custom_field_values.each do |field| %> 
           <%= content_tag(:td, field.value, class: 'name') %>

@@ -25,7 +25,6 @@ class SpreadsheetsController < ApplicationController
   before_action :find_project_by_project_id
   before_action :find_model_object, except: %i[index new create]
 
-  helper :tables
   helper :custom_fields
   
   def index
@@ -50,7 +49,12 @@ class SpreadsheetsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @columns = @spreadsheet.table.columns
+    @rows = @spreadsheet.rows
+    @row_ids = @rows.map(&:id)
+    @calculations = @spreadsheet.table.calculations
+  end
 
   def edit
     @spreadsheet.rows << SpreadsheetRow.new(position: 1) if @spreadsheet.rows.empty?

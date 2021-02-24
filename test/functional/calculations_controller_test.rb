@@ -32,7 +32,7 @@ module TableCaclulation
     test 'index by anonymous should redirect to login form' do
       User.anonymous
       get calculations_url
-      assert_redirected_to '/login?back_url=http%3A%2F%2Fwww.example.com%2Fcalculations'
+      assert_redirected_to '/login?back_url=http%3A%2F%2Fwww.example.com%2Fadmin%2Fcalculations'
     end
 
     test 'index by user should respond with 403' do
@@ -85,7 +85,7 @@ module TableCaclulation
       post calculations_url, params: calculation_create_params(name: 'One more table')
       assert_redirected_to(controller: 'calculations', action: 'index')
       assert_difference after_delete do
-        delete "/calculations/#{Calculation.last.id}", params: nil
+        delete "/admin/calculations/#{Calculation.last.id}", params: nil
       end
       assert_redirected_to(controller: 'calculations', action: 'index')
     end

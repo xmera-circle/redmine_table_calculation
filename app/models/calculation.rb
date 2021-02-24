@@ -32,12 +32,14 @@ class Calculation < ActiveRecord::Base
   # has_one :calculated_result
 
   # has_one :adapted_result
-
+  
   validates_presence_of :name, :formula, :field_ids
   validates_uniqueness_of :name
   validate :validate_table_presence
   validate :validate_fields
   validate :validate_columns_and_rows
+
+  scope :inheritables , -> { where(inheritable: true) }
 
   safe_attributes(
     :name,
@@ -46,8 +48,13 @@ class Calculation < ActiveRecord::Base
     :formula,
     :field_ids,
     :columns,
-    :rows
+    :rows,
+    :inheritable
   )
+
+  def column_ids
+    field_ids
+  end
 
   def locale_formula
     Formula.operators[self.formula.to_sym]
@@ -63,10 +70,15 @@ class Calculation < ActiveRecord::Base
     return unless table_id&.positive?
 
     errors.add :fields, l(:error_field_ids_invalid) unless field_ids_belong_to?(table)
+    errors.add :fields, l(:error_field_ids_doubled) unless field_ids_unique?
   end
 
   def field_ids_belong_to?(table)
     (field_ids - table.column_ids).empty?
+  end
+
+  def field_ids_unique?
+    (field_ids - field_ids.uniq).empty?
   end
 
   def validate_columns_and_rows

@@ -39,6 +39,7 @@
     <%= f.grouped_collection_select(:field_ids, Table.all, :columns, :name, :id, :name, { include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---" }, { multiple: true }) %>
     <a href="#" data-expands="#calculation_field_ids"><span class="toggle-multiselect icon-only icon-toggle-plus"></span></a>
   <% end %>
+  <%= content_tag :p, f.check_box(:inheritable) %>
   <%= tag.fieldset do %>
     <%= content_tag :legend, l(:text_calculate_over) %>
     <%= content_tag :p, f.check_box(:columns) %>

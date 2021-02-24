@@ -6,15 +6,22 @@ class Formula
     sum: :label_sum
   }
 
-  def initialize(values, operation)
-    @values = values
+  def initialize(operation, values)
     @operation = operation
+    @values = values
   end
 
   def exec
-    operation.exec(values)
+    return '-' unless valid? operation
+
+    values.map(&:to_i).send(operation)    
   end
 
   private
+
   attr_reader :operation, :values
+
+  def valid?(operation)
+    self.class.operators.keys.include? operation.to_sym
+  end
 end

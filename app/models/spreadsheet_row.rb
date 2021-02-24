@@ -15,6 +15,8 @@ class SpreadsheetRow < ActiveRecord::Base
     CustomField.where(id: column_ids).sorted.to_a
   end
 
+ 
+
   private
 
   ##

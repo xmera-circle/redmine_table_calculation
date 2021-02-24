@@ -42,7 +42,7 @@ class CalculationsController < ApplicationController
 
   def create
     @calculation = Calculation.new
-    @calculation.safe_attributes = params[:calculation]
+    @calculation.safe_attributes = remove_duplicate_field_ids
     if @calculation.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to calculations_path
@@ -56,7 +56,7 @@ class CalculationsController < ApplicationController
   def edit; end
 
   def update
-    @calculation.safe_attributes = params[:calculation]
+    @calculation.safe_attributes = remove_duplicate_field_ids
     if @calculation.save
       respond_to do |format|
         format.html do
@@ -77,5 +77,13 @@ class CalculationsController < ApplicationController
   def destroy
     @calculation.destroy
     redirect_to calculations_path
+  end
+
+  private
+
+  def remove_duplicate_field_ids
+    uniq_field_ids = params[:calculation][:field_ids].uniq
+    params[:calculation][:field_ids] = uniq_field_ids
+    params[:calculation]
   end
 end
