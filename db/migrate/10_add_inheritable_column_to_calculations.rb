@@ -20,10 +20,10 @@
 
 class AddInheritableColumnToCalculations < ActiveRecord::Migration[4.2]
   def self.up
-    add_column :calculations, :inheritable, :boolean, default: false
+    add_column :calculations, :inheritable, :boolean, default: false if table_exists?(:calculations)
   end
 
   def self.down
-    remove_column :calculations, :inheritable
+    remove_column :calculations, :inheritable if table_exists?(:calculations)
   end
 end

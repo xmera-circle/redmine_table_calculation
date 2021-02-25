@@ -5,8 +5,7 @@ class Spreadsheet < ActiveRecord::Base
   belongs_to :table
   belongs_to :author, :class_name => 'User'
   has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
-  accepts_nested_attributes_for :rows
-  # has_many :row_results, dependent: destroy
+  has_many :row_results, class_name: 'SpreadsheetRowResult', dependent: :destroy
 
   safe_attributes(
     :name,

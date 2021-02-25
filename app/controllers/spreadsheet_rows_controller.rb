@@ -74,10 +74,10 @@ class SpreadsheetRowsController < ApplicationController
     end
   end
 
-  # def destroy
-  #   @spreadsheet.destroy
-  #   redirect_to project_spreadsheets_path
-  # end
+  def destroy
+    @spreadsheet_row.destroy
+    redirect_to project_spreadsheet_path @spreadsheet_row.spreadsheet.project, @spreadsheet_row.spreadsheet
+  end
 
   private
 

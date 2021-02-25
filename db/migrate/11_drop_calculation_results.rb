@@ -18,10 +18,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class CreateCalculations < ActiveRecord::Migration[4.2]
+class DropCalculationResults < ActiveRecord::Migration[4.2]
+
   def self.up
-    unless table_exists?(:calculations)
-      create_table :calculations do |t|
+    drop_table :calculation_results if table_exists?(:calculation_results)
+  end
+
+  def self.down
+    unless table_exists?(:calculation_results)
+      create_table :calculation_results do |t|
         t.string :name, limit: 60, default: '', null: false
         t.text :description
         t.integer :table_id, default: 0, null: false
@@ -32,11 +37,8 @@ class CreateCalculations < ActiveRecord::Migration[4.2]
         t.timestamp :updated_on
       end
 
-      add_index :calculations, %i[table_id], name: 'calculation_by_table'
+      add_index :calculation_results, %i[calculation_id], name: 'calculation_results_by_calculation'
+      add_index :calculation_results, %i[type calculation_id], name: 'calculation_results_by_calculation_and_type'
     end
-  end
-
-  def self.down
-    drop_table :calculations if table_exists?(:calculations) if table_exists?(:calculations)
   end
 end

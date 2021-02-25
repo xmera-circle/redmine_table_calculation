@@ -20,14 +20,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<%= tag.h2 l(:label_table_plural) %>
-
-<%= tag.p class: 'contextual' do %>
+<%= tag.div class: 'contextual' do %>
   <%= link_to(l(:label_table_new), new_table_path,
               :class => 'icon icon-add') %>
   <%= link_to(l(:label_calculation_plural), calculations_path,
             :class => 'icon icon-stats') %>
 <% end %>
+
+<%= tag.h2 l(:label_table_plural) %>
 
 <% if @tables.present? %>
   <%= tag.table class: 'list config-tables' do %>

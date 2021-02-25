@@ -3,6 +3,8 @@ class SpreadsheetRow < ActiveRecord::Base
   acts_as_customizable type_class: :table
 
   belongs_to :spreadsheet
+
+  after_destroy :destroy_row_values
   
   safe_attributes(
     :position,
@@ -15,8 +17,6 @@ class SpreadsheetRow < ActiveRecord::Base
     CustomField.where(id: column_ids).sorted.to_a
   end
 
- 
-
   private
 
   ##
@@ -24,5 +24,9 @@ class SpreadsheetRow < ActiveRecord::Base
   #
   def column_ids
     spreadsheet.table.column_ids
+  end
+
+  def destroy_row_values
+    CustomValue.where(customized_id: self.id).delete_all
   end
 end

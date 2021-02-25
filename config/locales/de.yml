@@ -29,6 +29,7 @@ de:
   label_spreadsheet_row_edit: bearbeiten
   label_spreadsheet_row_new: Neue Zeile
   label_spreadsheet_row_result: Ergebnis
+  label_spreadsheet_result_plural: Berechnungsergebnisse
 
   text_calculate_over: 'Berechnung über:'
   text_no_multiple_choice: Keine Mehrfachauswahl
@@ -38,7 +39,7 @@ de:
   field_table: Tabelle
   field_fields: Felder
   field_columns_and_rows: Spalten und Zeilen
-  field_inheritable: Vererbung an Gast-Projekte
+  field_inheritable: Ergebnisse von assoziierten Projekten aggregieren
 
   error_table_id_not_present: muss ausgewählt werden.
   error_field_ids_invalid: gehören zu einer anderen Tabelle.

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculation.
+# This file is part of the Plugin Redmine Table spreadsheet.
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -18,25 +18,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class CreateCalculations < ActiveRecord::Migration[4.2]
+class CreateSpreadsheetRowResults < ActiveRecord::Migration[4.2]
   def self.up
-    unless table_exists?(:calculations)
-      create_table :calculations do |t|
-        t.string :name, limit: 60, default: '', null: false
-        t.text :description
-        t.integer :table_id, default: 0, null: false
-        t.string :formula, limit: 30, default: '', null: false
-        t.boolean :columns, default: false, null: false 
-        t.boolean :rows, default: false, null: false 
+    unless table_exists?(:spreadsheet_row_results)
+      create_table :spreadsheet_row_results do |t|
+        t.integer :author_id, default: 0, null: false
+        t.integer :spreadsheet_id, default: 0, null: false
+        t.integer :calculation_id, default: 0, null: false
+        t.text :comment
         t.timestamp :created_on
         t.timestamp :updated_on
       end
 
-      add_index :calculations, %i[table_id], name: 'calculation_by_table'
+      add_index :spreadsheet_row_results, %i[spreadsheet_id], name: 'row_results_by_spreadsheet'
+      add_index :spreadsheet_row_results, %i[spreadsheet_id calculation_id], name: 'row_results_by_spreadsheet_and_calculation'
     end
   end
 
   def self.down
-    drop_table :calculations if table_exists?(:calculations) if table_exists?(:calculations)
+    drop_table :spreadsheet_row_results if table_exists?(:spreadsheet_row_results)
   end
 end

@@ -28,11 +28,19 @@
 
 <%= tag.h2 l(:label_table_plural) %>
 
+
+
 <%= content_for :sidebar do %>
   <%= tag.h3 l(:label_spreadsheet_plural) %>
   <%= tag.ul do %>
     <% @spreadsheets.map(&:itself).each do |sheet| %>
       <%= tag.li link_to(sheet.name, project_spreadsheet_path(@project, sheet)) %>
+    <% end %>
+  <% end %>
+  <%= tag.h3 l(:label_spreadsheet_result_plural) %>
+  <%= tag.ul do %>
+    <% @spreadsheets.map(&:itself).each do |sheet| %>
+      <%= tag.li link_to(sheet.name, results_project_spreadsheet_path(@project, id: sheet)) %>
     <% end %>
   <% end %>
 <% end %>

@@ -27,8 +27,8 @@ class DataMatrix
   ##
   # @return Array(String)
   #
-  def values_of_column(id)
-    column_values[id].map(&:last)
+  def column_values(id)
+    values_by_column[id]&.map(&:last)
   end
 
   private
@@ -44,7 +44,7 @@ class DataMatrix
   # The key is the column_id. The value consists of a pair
   # of column_id and value. Values are always Strings!
   #
-  def column_values
+  def values_by_column
     CustomValue
       .where(customized_id: row_ids)
       .where(custom_field_id: column_ids)

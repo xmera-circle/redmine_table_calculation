@@ -1,3 +1,4 @@
+<%
 # frozen_string_literal: true
 
 # This file is part of the Plugin Redmine Table Calculation.
@@ -17,7 +18,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+%>
 
-class CalculatedResult < CalculationResult
-  #
-end
+<%= tag.h3 @spreadsheet.name %>
+
+<%= tag.fieldset do %>
+  <%= tag.legend 'Bearbeitete Ergebnisse' %>
+  <%= render_adapted_result_table() %>
+<% end %>
+
+<%= tag.fieldset do %>
+  <%= tag.legend 'Aggregierte Ergebnisse' %>
+  <%= render_aggregated_result_table(@members, @spreadsheet) %>
+<% end %>
+
+<% @members.each do |member| %>
+  <% spreadsheet = spreadsheet_of(member) %>
+  <% unless spreadsheet.nil? %>
+    <%= tag.fieldset do %>
+      <%= tag.legend "#{member.project_type.name} - #{member.name}" %>
+      <%= render_spreadsheet_result_table(spreadsheet) %>
+    <% end %>                                                     
+  <% end %>
+<% end %>
+
+<% html_title(l(:label_spreadsheet_result_plural)) %>

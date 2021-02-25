@@ -29,6 +29,12 @@ class SpreadsheetsController < ApplicationController
   
   def index
     @spreadsheets = @project.spreadsheets
+    @guests = @project.guests
+  end
+
+  def results
+    @spreadsheets = @project.spreadsheets
+    @members = @project.guests.prepend(@project)
   end
 
   def new
@@ -49,12 +55,7 @@ class SpreadsheetsController < ApplicationController
     end
   end
 
-  def show
-    @columns = @spreadsheet.table.columns
-    @rows = @spreadsheet.rows
-    @row_ids = @rows.map(&:id)
-    @calculations = @spreadsheet.table.calculations
-  end
+  def show; end
 
   def edit
     @spreadsheet.rows << SpreadsheetRow.new(position: 1) if @spreadsheet.rows.empty?

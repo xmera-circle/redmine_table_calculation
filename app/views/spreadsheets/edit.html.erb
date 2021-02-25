@@ -22,7 +22,7 @@
 
 <%= title [l(:label_table_plural), project_spreadsheets_path], @spreadsheet.name %>
 
-<%= labelled_form_for @spreadsheet, :url => project_spreadsheet_path(@project) do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f} %>
+<%= labelled_form_for @spreadsheet, url: project_spreadsheet_path(@project) do |f| %>
+  <%= render partial: 'form', locals: {f: f} %>
   <%= submit_tag l(:button_create) %>
 <% end %>

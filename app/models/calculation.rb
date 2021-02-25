@@ -28,10 +28,6 @@ class Calculation < ActiveRecord::Base
                           :class_name => 'TableCustomField',
                           :join_table => "#{table_name_prefix}custom_fields_calculations#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
-
-  # has_one :calculated_result
-
-  # has_one :adapted_result
   
   validates_presence_of :name, :formula, :field_ids
   validates_uniqueness_of :name

@@ -18,28 +18,31 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class CalculationResult < ActiveRecord::Base
-  include Redmine::SafeAttributes
-  acts_as_customizable type_class: :table
+module SpreadsheetsHelper
+  def render_adapted_result_table()
 
-  belongs_to :calculation
-
-  safe_attributes(
-    :name,
-    :comment,    
-    :calculation_id,
-    :custom_fields,
-    :custom_field_values
-  )
-
-  def available_custom_fields
-    CustomField.where("type = '#{type_class}CustomField'").sorted.to_a
   end
 
-  private
-
-  def type_class
-    self.class.customizable_options.fetch(:type_class, self.class).to_s.classify
+  def render_aggregated_result_table(members, spreadsheet)
+    render partial: 'calculation_results',
+           locals: { table: AggregatedResultTable.new(members, spreadsheet) }
   end
 
+  def render_spreadsheet_result_table(spreadsheet)
+    render partial: 'calculation_results',
+           locals: { table: ResultTable.new(spreadsheet) }
+  end
+
+  def render_spreadsheet_table(spreadsheet)
+    render partial: 'table',
+           locals: { table: ResultTable.new(spreadsheet) }
+  end
+
+  def spreadsheet_of(member)
+    member.spreadsheets.find_by(name: @spreadsheet.name)
+  end
+
+  def value(operation, column_values)
+    Formula.new(operation, column_values).exec
+  end
 end
