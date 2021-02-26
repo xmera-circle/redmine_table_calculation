@@ -21,21 +21,28 @@
 require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
-  class CalculationResultTest < ActiveSupport::TestCase
+  class SpreadsheetRowResultTest < ActiveSupport::TestCase
+    extend TableCalculation::LoadFixtures
+
+    fixtures :projects, :users, :tables, :project_types, :spreadsheets
 
     test 'should have many custom values' do
-      association = CalculationResult.reflect_on_association(:custom_values)
+      association = SpreadsheetRowResult.reflect_on_association(:custom_values)
       assert_equal :custom_values, association.name
       assert_equal :has_many, association.macro
     end
 
     test 'should respond to safe attributes' do
-      assert CalculationResult.respond_to? :safe_attributes
+      assert SpreadsheetRowResult.respond_to? :safe_attributes
     end
 
-    test 'should find TableCustomField instances' do
-      custom_field
-      assert CalculationResult.new.available_custom_fields.count == 1
+    test 'should find TableCustomField instances' do   
+      cf = custom_field
+      table = Table.find(1)
+      table.columns << cf
+      spreadsheet = Spreadsheet.find(1)
+      row = SpreadsheetRowResult.new(spreadsheet_id: 1)   
+      assert row.available_custom_fields.count == 1
     end
 
     private

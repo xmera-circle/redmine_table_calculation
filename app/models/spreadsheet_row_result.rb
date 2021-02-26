@@ -47,7 +47,7 @@ class SpreadsheetRowResult < ActiveRecord::Base
   # TODO: delegate to table
   #
   def column_ids
-    spreadsheet.table.column_ids
+    spreadsheet&.table&.column_ids
   end
 
   def destroy_adapted_row_values
