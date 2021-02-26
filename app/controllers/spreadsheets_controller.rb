@@ -38,14 +38,12 @@ class SpreadsheetsController < ApplicationController
   end
 
   def new
-    @spreadsheet ||= Spreadsheet.new(project_id: @project,
-                                     author_id: User.current)
+    @spreadsheet ||= new_spreadsheet
     @spreadsheet.safe_attributes = params[:spreadsheet]
   end
 
   def create
-    @spreadsheet ||= Spreadsheet.new(project_id: @project.id,
-                                     author_id: User.current.id)
+    @spreadsheet ||= new_spreadsheet
     @spreadsheet.safe_attributes = params[:spreadsheet]
     if @spreadsheet.save
       flash[:notice] = l(:notice_successful_create)
@@ -84,5 +82,12 @@ class SpreadsheetsController < ApplicationController
   def destroy
     @spreadsheet.destroy
     redirect_to project_spreadsheets_path
+  end
+
+  private
+
+  def new_spreadsheet
+    Spreadsheet.new(project_id: @project.id,
+                    author_id: User.current.id)
   end
 end

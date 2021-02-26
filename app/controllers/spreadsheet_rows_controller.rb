@@ -32,14 +32,12 @@ class SpreadsheetRowsController < ApplicationController
   def index; end
 
   def new
-    @spreadsheet_row ||= SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
-                                            position: @spreadsheet.rows.count + 1)
+    @spreadsheet_row ||= new_row
     @spreadsheet_row.safe_attributes = params[:spreadsheet_row]
   end
 
   def create
-    @spreadsheet_row ||= SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
-                                            position: @spreadsheet.rows.count + 1)
+    @spreadsheet_row ||= new_row
     @spreadsheet_row.safe_attributes = params[:spreadsheet_row]
     if @spreadsheet_row.save
       flash[:notice] = l(:notice_successful_create)
@@ -49,8 +47,6 @@ class SpreadsheetRowsController < ApplicationController
     end
   end
 
-  # def show; end
-
   def edit; end
 
   def update
@@ -59,7 +55,7 @@ class SpreadsheetRowsController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to project_spreadsheet_path @spreadsheet_row.spreadsheet.project, @spreadsheet_row.spreadsheet
+          redirect_to project_spreadsheet_path row_project, row_spreadsheet
         end
       end
     else
@@ -74,13 +70,26 @@ class SpreadsheetRowsController < ApplicationController
 
   def destroy
     @spreadsheet_row.destroy
-    redirect_to project_spreadsheet_path @spreadsheet_row.spreadsheet.project, @spreadsheet_row.spreadsheet
+    redirect_to project_spreadsheet_path row_project, row_spreadsheet
   end
 
   private
 
+  def new_row
+     SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
+                        position: @spreadsheet.rows.count + 1)
+  end
+
   def find_spreadsheet
     spreadsheet_id = params[:spreadsheet_id] || params[:spreadsheet_row][:spreadsheet_id]
     @spreadsheet = Spreadsheet.find(spreadsheet_id.to_i)
+  end
+
+  def row_project
+    @spreadsheet_row.spreadsheet.project
+  end
+
+  def row_spreadsheet
+    @spreadsheet_row.spreadsheet
   end
 end

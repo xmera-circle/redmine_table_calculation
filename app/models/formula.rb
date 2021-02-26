@@ -18,6 +18,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+##
+# Calculates over given values, i.e. Arrays.
+#
 class Formula
   class_attribute :operators
   self.operators = {
@@ -26,11 +29,19 @@ class Formula
     sum: :label_sum
   }
 
+  ##
+  # @params values Array(String|Integer)
+  # @params operation Formula.operators.key
+  #
   def initialize(operation, values)
     @operation = operation
     @values = values
   end
 
+  ##
+  # If String values are given, they will be casted to Integer.
+  # Strings bearing other characters than numbers will turn to 0.
+  #
   def exec
     return '-' unless valid? operation
 

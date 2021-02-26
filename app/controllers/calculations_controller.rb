@@ -25,12 +25,10 @@ class CalculationsController < ApplicationController
   helper :tables
 
   before_action :find_model_object, except: %i[index new create]
-
-  ## modify the next three lines if project settings tab enabled
   before_action :require_admin
+  
   layout 'admin'
   self.main_menu = false
-  ##
 
   def index
     @calculations = Calculation.all

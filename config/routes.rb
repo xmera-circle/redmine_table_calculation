@@ -28,6 +28,6 @@ resources :projects do
     member do
       get 'results'
     end
-    resources :spreadsheet_rows, shallow: true
+    resources :spreadsheet_rows, except: %i[show], shallow: true
   end
 end
