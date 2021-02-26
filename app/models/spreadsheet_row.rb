@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpreadsheetRow < ActiveRecord::Base
   include Redmine::SafeAttributes
   acts_as_customizable type_class: :table
@@ -5,7 +7,7 @@ class SpreadsheetRow < ActiveRecord::Base
   belongs_to :spreadsheet
 
   after_destroy :destroy_row_values
-  
+
   safe_attributes(
     :position,
     :spreadsheet_id,
@@ -27,6 +29,6 @@ class SpreadsheetRow < ActiveRecord::Base
   end
 
   def destroy_row_values
-    CustomValue.where(customized_id: self.id).delete_all
+    CustomValue.where(customized_id: id).delete_all
   end
 end

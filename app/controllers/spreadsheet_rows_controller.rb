@@ -28,21 +28,19 @@ class SpreadsheetRowsController < ApplicationController
 
   # helper :tables
   helper :custom_fields
-  
-  def index
-    
-  end
+
+  def index; end
 
   def new
     @spreadsheet_row ||= SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
                                             position: @spreadsheet.rows.count + 1)
-    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]                             
+    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]
   end
 
   def create
     @spreadsheet_row ||= SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
                                             position: @spreadsheet.rows.count + 1)
-    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]   
+    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]
     if @spreadsheet_row.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_spreadsheet_path @project, @spreadsheet
@@ -56,7 +54,7 @@ class SpreadsheetRowsController < ApplicationController
   def edit; end
 
   def update
-    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]   
+    @spreadsheet_row.safe_attributes = params[:spreadsheet_row]
     if @spreadsheet_row.save
       respond_to do |format|
         format.html do
@@ -82,6 +80,7 @@ class SpreadsheetRowsController < ApplicationController
   private
 
   def find_spreadsheet
-    @spreadsheet = Spreadsheet.find(params[:spreadsheet_id].to_i)
+    spreadsheet_id = params[:spreadsheet_id] || params[:spreadsheet_row][:spreadsheet_id]
+    @spreadsheet = Spreadsheet.find(spreadsheet_id.to_i)
   end
 end

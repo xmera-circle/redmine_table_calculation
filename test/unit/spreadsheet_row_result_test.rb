@@ -36,12 +36,11 @@ module TableCaclulation
       assert SpreadsheetRowResult.respond_to? :safe_attributes
     end
 
-    test 'should find TableCustomField instances' do   
+    test 'should find TableCustomField instances' do
       cf = custom_field
       table = Table.find(1)
       table.columns << cf
-      spreadsheet = Spreadsheet.find(1)
-      row = SpreadsheetRowResult.new(spreadsheet_id: 1)   
+      row = SpreadsheetRowResult.new(spreadsheet_id: 1)
       assert row.available_custom_fields.count == 1
     end
 
@@ -63,6 +62,5 @@ module TableCaclulation
         default_value: '',
         editable: true }
     end
-    
   end
 end

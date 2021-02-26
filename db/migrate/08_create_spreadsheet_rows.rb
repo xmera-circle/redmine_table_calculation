@@ -28,8 +28,8 @@ class CreateSpreadsheetRows < ActiveRecord::Migration[4.2]
         t.timestamp :updated_on
       end
       add_index :spreadsheet_rows,
-          %i[spreadsheet_id],
-          name: :rows_by_spreadsheet
+                %i[spreadsheet_id],
+                name: :rows_by_spreadsheet
     end
   end
 

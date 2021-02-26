@@ -22,18 +22,18 @@ class Table < ActiveRecord::Base
   include Redmine::SafeAttributes
 
   has_and_belongs_to_many :columns,
-                          lambda {order(:position)},
-                          :class_name => 'TableCustomField',
-                          :join_table => "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
+                          -> { order(:position) },
+                          class_name: 'TableCustomField',
+                          join_table: "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
+                          association_foreign_key: 'custom_field_id'
 
   has_and_belongs_to_many :project_types,
-                          lambda {order(:position)},
-                          :join_table => "#{table_name_prefix}project_types_tables#{table_name_suffix}",
-                          :association_foreign_key => 'project_type_id'
-  
+                          -> { order(:position) },
+                          join_table: "#{table_name_prefix}project_types_tables#{table_name_suffix}",
+                          association_foreign_key: 'project_type_id'
+
   has_many :calculations, dependent: :destroy
-  
+
   validates_presence_of :name
   validates_uniqueness_of :name
 
@@ -51,5 +51,4 @@ class Table < ActiveRecord::Base
   def project_type_assigned?(id)
     project_types.to_a.map(&:id).include? id.to_i
   end
-
 end

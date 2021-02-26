@@ -24,12 +24,12 @@
 
 <%= tag.fieldset do %>
   <%= tag.legend 'Bearbeitete Ergebnisse' %>
-  <%= render_adapted_result_table() %>
+  <%= render_final_result_table(@members, @spreadsheet) %>
 <% end %>
 
 <%= tag.fieldset do %>
   <%= tag.legend 'Aggregierte Ergebnisse' %>
-  <%= render_aggregated_result_table(@members, @spreadsheet) %>
+  <%= render_members_result_table(@members, @spreadsheet) %>
 <% end %>
 
 <% @members.each do |member| %>

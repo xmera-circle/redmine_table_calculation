@@ -26,8 +26,8 @@ class CreateCalculations < ActiveRecord::Migration[4.2]
         t.text :description
         t.integer :table_id, default: 0, null: false
         t.string :formula, limit: 30, default: '', null: false
-        t.boolean :columns, default: false, null: false 
-        t.boolean :rows, default: false, null: false 
+        t.boolean :columns, default: false, null: false
+        t.boolean :rows, default: false, null: false
         t.timestamp :created_on
         t.timestamp :updated_on
       end
@@ -37,6 +37,6 @@ class CreateCalculations < ActiveRecord::Migration[4.2]
   end
 
   def self.down
-    drop_table :calculations if table_exists?(:calculations) if table_exists?(:calculations)
+    drop_table :calculations if table_exists?(:calculations) && table_exists?(:calculations)
   end
 end

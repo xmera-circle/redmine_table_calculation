@@ -31,7 +31,8 @@ class CreateSpreadsheetRowResults < ActiveRecord::Migration[4.2]
       end
 
       add_index :spreadsheet_row_results, %i[spreadsheet_id], name: 'row_results_by_spreadsheet'
-      add_index :spreadsheet_row_results, %i[spreadsheet_id calculation_id], name: 'row_results_by_spreadsheet_and_calculation'
+      add_index :spreadsheet_row_results, %i[spreadsheet_id calculation_id],
+                name: 'row_results_by_spreadsheet_and_calculation'
     end
   end
 

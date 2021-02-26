@@ -18,22 +18,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class ResultTable
-
-  attr_reader :table, :columns, :rows, :calculations
+##
+# Provides basic data of a spreadsheet table such that columns and rows
+# which are needed to render the spreadsheet.
+#
+class SpreadsheetTable
+  attr_reader :table, :columns, :rows
 
   def initialize(spreadsheet)
     @table = spreadsheet.table
-    @calculations = self.table.calculations
-    @columns = self.table.columns
+    @columns = table.columns
     @rows = spreadsheet.rows
   end
 
   def row_ids
     rows.map(&:id)
-  end
-
-  def column_value(id, calculation)
-    DataMatrix.new(row_ids, calculation.column_ids).column_values(id)
   end
 end

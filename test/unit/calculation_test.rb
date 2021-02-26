@@ -49,7 +49,7 @@ module TableCaclulation
     test 'table should not be valid without attributes' do
       calc = Calculation.new
       assert_not calc.valid?
-      assert_equal [:columns_and_rows, :name, :table, :formula, :field_ids].sort, calc.errors.keys.sort
+      assert_equal %i[columns_and_rows name table formula field_ids].sort, calc.errors.keys.sort
     end
 
     test 'two calculations with identical names should not be valid' do
@@ -57,11 +57,11 @@ module TableCaclulation
       table = Table.find(1)
       table.columns << cf
       calc = Calculation.new(name: 'Calculate MAX',
-                            table_id: 1,
-                            formula: 'max',
-                            field_ids: ['', cf.id],
-                            columns: true,
-                            rows: false)
+                             table_id: 1,
+                             formula: 'max',
+                             field_ids: ['', cf.id],
+                             columns: true,
+                             rows: false)
       assert_not calc.valid?
       assert_equal [:name], calc.errors.keys
     end
@@ -72,11 +72,11 @@ module TableCaclulation
       table = Table.find(1)
       table.columns << cf2
       calc = Calculation.new(name: 'Calculate SUM',
-                            table_id: 1,
-                            formula: 'sum',
-                            field_ids: ['', cf3.id],
-                            columns: true,
-                            rows: false)
+                             table_id: 1,
+                             formula: 'sum',
+                             field_ids: ['', cf3.id],
+                             columns: true,
+                             rows: false)
       assert_not calc.valid?
       assert_equal [:fields], calc.errors.keys
     end
@@ -86,27 +86,25 @@ module TableCaclulation
       table = Table.find(1)
       table.columns << cf
       calc = Calculation.new(name: 'Calculate SUM',
-                            table_id: 1,
-                            formula: 'sum',
-                            field_ids: ['', cf.id],
-                            columns: true,
-                            rows: true)
+                             table_id: 1,
+                             formula: 'sum',
+                             field_ids: ['', cf.id],
+                             columns: true,
+                             rows: true)
       assert_not calc.valid?
       assert_equal [:columns_and_rows], calc.errors.keys
     end
-
-
 
     test 'should save calculable fields' do
       cf2 = custom_field('CF2')
       table = Table.find(1)
       table.columns << cf2
       calc = Calculation.new(name: 'Calculate SUM',
-                            table_id: 1,
-                            formula: 'sum',
-                            field_ids: ['', cf2.id],
-                            columns: true,
-                            rows: false)
+                             table_id: 1,
+                             formula: 'sum',
+                             field_ids: ['', cf2.id],
+                             columns: true,
+                             rows: false)
       assert calc.save
       assert_equal [cf2.id], calc.field_ids
     end
@@ -135,6 +133,5 @@ module TableCaclulation
         default_value: '',
         editable: true }
     end
-    
   end
 end

@@ -19,17 +19,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TableCalculation
-  module Patches 
-    module ProjectsHelperPatch 
-      def project_settings_tabs
-        tabs = super
-        # table_tabs = [
-        #   { name: 'tables', action:  { controller: 'tables', action: 'index' },
-        #   partial: 'tables/main', label: :label_table }
-        # ]
-        # tabs.concat(table_tabs.select { |table_tab| User.current.allowed_to?(table_tab[:action], @project) })
-        tabs
-      end
+  module Patches
+    module ProjectsHelperPatch
     end
   end
 end

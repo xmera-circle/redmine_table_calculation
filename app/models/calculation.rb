@@ -24,18 +24,18 @@ class Calculation < ActiveRecord::Base
   belongs_to :table
 
   has_and_belongs_to_many :fields,
-                          lambda {order(:position)},
-                          :class_name => 'TableCustomField',
-                          :join_table => "#{table_name_prefix}custom_fields_calculations#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
-  
+                          -> { order(:position) },
+                          class_name: 'TableCustomField',
+                          join_table: "#{table_name_prefix}custom_fields_calculations#{table_name_suffix}",
+                          association_foreign_key: 'custom_field_id'
+
   validates_presence_of :name, :formula, :field_ids
   validates_uniqueness_of :name
   validate :validate_table_presence
   validate :validate_fields
   validate :validate_columns_and_rows
 
-  scope :inheritables , -> { where(inheritable: true) }
+  scope :inheritables, -> { where(inheritable: true) }
 
   safe_attributes(
     :name,
@@ -47,13 +47,17 @@ class Calculation < ActiveRecord::Base
     :rows,
     :inheritable
   )
+  
+  def field?(id)
+    field_ids.include?(id)
+  end
 
   def column_ids
     field_ids
   end
 
   def locale_formula
-    Formula.operators[self.formula.to_sym]
+    Formula.operators[formula.to_sym]
   end
 
   private
@@ -83,5 +87,4 @@ class Calculation < ActiveRecord::Base
     # both are false
     errors.add :columns_and_rows, l(:error_columns_and_rows_unselected) if !columns && !rows
   end
-
 end

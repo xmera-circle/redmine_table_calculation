@@ -22,8 +22,8 @@ class CreateCalculationResults < ActiveRecord::Migration[4.2]
   def self.up
     unless table_exists?(:calculation_results)
       create_table :calculation_results do |t|
-        t.string :type, limit: 30, default: "", null: false
-        t.string :name, limit: 60, default: "", null: false
+        t.string :type, limit: 30, default: '', null: false
+        t.string :name, limit: 60, default: '', null: false
         t.integer :calculation_id, default: 0, null: false
         t.text :comment
         t.timestamp :created_on

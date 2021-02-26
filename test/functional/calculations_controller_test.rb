@@ -95,7 +95,7 @@ module TableCaclulation
     def calculation_create_params(name:, associates: {})
       cf = CustomField.generate!(name: 'Field1',
                                  type: 'TableCustomField',
-                                 field_format: 'string' )
+                                 field_format: 'string')
       table = Table.new(name: 'Another Table',
                         description: 'for testing',
                         column_ids: ['', cf.id],
@@ -108,17 +108,17 @@ module TableCaclulation
           formula: 'min',
           field_ids: ['', cf.id],
           columns: true,
-          rows: false}
-        .merge(associates) }
+          rows: false }
+          .merge(associates) }
     end
 
     def calculation_update_params
       cf = CustomField.generate!(name: 'Field2',
-                            type: 'TableCustomField',
-                            field_format: 'string' )
+                                 type: 'TableCustomField',
+                                 field_format: 'string')
       table = Table.find(1)
       table.columns << cf
-      { calculation: { name: 'changed', table_id: 1,  field_ids: ['', cf.id]} }
+      { calculation: { name: 'changed', table_id: 1, field_ids: ['', cf.id] } }
     end
 
     def after_create

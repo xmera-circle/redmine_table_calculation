@@ -22,7 +22,7 @@ class CreateTables < ActiveRecord::Migration[4.2]
   def self.up
     unless table_exists?(:tables)
       create_table :tables do |t|
-        t.string :name, limit: 60, default: "", null: false
+        t.string :name, limit: 60, default: '', null: false
         t.text :description
         t.timestamp :created_on
         t.timestamp :updated_on

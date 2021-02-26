@@ -46,6 +46,5 @@ module TableCaclulation
       assert_select '#columns'
       assert_select '#project-types'
     end
-
   end
 end

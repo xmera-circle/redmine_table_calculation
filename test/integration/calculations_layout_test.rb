@@ -49,6 +49,5 @@ module TableCaclulation
       assert_select '#calculation_columns'
       assert_select '#calculation_rows'
     end
-
   end
 end

@@ -26,7 +26,7 @@ class SpreadsheetsController < ApplicationController
   before_action :find_model_object, except: %i[index new create]
 
   helper :custom_fields
-  
+
   def index
     @spreadsheets = @project.spreadsheets
     @guests = @project.guests
@@ -38,14 +38,14 @@ class SpreadsheetsController < ApplicationController
   end
 
   def new
-    @spreadsheet ||= Spreadsheet.new(project_id: @project, 
-                                   author_id: User.current)
-    @spreadsheet.safe_attributes = params[:spreadsheet]                              
+    @spreadsheet ||= Spreadsheet.new(project_id: @project,
+                                     author_id: User.current)
+    @spreadsheet.safe_attributes = params[:spreadsheet]
   end
 
   def create
-    @spreadsheet ||= Spreadsheet.new(project_id: @project.id, 
-                                   author_id: User.current.id)
+    @spreadsheet ||= Spreadsheet.new(project_id: @project.id,
+                                     author_id: User.current.id)
     @spreadsheet.safe_attributes = params[:spreadsheet]
     if @spreadsheet.save
       flash[:notice] = l(:notice_successful_create)

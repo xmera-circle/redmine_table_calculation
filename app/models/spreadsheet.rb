@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class Spreadsheet < ActiveRecord::Base
-  include Redmine::SafeAttributes 
+  include Redmine::SafeAttributes
 
   belongs_to :project
   belongs_to :table
-  belongs_to :author, :class_name => 'User'
+  belongs_to :author, class_name: 'User'
   has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
-  has_many :row_results, class_name: 'SpreadsheetRowResult', dependent: :destroy
+  has_many :result_rows, class_name: 'SpreadsheetRowResult', dependent: :destroy
 
   safe_attributes(
     :name,
@@ -13,7 +15,8 @@ class Spreadsheet < ActiveRecord::Base
     :table_id,
     :project_id,
     :author_id,
-    :row_ids
+    :row_ids, # required?
+    :result_row_ids # required?
   )
 
   def column_ids

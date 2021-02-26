@@ -19,7 +19,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 class DropCalculationResults < ActiveRecord::Migration[4.2]
-
   def self.up
     drop_table :calculation_results if table_exists?(:calculation_results)
   end
@@ -31,8 +30,8 @@ class DropCalculationResults < ActiveRecord::Migration[4.2]
         t.text :description
         t.integer :table_id, default: 0, null: false
         t.string :formula, limit: 30, default: '', null: false
-        t.boolean :columns, default: false, null: false 
-        t.boolean :rows, default: false, null: false 
+        t.boolean :columns, default: false, null: false
+        t.boolean :rows, default: false, null: false
         t.timestamp :created_on
         t.timestamp :updated_on
       end

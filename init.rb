@@ -35,17 +35,17 @@ Redmine::Plugin.register :redmine_table_calculation do
   settings  partial: TableCalculation.partial,
             default: TableCalculation.defaults
 
-  menu :project_menu, 
-       :menu_table_calculation, 
+  menu :project_menu,
+       :menu_table_calculation,
        { controller: 'spreadsheets', action: 'index' },
-        param: :project_id,
-        caption: :label_menu_table_calculation
+       param: :project_id,
+       caption: :label_menu_table_calculation
 
-  menu :admin_menu, 
-       :menu_table_config, 
-       :tables_path, 
-        caption: :label_menu_table_config, 
-        html: { class: 'icon icon-tables' }
+  menu :admin_menu,
+       :menu_table_config,
+       :tables_path,
+       caption: :label_menu_table_config,
+       html: { class: 'icon icon-tables' }
 
   project_module :table_calculation do
     permission :add_spreadsheet, { spreadsheets: %i[new create] }
@@ -56,7 +56,7 @@ Redmine::Plugin.register :redmine_table_calculation do
 end
 
 ActiveSupport::Reloader.to_prepare do
-  table_custom_fields = { name: 'TableCustomField', 
+  table_custom_fields = { name: 'TableCustomField',
                           partial: 'custom_fields/index',
                           label: :table_calculation }
   CustomFieldsHelper::CUSTOM_FIELDS_TABS << table_custom_fields

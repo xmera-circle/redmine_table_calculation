@@ -35,12 +35,8 @@
         <% table.calculations.each do |calc| %> 
           <%= content_tag :tr do %>
             <%= content_tag(:td, calc.name, class: 'name') %>
-            <% table.columns.each do |column| %>
-                <% if calc.field_ids.include? column.id %>
-                  <%= content_tag(:td, value(calc.formula, table.column_value(column.id, calc)), class: 'name') %>
-                <% else %>
-                  <%= content_tag(:td, '-', class: 'name') %>
-                <% end %>
+            <% table.result_row(calc.formula, calc).each do |result| %>
+              <%= content_tag(:td, result, class: 'name') %>
             <% end %>
           <% end %>
         <% end %>

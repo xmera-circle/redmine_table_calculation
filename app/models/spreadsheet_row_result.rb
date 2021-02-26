@@ -24,19 +24,19 @@ class SpreadsheetRowResult < ActiveRecord::Base
 
   belongs_to :calculation
   belongs_to :spreadsheet
-  belongs_to :author, :class_name => 'User'
+  belongs_to :author, class_name: 'User'
 
   after_destroy :destroy_adapted_row_values
 
   safe_attributes(
     :author_id,
-    :spreadsheet_id,  
+    :spreadsheet_id,
     :calculation_id,
     :custom_fields,
     :custom_field_values,
     :comment
   )
-  
+
   def available_custom_fields
     CustomField.where(id: column_ids).sorted.to_a
   end
@@ -51,6 +51,6 @@ class SpreadsheetRowResult < ActiveRecord::Base
   end
 
   def destroy_adapted_row_values
-    CustomValue.where(customized_id: self.id).delete_all
+    CustomValue.where(customized_id: id).delete_all
   end
 end

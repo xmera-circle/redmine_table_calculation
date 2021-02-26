@@ -97,13 +97,13 @@ module TableCaclulation
     def table_create_params(name:, associates: {})
       cf = CustomField.generate!(name: 'Field1',
                                  type: 'TableCustomField',
-                                 field_format: 'string' )
+                                 field_format: 'string')
       { table:
         { name: name,
           description: 'for testing',
           column_ids: ['', cf.id],
-          project_type_ids: ['', 1]}
-        .merge(associates) }
+          project_type_ids: ['', 1] }
+          .merge(associates) }
     end
 
     def table_update_params

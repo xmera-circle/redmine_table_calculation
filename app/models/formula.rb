@@ -34,7 +34,7 @@ class Formula
   def exec
     return '-' unless valid? operation
 
-    values&.map(&:to_i)&.send(operation)    
+    values&.map(&:to_i)&.send(operation)
   end
 
   private

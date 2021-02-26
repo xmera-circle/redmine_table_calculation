@@ -19,7 +19,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TablesHelper
-
   def table_settings_tabs
     [{ name: 'table_configs',
        partial: 'tables/configs',
@@ -29,7 +28,7 @@ module TablesHelper
        label: :label_tab_calculations }]
   end
 
-  def columns_multiselect(table, choices)
+  def columns_multiselect(_table, choices)
     hidden_field_tag('table[column_ids][]', '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
@@ -46,7 +45,7 @@ module TablesHelper
       end.join.html_safe
   end
 
-  def project_types_multiselect(table, choices)
+  def project_types_multiselect(_table, choices)
     hidden_field_tag('table[project_type_ids][]', '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])

@@ -1,4 +1,6 @@
-class AggregatedResultTable < ResultTable
+# frozen_string_literal: true
+
+class MembersResultTable < SpreadsheetResultTable
   attr_reader :name, :members
 
   def initialize(members, spreadsheet)
@@ -7,6 +9,10 @@ class AggregatedResultTable < ResultTable
     super(spreadsheet)
   end
 
+  ##
+  # Rows are collected over member spreadsheets. Hence,
+  # all calculations will be based on these rows.
+  #
   def rows
     collection = []
     members.each do |member|

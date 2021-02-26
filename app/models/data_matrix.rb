@@ -40,7 +40,7 @@ class DataMatrix
   #
   # @example { 3: [[3,'12'], [3, '8'], [3, '2']],
   #            5: [[5, 'blue'], [5, 'red'], [5, 'black']] }
-  # 
+  #
   # The key is the column_id. The value consists of a pair
   # of column_id and value. Values are always Strings!
   #

@@ -26,8 +26,8 @@ module TableCalculation
         base.prepend(InstanceMethods)
         base.class_eval do
           has_and_belongs_to_many :tables,
-                                  :join_table => "#{table_name_prefix}project_types_tables#{table_name_suffix}",
-                                  :association_foreign_key => 'table_id'
+                                  join_table: "#{table_name_prefix}project_types_tables#{table_name_suffix}",
+                                  association_foreign_key: 'table_id'
         end
       end
 

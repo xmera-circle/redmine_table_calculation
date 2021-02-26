@@ -106,6 +106,5 @@ module TableCaclulation
         default_value: '',
         editable: true }
     end
-    
   end
 end
