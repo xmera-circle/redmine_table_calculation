@@ -20,18 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% # %>
-  <%= tag.div class: 'contextual' do %>
-    <%= link_to(l(:label_spreadsheet_edit), edit_project_spreadsheet_path(@project), class: 'icon icon-settings')  %>
-  <% end %>
-<% # %>
-
-<%= tag.h2 @spreadsheet.name %>
-<%= tag.p do %>
-  <%= tag.em @spreadsheet.description %>
+<%= labelled_form_for @spreadsheet_row_result, :url => spreadsheet_row_result_path(@spreadsheet_row_result) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_create) %>
 <% end %>
-
-<%= render_spreadsheet_result_table(@spreadsheet) %>
-<%= render_spreadsheet_table(@spreadsheet) %>
-
-<% html_title @spreadsheet.name %>

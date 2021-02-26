@@ -24,7 +24,7 @@ class SpreadsheetResultTable < SpreadsheetTable
   def initialize(spreadsheet)
     super(spreadsheet)
     @calculations = table.calculations
-    self.columns = calculable_columns
+    @columns = calculable_columns
   end
 
   ##
@@ -32,15 +32,14 @@ class SpreadsheetResultTable < SpreadsheetTable
   #
   def result_row(operation, calculation)
     results = []
-    calculation.column_ids.each do |column_id|
+    calculation.column_ids.each do |column_id|    
       results << result_table_row(operation, column_id, calculation)
     end
-    extend_result_row(results, calculation)
+    results = extend_result_row(results, calculation)
+    results.flatten
   end
 
   private
-
-  attr_writer :columns
 
   def result_table_row(operation, column_id, calculation)
     result_value(operation, column_id, calculation)
@@ -50,16 +49,20 @@ class SpreadsheetResultTable < SpreadsheetTable
   # A single row value of a given column operation.
   #
   def result_value(operation, column_id, calculation)
-    Formula.new(operation, column_values(column_id, calculation)).exec
+    RowValue.new(value: Formula.new(operation, column_values(column_id, calculation)).exec)
   end
 
   ##
   # A result row might have less columns than the underlying table. If so,
   # the gab is filled with empty String values for each missing column.
   #
+  # @note: calling columns gives nil, even though the attr_reader is set in 
+  #   SpreadsheetTable
   def extend_result_row(results, _calculation)
-    gap = calculable_columns.size - results.size
-    results.append([''] * gap).flatten
+    gap = calculable_columns&.size - results&.size#if @columns&.size&.positive?
+    return results unless gap.positive?
+
+    results.append([RowValue.new(value: nil)] * gap).flatten
   end
 
   ##

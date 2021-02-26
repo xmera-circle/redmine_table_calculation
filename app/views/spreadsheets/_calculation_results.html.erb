@@ -29,14 +29,26 @@
           <% table.columns.each do |column| %>
             <%= content_tag(:th, column.name, class: 'name') %>
           <% end %>
+          <% if table.is_a? FinalResultTable %>
+            <%= content_tag(:th, '') %>
+          <% end %>
         <% end %>
       <% end %>
       <%= content_tag :tbody do %>
         <% table.calculations.each do |calc| %> 
           <%= content_tag :tr do %>
             <%= content_tag(:td, calc.name, class: 'name') %>
-            <% table.result_row(calc.formula, calc).each do |result| %>
-              <%= content_tag(:td, result, class: 'name') %>
+            <% @current_row = table.result_row(calc.formula, calc) %>
+            <% @current_row.each do |result| %>
+              <%= content_tag(:td, result.value, class: 'name') %>
+            <% end %>
+            <% if table.is_a? FinalResultTable %>
+              <%= tag.td class: 'buttons' do %>
+                <% if User.current.allowed_to?(:edit_spreadsheet_results, @project) %>
+                  <% @row = @current_row.map(&:row).compact.uniq.join %>
+                  <%= link_to l(:button_edit),(@row.present? ? edit_spreadsheet_row_result_path(@row) :  new_project_spreadsheet_spreadsheet_row_result_path(spreadsheet_id: @spreadsheet, calculation_id: calc)), :class => 'icon icon-edit' %>
+                <% end %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

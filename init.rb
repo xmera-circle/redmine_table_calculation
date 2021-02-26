@@ -52,6 +52,7 @@ Redmine::Plugin.register :redmine_table_calculation do
     permission :view_spreadsheet, { spreadsheets: %i[index show] }
     permission :destroy_spreadsheet, { spreadsheets: :destroy }
     permission :edit_spreadsheet, { spreadsheets: :edit }
+    permission :edit_spreadsheet_results, {}
   end
 end
 

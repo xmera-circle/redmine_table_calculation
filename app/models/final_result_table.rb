@@ -25,7 +25,7 @@
 #
 class FinalResultTable < MembersResultTable
   include Redmine::I18n
-  attr_reader :spreadsheet, :comment_field_name
+  attr_reader :spreadsheet, :row, :comment_field_name
 
   def initialize(members, spreadsheet)
     super(members, spreadsheet)
@@ -34,18 +34,25 @@ class FinalResultTable < MembersResultTable
   end
 
   def result_table_row(operation, column_id, calculation)
-    result(calculation.id, column_id) || result_value(operation, column_id, calculation)
+    return result(calculation.id, column_id) if result(calculation.id, column_id).value
+
+    result_value(operation, column_id, calculation)
   end
 
   def columns
+    return if self.instance_variable_get('@columns').include? comment_field
+
     self.instance_variable_get('@columns').append(comment_field)
   end
 
   private
 
+  attr_writer :row
+
   def extend_result_row(results, calculation)
     extended = super(results, calculation)
     extended.append(comment_value(calculation))
+    extended
   end
 
   def comment_field
@@ -53,11 +60,12 @@ class FinalResultTable < MembersResultTable
   end
 
   def comment_value(calculation)
-    spreadsheet_result_row(calculation.id)&.comment
+    RowValue.new(value: row&.comment, row: row&.id)
   end
 
   def result(calculation_id, column_id)
-    spreadsheet_result_row(calculation_id)&.custom_value_for(column_id)
+    @row = spreadsheet_result_row(calculation_id)
+    RowValue.new(value: row&.custom_value_for(column_id)&.value, row: row&.id)
   end
 
   def spreadsheet_result_row(calculation_id)
