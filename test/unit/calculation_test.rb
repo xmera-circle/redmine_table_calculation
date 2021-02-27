@@ -52,20 +52,6 @@ module TableCaclulation
       assert_equal %i[columns_and_rows name table formula field_ids].sort, calc.errors.keys.sort
     end
 
-    test 'two calculations with identical names should not be valid' do
-      cf = custom_field('CF1')
-      table = Table.find(1)
-      table.columns << cf
-      calc = Calculation.new(name: 'Calculate MAX',
-                             table_id: 1,
-                             formula: 'max',
-                             field_ids: ['', cf.id],
-                             columns: true,
-                             rows: false)
-      assert_not calc.valid?
-      assert_equal [:name], calc.errors.keys
-    end
-
     test 'should not save calculabe fields from other table' do
       cf2 = custom_field('CF2')
       cf3 = custom_field('CF3')

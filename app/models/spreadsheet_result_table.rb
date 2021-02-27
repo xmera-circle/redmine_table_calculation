@@ -32,8 +32,8 @@ class SpreadsheetResultTable < SpreadsheetTable
   #
   def result_row(operation, calculation)
     results = []
-    calculation.column_ids.each do |column_id|    
-      results << result_table_row(operation, column_id, calculation)
+    calculation.fields.each do |column|    
+      results << result_table_row(operation, column, calculation)
     end
     results = extend_result_row(results, calculation)
     results.flatten
@@ -41,15 +41,18 @@ class SpreadsheetResultTable < SpreadsheetTable
 
   private
 
-  def result_table_row(operation, column_id, calculation)
-    result_value(operation, column_id, calculation)
+  def result_table_row(operation, column, calculation)
+    result_value(operation, column, calculation)
   end
 
   ##
   # A single row value of a given column operation.
   #
-  def result_value(operation, column_id, calculation)
-    RowValue.new(value: Formula.new(operation, column_values(column_id, calculation)).exec)
+  def result_value(operation, column, calculation)
+    RowValue.new(value: Formula.new(operation, 
+                                    column_values(column.id, calculation)).exec,
+                 row: nil,
+                 col: column)
   end
 
   ##

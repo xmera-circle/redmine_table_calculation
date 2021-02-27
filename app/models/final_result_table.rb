@@ -33,10 +33,10 @@ class FinalResultTable < MembersResultTable
     @comment_field_name = Struct.new(:name)
   end
 
-  def result_table_row(operation, column_id, calculation)
-    return result(calculation.id, column_id) if result(calculation.id, column_id).value
+  def result_table_row(operation, column, calculation)
+    return result(calculation.id, column) if result(calculation.id, column).value
 
-    result_value(operation, column_id, calculation)
+    result_value(operation, column, calculation)
   end
 
   def columns
@@ -63,9 +63,11 @@ class FinalResultTable < MembersResultTable
     RowValue.new(value: row&.comment, row: row&.id)
   end
 
-  def result(calculation_id, column_id)
+  def result(calculation_id, column)
     @row = spreadsheet_result_row(calculation_id)
-    RowValue.new(value: row&.custom_value_for(column_id)&.value, row: row&.id)
+    RowValue.new(value: row&.custom_value_for(column.id)&.value,
+                row: row&.id,
+                col: column)
   end
 
   def spreadsheet_result_row(calculation_id)

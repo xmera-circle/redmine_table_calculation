@@ -61,6 +61,6 @@ ActiveSupport::Reloader.to_prepare do
                           partial: 'custom_fields/index',
                           label: :table_calculation }
   CustomFieldsHelper::CUSTOM_FIELDS_TABS << table_custom_fields
+  Redmine::FieldFormat::RecordList.customized_class_names << 'Table'
+  ProjectsController.send :helper, SpreadsheetsHelper
 end
-
-ProjectsController.send :helper, SpreadsheetsHelper

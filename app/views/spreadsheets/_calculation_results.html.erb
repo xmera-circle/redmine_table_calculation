@@ -40,13 +40,13 @@
             <%= content_tag(:td, calc.name, class: 'name') %>
             <% @current_row = table.result_row(calc.formula, calc) %>
             <% @current_row.each do |result| %>
-              <%= content_tag(:td, result.value, class: 'name') %>
+              <%= content_tag(:td, value(result.value, result.col), class: 'name') %>
             <% end %>
             <% if table.is_a? FinalResultTable %>
               <%= tag.td class: 'buttons' do %>
                 <% if User.current.allowed_to?(:edit_spreadsheet_results, @project) %>
-                  <% @row = @current_row.map(&:row).compact.uniq.join %>
-                  <%= link_to l(:button_edit),(@row.present? ? edit_spreadsheet_row_result_path(@row) :  new_project_spreadsheet_spreadsheet_row_result_path(spreadsheet_id: @spreadsheet, calculation_id: calc)), :class => 'icon icon-edit' %>
+                  <% @row_id = @current_row.map(&:row_id).compact.uniq.join %>
+                  <%= link_to l(:button_edit),(@row_id.present? ? edit_spreadsheet_row_result_path(@row_id) :  new_project_spreadsheet_spreadsheet_row_result_path(spreadsheet_id: @spreadsheet, calculation_id: calc)), :class => 'icon icon-edit' %>
                 <% end %>
               <% end %>
             <% end %>

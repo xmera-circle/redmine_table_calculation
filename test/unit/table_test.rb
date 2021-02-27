@@ -56,12 +56,6 @@ module TableCaclulation
       assert_equal [:name], table.errors.keys
     end
 
-    test 'two tables with identical names should not be valid' do
-      table = Table.new(name: 'Table1')
-      assert_not table.valid?
-      assert_equal [:name], table.errors.keys
-    end
-
     test 'should find columns and project types' do
       cf = custom_field
       table = Table.find(1)

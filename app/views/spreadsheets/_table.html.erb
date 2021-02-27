@@ -32,8 +32,8 @@
   <%= content_tag :tbody do %>
     <% table.rows.each do |row| %> 
       <%= content_tag :tr do %>
-        <% row.custom_field_values.each do |field| %> 
-          <%= content_tag(:td, field.value, class: 'name') %>
+        <% row.custom_field_values.each do |field| %>
+          <%= content_tag(:td, format_value(field.value, field.custom_field), class: 'name') %>
         <% end %>
         <%= tag.td class: 'buttons' do %>
           <% if User.current.allowed_to?(:edit_spreadsheet, @project) %>

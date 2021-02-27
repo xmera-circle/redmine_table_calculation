@@ -45,6 +45,20 @@ module SpreadsheetsHelper
            locals: { table: SpreadsheetResultTable.new(spreadsheet) }
   end
 
+  ##
+  # This method formats the given custom value by using 
+  # CustomFieldsHelper#format_value
+  #
+  # @param value [String|Integer] The value of a custom field.
+  # @param column [CustomField] The column of the table, i.e. the custom field 
+  #  corresponding to the given value.
+  #
+  def value(value, column)
+    return value if column.nil?
+
+    format_value(value, column)
+  end
+
   def render_spreadsheet_table(spreadsheet)
     render partial: 'table',
            locals: { table: SpreadsheetTable.new(spreadsheet) }
