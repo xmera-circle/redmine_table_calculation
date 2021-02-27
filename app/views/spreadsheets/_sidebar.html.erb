@@ -1,7 +1,7 @@
 <%
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculation.
+# This file is part of the Plugin Redmine Table spreadsheet.
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
@@ -20,22 +20,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% if User.current.allowed_to?(:add_spreadsheet, @project) %>
-  <%= tag.div class: 'contextual' do %>
-    <%= link_to(l(:label_spreadsheet_new), new_project_spreadsheet_path(@project), :class => 'icon icon-add')  %>
+<%= content_for :sidebar do %>
+  <%= tag.h3 l(:label_spreadsheet_plural) %>
+  <%= tag.ul id: 'sidebar-menu' do %>
+    <% @spreadsheets.map(&:itself).each do |sheet| %>
+      <%= tag.li link_to(sheet.name, 
+                        project_spreadsheet_path(@project, sheet),
+                        class: selected_spreadsheet(sheet.id, :show) ) %>
+    <% end %>
+  <% end %>
+  <%= tag.h3 l(:label_spreadsheet_result_plural) %>
+  <%= tag.ul do %>
+    <% @spreadsheets.map(&:itself).each do |sheet| %>
+      <% if sheet.table.calculations.present? %>
+        <%= tag.li link_to(sheet.name, 
+                          results_project_spreadsheet_path(@project, id: sheet),
+                          class: selected_spreadsheet(sheet.id, :results)) %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
-
-<%= tag.h2 l(:label_table_plural) %>
-
-<% if @spreadsheets.empty? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
-  <% @spreadsheets.each do |spreadsheet| %>
-    <%= render partial: 'card', locals: { spreadsheet: spreadsheet }%>
-  <% end %>
-<% end %>
-
-<%= render partial: 'sidebar' %>
-
-<% html_title(l(:label_table_plural)) %>

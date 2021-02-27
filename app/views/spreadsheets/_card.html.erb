@@ -1,0 +1,34 @@
+
+<%= tag.div class: 'spreadsheet box' do %>
+
+  <%= tag.div class: 'contextual' do %>
+    <%= actions_dropdown do %>
+      <%= link_to l(:label_calculation_details),
+          results_project_spreadsheet_path(@project, id: spreadsheet),
+          class: 'icon icon-zoom-in' %>
+      <%= link_to l(:label_edit_spreadsheet), 
+          project_spreadsheet_path(@project, spreadsheet),
+          class: 'icon icon-edit' %> 
+    <% end %>
+  <% end %>
+
+  <%= tag.h3 class: 'icon icon-document' do %>
+    <%= "#{l(:label_calculation_summary)} - #{spreadsheet.name}" %>&nbsp;
+    <%= link_to l(:label_calculation_details),
+          results_project_spreadsheet_path(@project, id: spreadsheet),
+          class: 'icon-only icon-zoom-in',
+           title: l(:label_calculation_details) %>
+  <% end %>
+
+  <%= tag.p spreadsheet.description %>
+  
+  <%= render_card_table(@members, spreadsheet) %>
+
+  <%= tag.small do %>
+    <%= authoring spreadsheet.created_on, spreadsheet.author %>.
+    <% if spreadsheet.created_on != spreadsheet.updated_on %>
+      <%= l(:label_updated_time, time_tag(spreadsheet.updated_on)).html_safe %>.
+    <% end %>
+  <% end %>
+  
+<% end %>

@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<%= title [l(:label_table_plural), project_spreadsheets_path], @spreadsheet.name %>
+<%= title [l(:label_spreadsheet), project_spreadsheet_path(@project, @spreadsheet)], @spreadsheet.name %>
 
 <%= labelled_form_for @spreadsheet, url: project_spreadsheet_path(@project) do |f| %>
   <%= render partial: 'form', locals: {f: f} %>

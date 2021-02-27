@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-
+<% if table.calculations.present? %>
   <%= tag.p do %>
     <%= content_tag :table, class: 'list' do %>
       <%= content_tag :head do %>
@@ -55,3 +55,4 @@
       <% end %>
     <% end %>
   <% end %>
+<% end %>

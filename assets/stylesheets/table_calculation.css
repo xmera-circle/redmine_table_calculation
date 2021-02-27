@@ -2,3 +2,6 @@
 .edit_calculation a[data-expands] > .toggle-multiselect{
   display: unset;
 }
+.spreadsheet.box {
+  background-color: white;
+}

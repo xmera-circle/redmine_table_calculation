@@ -27,11 +27,21 @@
 <% # %>
 
 <%= tag.h2 @spreadsheet.name %>
+
+<p class="author">
+<%= authoring @spreadsheet.created_on, @spreadsheet.author %>.
+<% if @spreadsheet.created_on != @spreadsheet.updated_on %>
+<%= l(:label_updated_time, time_tag(@spreadsheet.updated_on)).html_safe %>.
+<% end %>
+</p>
+
 <%= tag.p do %>
   <%= tag.em @spreadsheet.description %>
 <% end %>
 
 <%= render_spreadsheet_result_table(@spreadsheet) %>
 <%= render_spreadsheet_table(@spreadsheet) %>
+
+<%= render partial: 'sidebar' %>
 
 <% html_title @spreadsheet.name %>

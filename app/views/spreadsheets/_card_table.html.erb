@@ -1,0 +1,25 @@
+<% if table.calculations.present? %>
+  <%= tag.p do %>
+    <%= content_tag :table, class: 'list' do %>
+      <%= content_tag :head do %>
+        <%= content_tag :tr do %>
+          <%= content_tag(:th, l(:label_calculation), class: 'name') %>
+          <% table.columns.each do |column| %>
+            <%= content_tag(:th, column.name, class: 'name') %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= content_tag :tbody do %>
+        <% table.calculations.each do |calc| %> 
+          <%= content_tag :tr do %>
+            <%= content_tag(:td, calc.name, class: 'name') %>
+            <% @current_row = table.result_row(calc.formula, calc) %>
+            <% @current_row.each do |result| %>
+              <%= content_tag(:td, result.value, class: 'name') %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

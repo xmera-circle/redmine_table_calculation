@@ -20,26 +20,48 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<%= tag.h3 @spreadsheet.name %>
+<%= tag.h2 @spreadsheet.name %>
+
+<%= tag.p do %>
+  <%= tag.em @spreadsheet.description %>
+<% end %>
 
 <%= tag.fieldset do %>
-  <%= tag.legend 'Bearbeitete Ergebnisse' %>
+  <%= tag.legend l(:label_adjusted_result_plural) %>
   <%= render_final_result_table(@members, @spreadsheet) %>
 <% end %>
 
 <%= tag.fieldset do %>
-  <%= tag.legend 'Aggregierte Ergebnisse' %>
+  <%= tag.legend l(:label_aggregated_result_plural) %>
   <%= render_members_result_table(@members, @spreadsheet) %>
 <% end %>
 
-<% @members.each do |member| %>
-  <% spreadsheet = spreadsheet_of(member) %>
-  <% unless spreadsheet.nil? %>
-    <%= tag.fieldset do %>
-      <%= tag.legend "#{member.project_type.name} - #{member.name}" %>
-      <%= render_spreadsheet_result_table(spreadsheet) %>
-    <% end %>                                                     
+<fieldset class="collapsible collapsed" style="padding: 0;">
+  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_single_calculation_results) %></legend>
+  <% @members.each do |member| %>
+    <% spreadsheet = spreadsheet_of(member) %>
+    <% unless spreadsheet.nil? %>
+      <%= tag.h3 "#{member.project_type.name} - #{member.name}", style: 'margin-top: 1rem; font-weight:bold'%>
+      <%= render_spreadsheet_result_table(spreadsheet) %>                                               
+    <% end %>
   <% end %>
-<% end %>
+</fieldset>
 
 <% html_title(l(:label_spreadsheet_result_plural)) %>
+
+<%= javascript_tag do %>
+$("a[data-expands]").click(function(e){
+  e.preventDefault();
+  var target = $($(this).attr("data-expands"));
+  if (target.attr("multiple")) {
+    $(this).find('span').switchClass('icon-toggle-minus', 'icon-toggle-plus');
+    target.attr("multiple", false);
+    target.find("option[value=all]").show();
+  } else {
+    $(this).find('span').switchClass('icon-toggle-plus', 'icon-toggle-minus');
+    target.attr("multiple", true);
+    target.find("option[value=all]").attr("selected", false).hide();
+  }
+});
+
+<% end %>

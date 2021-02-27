@@ -19,6 +19,17 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module SpreadsheetsHelper
+  def render_card_table(members, spreadsheet)
+    render partial: 'card_table',
+          locals: { table: FinalResultTable.new(members, spreadsheet) }
+  end
+
+  def selected_spreadsheet(id, action)
+    return if action.to_sym != params[:action].to_sym
+
+    'selected' if params[:id].to_i == id.to_i
+  end
+
   def render_final_result_table(members, spreadsheet)
     render partial: 'calculation_results',
         locals: { table: FinalResultTable.new(members, spreadsheet) }
