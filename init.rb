@@ -62,3 +62,5 @@ ActiveSupport::Reloader.to_prepare do
                           label: :table_calculation }
   CustomFieldsHelper::CUSTOM_FIELDS_TABS << table_custom_fields
 end
+
+ProjectsController.send :helper, SpreadsheetsHelper

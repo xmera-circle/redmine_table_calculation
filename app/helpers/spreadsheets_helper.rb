@@ -20,7 +20,7 @@
 
 module SpreadsheetsHelper
   def render_card_table(members, spreadsheet)
-    render partial: 'card_table',
+    render partial: 'spreadsheets/card_table',
           locals: { table: FinalResultTable.new(members, spreadsheet) }
   end
 

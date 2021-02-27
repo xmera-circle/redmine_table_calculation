@@ -4,4 +4,5 @@
 }
 .spreadsheet.box {
   background-color: white;
+  overflow-x: auto;
 }

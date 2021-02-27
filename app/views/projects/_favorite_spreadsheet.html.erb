@@ -20,23 +20,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% if User.current.allowed_to?(:add_spreadsheet, @project) %>
-  <%= tag.div class: 'contextual' do %>
-    <%= link_to(l(:label_spreadsheet_new), new_project_spreadsheet_path(@project), :class => 'icon icon-add')  %>
-  <% end %>
+<% if @project.spreadsheets.present? %>
+  <%= render partial: 'spreadsheets/card', 
+            locals: { spreadsheet: @project.spreadsheets.first,
+                      members: @project.guests.prepend(@project) } %>
 <% end %>
-
-<%= tag.h2 l(:label_table_plural) %>
-
-<% if @spreadsheets.empty? %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
-  <% @spreadsheets.each do |spreadsheet| %>
-    <%= render partial: 'card', locals: { spreadsheet: spreadsheet,
-                                          members: @members }%>
-  <% end %>
-<% end %>
-
-<%= render partial: 'sidebar' %>
-
-<% html_title(l(:label_table_plural)) %>

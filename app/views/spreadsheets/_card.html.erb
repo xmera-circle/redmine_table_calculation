@@ -22,7 +22,7 @@
 
   <%= tag.p spreadsheet.description %>
   
-  <%= render_card_table(@members, spreadsheet) %>
+  <%= render_card_table(members, spreadsheet) %>
 
   <%= tag.small do %>
     <%= authoring spreadsheet.created_on, spreadsheet.author %>.
