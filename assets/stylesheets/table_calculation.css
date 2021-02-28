@@ -6,3 +6,23 @@
   background-color: white;
   overflow-x: auto;
 }
+.controller-spreadsheets #main #sidebar {
+  /* padding-right: 0; */
+}
+.controller-spreadsheets #sidebar h3 {
+  font-weight:bold;
+}
+#sidebar ul#sidebar-menu {
+  /* margin-right: 5px; */
+}
+.table-object {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 1rem;
+  overflow: hidden;
+}
+.table-object:not(:first-of-type) {
+  padding-top: 1rem;
+}
+.table-object ol {
+  padding-left: 0;
+}

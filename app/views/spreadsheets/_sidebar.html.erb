@@ -21,21 +21,28 @@
 %>
 
 <%= content_for :sidebar do %>
-  <%= tag.h3 l(:label_spreadsheet_plural) %>
+  <%= tag.h3 l(:label_table_plural) %>
+
   <%= tag.ul id: 'sidebar-menu' do %>
-    <% @spreadsheets.map(&:itself).each do |sheet| %>
-      <%= tag.li link_to(sheet.name, 
-                        project_spreadsheet_path(@project, sheet),
-                        class: selected_spreadsheet(sheet.id, :show) ) %>
-    <% end %>
-  <% end %>
-  <%= tag.h3 l(:label_spreadsheet_result_plural) %>
-  <%= tag.ul do %>
-    <% @spreadsheets.map(&:itself).each do |sheet| %>
-      <% if sheet.table.calculations.present? %>
-        <%= tag.li link_to(sheet.name, 
-                          results_project_spreadsheet_path(@project, id: sheet),
-                          class: selected_spreadsheet(sheet.id, :results)) %>
+    <% @spreadsheets.map(&:table).uniq.each do |table| %>
+      <%= tag.div class: 'table-object' do %>
+        <%= tag.li table.name %>
+          <%= tag.ul do %>
+            <% @spreadsheets.map(&:itself).each do |sheet| %>
+              <% if sheet.table == table %>
+                <%= tag.li link_to(sheet.name, 
+                                  project_spreadsheet_path(@project, sheet),
+                                  class: selected_spreadsheet(sheet.id, :show) ) %>
+                <% if sheet.table.calculations.present? && sheet.table.calculations.pluck(:inheritable).any? %>
+                  <%= tag.ul style: 'padding-left: 1rem' do %>
+                    <%= tag.li link_to(table.calculations.map(&:name).join(', '), 
+                      results_project_spreadsheet_path(@project, id: sheet),
+                      class: selected_spreadsheet(sheet.id, :results)) %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
       <% end %>
     <% end %>
   <% end %>

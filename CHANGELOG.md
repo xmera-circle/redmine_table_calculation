@@ -1,6 +1,5 @@
 # Changelog for Redmine Table Calculation
 
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -12,3 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * initial plugin with project module and global settings
 * custom fields
+* table configuration in admin area
+* calculation definition and assignment to configured tables
+* spreadsheet creation in projects
+* aggregated calculation results for linked projects (Redmine Project Types Relations)

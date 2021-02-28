@@ -60,6 +60,10 @@ class Calculation < ActiveRecord::Base
     Formula.operators[formula.to_sym]
   end
 
+  def inheritable?
+    inheritable
+  end
+
   private
 
   def validate_table_presence

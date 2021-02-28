@@ -60,13 +60,13 @@ class FinalResultTable < MembersResultTable
   end
 
   def comment_value(calculation)
-    RowValue.new(value: row&.comment, row: row&.id)
+    RowValue.new(value: row&.comment, row: row)
   end
 
   def result(calculation_id, column)
     @row = spreadsheet_result_row(calculation_id)
     RowValue.new(value: row&.custom_value_for(column.id)&.value,
-                row: row&.id,
+                row: row,
                 col: column)
   end
 
