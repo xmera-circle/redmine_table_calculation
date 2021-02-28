@@ -19,7 +19,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class ViewProjectsShowRightHookListener < Redmine::Hook::ViewListener
-  render_on :view_projects_show_right,
-            partial: 'projects/favorite_spreadsheet'
+module TableCaclulation
+  module Hooks
+    class ViewProjectsShowRightHookListener < ProjectTypesRelations::Hooks::ViewProjectsShowRightHookListener
+      def view_projects_show_right(context={})
+        super
+        context[:controller].send :render_to_string, {
+            partial: 'projects/favorite_spreadsheet',
+            locals: context
+          }
+      end
+    end
+  end
 end
