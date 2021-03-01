@@ -23,21 +23,25 @@
 <%= content_for :sidebar do %>
   <%= tag.h3 l(:label_table_plural) %>
 
+  <%= tag.ul do %>
+    <%= tag.li link_to(l(:label_spreadsheet_home), project_spreadsheets_path, class: selected_spreadsheet_home) %>
+  <% end %>
+
   <%= tag.ul id: 'sidebar-menu' do %>
     <% @spreadsheets.map(&:table).uniq.each do |table| %>
-      <%= tag.div class: 'table-object' do %>
-        <%= tag.li table.name %>
+      <%= tag.div class: 'table-object' do %>   
+        <%= tag.strong table.name %>
           <%= tag.ul do %>
             <% @spreadsheets.map(&:itself).each do |sheet| %>
               <% if sheet.table == table %>
                 <%= tag.li link_to(sheet.name, 
-                                  project_spreadsheet_path(@project, sheet),
-                                  class: selected_spreadsheet(sheet.id, :show) ) %>
+                    project_spreadsheet_path(@project, sheet),
+                    class: selected_spreadsheet(sheet.id, :show) ) %>
                 <% if sheet.table.calculations.present? && sheet.table.calculations.pluck(:inheritable).any? %>
                   <%= tag.ul style: 'padding-left: 1rem' do %>
                     <%= tag.li link_to(table.calculations.map(&:name).join(', '), 
-                      results_project_spreadsheet_path(@project, id: sheet),
-                      class: selected_spreadsheet(sheet.id, :results)) %>
+                        results_project_spreadsheet_path(@project, id: sheet),
+                        class: selected_spreadsheet(sheet.id, :results)) %>
                   <% end %>
                 <% end %>
               <% end %>

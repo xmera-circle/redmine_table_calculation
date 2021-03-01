@@ -24,23 +24,24 @@ de:
   label_data_plural: Daten
   label_calculation_details: Berechnungsdetails
   label_calculation_summary: Zusammenfassung
+  label_spreadsheet_home: Hauptseite
   label_spreadsheet: Datenblatt
   label_spreadsheet_new: Neues Datenblatt
   label_edit_spreadsheet: Datenblatt bearbeiten
+  label_single_spreadsheet: Einzelansicht
   label_spreadsheet_edit: Konfiguration
   label_spreadsheet_plural: Datenblätter
   label_spreadsheet_row: Zeile %{count}
   label_spreadsheet_row_edit: bearbeiten
   label_spreadsheet_row_new: Neue Zeile
   label_spreadsheet_row_result: Ergebnis - %{value}
-  label_spreadsheet_result_plural: Berechnungsergebnisse
-  label_spreadsheet_result: Berechnungsergebnis
-  label_adjusted_result_plural: Bearbeitete Ergebnisse
-  label_aggregated_result_plural: Aggregierte Ergebnisse
+  label_spreadsheet_result_plural: Ergebnisse
+  label_spreadsheet_result: Ergebnis
+  label_adjusted_result_plural: Endergebnisse
+  label_aggregated_result_plural: Berechnete Ergebnisse
   label_single_calculation_results: Einzelne Berechnungsergenisse
 
   text_calculate_over: 'Berechnung über:'
-  text_no_multiple_choice: Keine Mehrfachauswahl
 
   field_columns: Tabellenspalten
   field_rows: Tabellenreihen

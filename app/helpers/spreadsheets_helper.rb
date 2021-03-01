@@ -24,6 +24,12 @@ module SpreadsheetsHelper
           locals: { table: FinalResultTable.new(members, spreadsheet) }
   end
 
+  def selected_spreadsheet_home
+    return if :index != params[:action].to_sym
+
+    'selected'
+  end
+
   def selected_spreadsheet(id, action)
     return if action.to_sym != params[:action].to_sym
 

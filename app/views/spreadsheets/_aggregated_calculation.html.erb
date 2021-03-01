@@ -20,28 +20,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<%= tag.h2 @spreadsheet.name %>
+<%= title l(:label_calculation_summary), "#{l(:label_spreadsheet_result_plural)} #{@spreadsheet.name}"%>
 
 <%= tag.p do %>
   <%= tag.em @spreadsheet.description %>
 <% end %>
 
 <%= tag.fieldset do %>
-  <%= tag.legend l(:label_adjusted_result_plural) %>
+  <%= tag.legend do %>
+    <%= tag.strong "#{l(:label_adjusted_result_plural)} (#{l(:label_updated_time, time_tag(@spreadsheet.updated_on))})".html_safe %>
+  <% end %>
   <%= render_final_result_table(@members, @spreadsheet) %>
 <% end %>
 
 <%= tag.fieldset do %>
-  <%= tag.legend l(:label_aggregated_result_plural) %>
+  <%= tag.legend do %>
+    <%= tag.strong l(:label_aggregated_result_plural) %>
+  <% end %>
   <%= render_members_result_table(@members, @spreadsheet) %>
 <% end %>
 
 <fieldset class="collapsible collapsed" style="padding: 0;">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_single_calculation_results) %></legend>
+  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+    <%= tag.strong l(:label_single_calculation_results) %>
+  </legend>
   <% @members.each do |member| %>
     <% spreadsheet = spreadsheet_of(member) %>
     <% unless spreadsheet.nil? %>
-      <%= tag.h3 "#{member.project_type.name} - #{member.name}", style: 'margin-top: 1rem; font-weight:bold'%>
+      <%= tag.h3 link_to("#{member.project_type.name} - #{member.name}",project_spreadsheet_path(member, spreadsheet) ), style: 'margin-top: 1rem; font-weight:bold'%>
       <%= render_spreadsheet_result_table(spreadsheet) %>                                               
     <% end %>
   <% end %>

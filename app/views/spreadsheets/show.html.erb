@@ -22,11 +22,20 @@
 
 <% # %>
   <%= tag.div class: 'contextual' do %>
-    <%= link_to(l(:label_spreadsheet_edit), edit_project_spreadsheet_path(@project), class: 'icon icon-settings')  %>
+    <%= link_to(l(:label_spreadsheet_new), new_project_spreadsheet_path(@project), :class => 'icon icon-add')  %>
+    <%= actions_dropdown do %>
+      <%= link_to l(:label_calculation_details),
+          results_project_spreadsheet_path(@project, id: @spreadsheet),
+          class: 'icon icon-zoom-in' %>
+      <%= link_to(l(:label_spreadsheet_edit),
+          edit_project_spreadsheet_path(@project),
+          class: 'icon icon-settings')  %>
+      <%= delete_link project_spreadsheet_path(@project, id: @spreadsheet) %>
+    <% end %>
   <% end %>
 <% # %>
 
-<%= tag.h2 @spreadsheet.name %>
+<%= title l(:label_single_spreadsheet), @spreadsheet.name %>
 
 <p class="author">
 <%= authoring @spreadsheet.created_on, @spreadsheet.author %>.
