@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
+# This file is part of the Plugin Redmine Table Calculation.
 #
-# Redmine plugin for xmera called Project Types Relations Plugin.
-#
-# Copyright (C) 2017-21 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

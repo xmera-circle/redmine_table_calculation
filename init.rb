@@ -23,14 +23,14 @@ require_dependency 'table_calculation'
 Redmine::Plugin.register :redmine_table_calculation do
   name 'Redmine Table Calculation'
   author 'Liane Hampe, xmera'
-  description 'Create a custom table and calculate over columns or rows'
+  description 'Create a custom table and calculate over columns'
   version '0.0.1'
   url 'https://circle.xmera.de/projects/redmine-table-calculation'
   author_url 'http://xmera.de'
 
   requires_redmine version_or_higher: '4.1.0'
-  requires_redmine_plugin :redmine_project_types, version_or_higher: '3.0.1'
-  requires_redmine_plugin :redmine_project_types_relations, version_or_higher: '1.0.0'
+  requires_redmine_plugin :redmine_project_types, version_or_higher: '3.0.3'
+  requires_redmine_plugin :redmine_project_types_relations, version_or_higher: '1.0.1'
 
   # settings  partial: TableCalculation.partial,
   #           default: TableCalculation.defaults
