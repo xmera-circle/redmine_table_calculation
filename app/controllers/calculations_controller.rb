@@ -26,7 +26,7 @@ class CalculationsController < ApplicationController
 
   before_action :find_model_object, except: %i[index new create]
   before_action :require_admin
-  
+
   layout 'admin'
   self.main_menu = false
 

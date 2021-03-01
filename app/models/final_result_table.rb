@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 ##
-# A final result is potentially a adjusted member result with a 
+# A final result is potentially a adjusted member result with a
 # comment about the taken adjustement but does not need to be.
 # If not it is the same as the member result.
 #
@@ -40,9 +40,9 @@ class FinalResultTable < MembersResultTable
   end
 
   def columns
-    return if self.instance_variable_get('@columns').include? comment_field
+    return if instance_variable_get('@columns').include? comment_field
 
-    self.instance_variable_get('@columns').append(comment_field)
+    instance_variable_get('@columns').append(comment_field)
   end
 
   private
@@ -59,20 +59,19 @@ class FinalResultTable < MembersResultTable
     comment_field_name.new(l(:field_comment))
   end
 
-  def comment_value(calculation)
+  def comment_value(_calculation)
     RowValue.new(value: row&.comment, row: row)
   end
 
   def result(calculation_id, column)
     @row = spreadsheet_result_row(calculation_id)
     RowValue.new(value: row&.custom_value_for(column.id)&.value,
-                row: row,
-                col: column)
+                 row: row,
+                 col: column)
   end
 
   def spreadsheet_result_row(calculation_id)
     SpreadsheetRowResult.find_by(calculation_id: calculation_id,
                                  spreadsheet_id: spreadsheet.id)
   end
-
 end

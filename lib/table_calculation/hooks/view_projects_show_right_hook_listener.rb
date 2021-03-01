@@ -22,12 +22,12 @@
 module TableCaclulation
   module Hooks
     class ViewProjectsShowRightHookListener < ProjectTypesRelations::Hooks::ViewProjectsShowRightHookListener
-      def view_projects_show_right(context={})
+      def view_projects_show_right(context = {})
         super
         context[:controller].send :render_to_string, {
-            partial: 'projects/favorite_spreadsheet',
-            locals: context
-          }
+          partial: 'projects/favorite_spreadsheet',
+          locals: context
+        }
       end
     end
   end

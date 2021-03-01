@@ -21,11 +21,11 @@
 module SpreadsheetsHelper
   def render_card_table(members, spreadsheet)
     render partial: 'spreadsheets/card_table',
-          locals: { table: FinalResultTable.new(members, spreadsheet) }
+           locals: { table: FinalResultTable.new(members, spreadsheet) }
   end
 
   def selected_spreadsheet_home
-    return if :index != params[:action].to_sym
+    return if params[:action].to_sym != :index
 
     'selected'
   end
@@ -38,7 +38,7 @@ module SpreadsheetsHelper
 
   def render_final_result_table(members, spreadsheet)
     render partial: 'calculation_results',
-        locals: { table: FinalResultTable.new(members, spreadsheet) }
+           locals: { table: FinalResultTable.new(members, spreadsheet) }
   end
 
   def render_members_result_table(members, spreadsheet)
@@ -52,11 +52,11 @@ module SpreadsheetsHelper
   end
 
   ##
-  # This method formats the given custom value by using 
+  # This method formats the given custom value by using
   # CustomFieldsHelper#format_value
   #
   # @param value [String|Integer] The value of a custom field.
-  # @param column [CustomField] The column of the table, i.e. the custom field 
+  # @param column [CustomField] The column of the table, i.e. the custom field
   #  corresponding to the given value.
   #
   def value(value, column)

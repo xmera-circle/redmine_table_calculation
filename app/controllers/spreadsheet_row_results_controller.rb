@@ -75,10 +75,10 @@ class SpreadsheetRowResultsController < ApplicationController
   private
 
   def new_row
-     SpreadsheetRowResult.new(spreadsheet_id: @spreadsheet.id,
-                              calculation_id: @calculation.id,
-                              author_id: User.current.id,
-                              comment: '')
+    SpreadsheetRowResult.new(spreadsheet_id: @spreadsheet.id,
+                             calculation_id: @calculation.id,
+                             author_id: User.current.id,
+                             comment: '')
   end
 
   def find_spreadsheet
@@ -88,7 +88,7 @@ class SpreadsheetRowResultsController < ApplicationController
 
   def find_calculation
     calculation_id = params[:calculation_id] || params[:spreadsheet_row_result][:calculation_id]
-    @calculation = Calculation.find_by(id:calculation_id.to_i)
+    @calculation = Calculation.find_by(id: calculation_id.to_i)
   end
 
   def row_project

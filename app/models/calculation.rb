@@ -30,7 +30,6 @@ class Calculation < ActiveRecord::Base
                           association_foreign_key: 'custom_field_id'
 
   validates_presence_of :name, :formula, :field_ids
-#  validates_uniqueness_of :name
   validate :validate_table_presence
   validate :validate_fields
   validate :validate_columns_and_rows
@@ -47,7 +46,7 @@ class Calculation < ActiveRecord::Base
     :rows,
     :inheritable
   )
-  
+
   def field?(id)
     field_ids.include?(id)
   end

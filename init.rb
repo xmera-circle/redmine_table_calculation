@@ -32,8 +32,8 @@ Redmine::Plugin.register :redmine_table_calculation do
   requires_redmine_plugin :redmine_project_types, version_or_higher: '3.0.1'
   requires_redmine_plugin :redmine_project_types_relations, version_or_higher: '1.0.0'
 
-  settings  partial: TableCalculation.partial,
-            default: TableCalculation.defaults
+  # settings  partial: TableCalculation.partial,
+  #           default: TableCalculation.defaults
 
   menu :project_menu,
        :menu_table_calculation,

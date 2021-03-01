@@ -75,8 +75,8 @@ class SpreadsheetRowsController < ApplicationController
   private
 
   def new_row
-     SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
-                        position: @spreadsheet.rows.count + 1)
+    SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
+                       position: @spreadsheet.rows.count + 1)
   end
 
   def find_spreadsheet
