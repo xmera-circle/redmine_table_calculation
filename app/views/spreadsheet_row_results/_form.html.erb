@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<%= error_messages_for 'spreadsheet_row' %>
+<%= error_messages_for 'spreadsheet_row_result' %>
 
 <%= tag.div class: 'box tabular settings' do %>
   <%= tag.legend l(:label_spreadsheet_row_result, value: @spreadsheet_row_result.calculation.name) %>
@@ -31,7 +31,7 @@
         <%= tag.p custom_field_tag_with_label :spreadsheet_row_result, value %>
       <% end %>
     <% end %>
-    <%= tag.p f.text_field :comment %>
+    <%= tag.p f.text_field :comment, required: true %>
     <%= f.hidden_field :calculation_id %>
   <% end %>
 <% end %>

@@ -48,12 +48,11 @@ en:
   field_table: Tabelle
   field_fields: Felder
   field_columns_and_rows: Spalten und Zeilen
-  #field_inheritable: Ergebnisse von assoziierten Projekten aggregieren
-  field_comment: Kommentar
+  field_comment: Begründung
   activerecord:
     attributes:
       calculation: 
-        inheritable: Ergebnisse von assoziierten Projekten aggregieren 
+        inheritable: Ergebnisse von assoziierten Projekten aggregieren
 
   error_table_id_not_present: muss ausgewählt werden.
   error_field_ids_invalid: gehören zu einer anderen Tabelle.
