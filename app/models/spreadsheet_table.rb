@@ -27,11 +27,13 @@ class SpreadsheetTable
 
   def initialize(spreadsheet)
     @table = spreadsheet.table
-    @columns = table.columns
-    @rows = spreadsheet.rows
+    @columns = @table.columns
+    @rows = spreadsheet.rows&.split.flatten
   end
 
-  def row_ids
-    rows.map(&:id)
+  def row_ids(attr=nil)
+    return [] if rows.nil? || rows.empty?
+
+    rows.flatten.map(&:id)
   end
 end

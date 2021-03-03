@@ -18,12 +18,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class SpreadsheetResultTable < SpreadsheetTable
-  attr_reader :calculations
+class SpreadsheetResultTable
+  attr_reader :spreadsheet, :calculations, :columns
 
   def initialize(spreadsheet)
-    super(spreadsheet)
-    @calculations = table.calculations
+    @spreadsheet = spreadsheet
+    @table = spreadsheet.table
+    @calculations = @table.calculations
     @columns = calculable_columns
   end
 
@@ -74,7 +75,25 @@ class SpreadsheetResultTable < SpreadsheetTable
   # @return Array(String) All row values of a given calculable column.
   #
   def column_values(id, calculation)
-    DataMatrix.new(row_ids, calculation.column_ids).column_values(id)
+    data_matrix = DataMatrix.new(rows(calculation.id), calculation.column_ids)
+    data_matrix.column_values(id)
+  end
+
+  ##
+  # Provide rows for further calculation. Can be a result or the pure spreadsheet
+  # rows.
+  #
+  #
+  def rows(calculation_id)
+    single_result_row = spreadsheet.result_rows.where(calculation_id: calculation_id)
+    return single_result_row if single_result_row.present?
+
+    spreadsheet.rows
+  end
+
+  def spreadsheet_result_row(calculation_id)
+    SpreadsheetRowResult.find_by(calculation_id: calculation_id,
+                                 spreadsheet_id: spreadsheet.id)
   end
 
   ##
@@ -86,7 +105,7 @@ class SpreadsheetResultTable < SpreadsheetTable
     calculations
       .to_a
       .map(&:fields)
-      .collect(&:to_a)
+      .map(&:split)
       .flatten
       .uniq
   end

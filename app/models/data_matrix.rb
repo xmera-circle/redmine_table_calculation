@@ -23,8 +23,8 @@
 # over the given rows.
 #
 class DataMatrix
-  def initialize(row_ids, column_ids)
-    @row_ids = row_ids
+  def initialize(rows, column_ids)
+    @rows = rows
     @column_ids = column_ids.uniq
   end
 
@@ -37,7 +37,7 @@ class DataMatrix
 
   private
 
-  attr_reader :row_ids, :column_ids
+  attr_reader :rows, :column_ids, :klass
 
   ##
   # @return Hash(Integer: Array(Array(Integer, String)))
@@ -49,10 +49,22 @@ class DataMatrix
   # of column_id and value. Values are always Strings!
   #
   def values_by_column
-    CustomValue
-      .where(customized_id: row_ids)
-      .where(custom_field_id: column_ids)
+    values = []
+    rows.each do |row|
+      field_id_and_value_of(row).each {|pair| values << pair }
+    end 
+    values.group_by(&:first)
+    # CustomValue
+    #   .where(customized_type: klass.to_s)
+    #   .where(customized_id: row_ids)
+    #   .where(custom_field_id: column_ids)
+    #   .pluck(:custom_field_id, :value)
+    #   .group_by(&:first)
+  end
+
+  def field_id_and_value_of(row)
+    row
+      .custom_values
       .pluck(:custom_field_id, :value)
-      .group_by(&:first)
   end
 end

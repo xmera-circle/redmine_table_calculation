@@ -29,7 +29,7 @@ class FinalResultTable < MembersResultTable
 
   def initialize(members, spreadsheet)
     super(members, spreadsheet)
-    @spreadsheet = spreadsheet
+    @spreadsheet = spreadsheet # delete
     @comment_field_name = Struct.new(:name)
   end
 
@@ -70,7 +70,7 @@ class FinalResultTable < MembersResultTable
                  col: column)
   end
 
-  def spreadsheet_result_row(calculation_id)
+  def spreadsheet_result_row(calculation_id) # delete
     SpreadsheetRowResult.find_by(calculation_id: calculation_id,
                                  spreadsheet_id: spreadsheet.id)
   end

@@ -31,16 +31,27 @@ class MembersResultTable < SpreadsheetResultTable
   # Rows are collected over member spreadsheets. Hence,
   # all calculations will be based on these rows.
   #
-  def rows
+  def rows(calculation_id = nil)
     collection = []
     members.each do |member|
-      collection << spreadsheet_of(member)&.rows
+      collection << member_rows(member)
     end
-    collection.compact
+    collection.flatten.compact
   end
 
-  def row_ids
-    rows.map(&:ids).flatten
+  def member_rows(member)
+    return member_result_rows(member) if member_result_rows(member)
+
+    member_spreadsheet_rows(member)
+  end
+
+  def member_result_rows(member)
+    results = spreadsheet_of(member)&.result_rows&.split&.flatten
+    results.present? ? results : nil
+  end
+
+  def member_spreadsheet_rows(member)
+    spreadsheet_of(member)&.rows&.split&.flatten
   end
 
   private
