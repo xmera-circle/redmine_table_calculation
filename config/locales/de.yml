@@ -1,10 +1,10 @@
 de:
   label_redmine_table_calculation: Tabellenkalkulation # Plugin name
-  project_module_table_calculation: Tabellenkalkulation # Module name
-  label_menu_table_calculation: Tabellenkalkulation # Project menu item name
+  project_module_table_calculation: Tabellen # Module name
+  label_menu_table_calculation: Tabellen # Project menu item name
   label_menu_table_config: Tabellenkonfiguration # Admin menu item name
-  table_calculation: Tabellenkalkulation # Tab name in project settings
-  menu_table_calculation: Tabellenkalkulation # TableCustomField
+  table_calculation: Tabellen # Tab name in project settings
+  menu_table_calculation: Tabellen # TableCustomField
 
   label_table: Tabelle
   label_table_plural: Tabellen
