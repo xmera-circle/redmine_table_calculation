@@ -28,6 +28,7 @@
     <%= field.hidden_field :spreadsheet_id %>
     <% @spreadsheet_row.custom_field_values.each do |value| %>
       <%= tag.p custom_field_tag_with_label :spreadsheet_row, value %>
+      <%= wikitoolbar_for "spreadsheet_row_custom_field_values_#{value.custom_field_id}" if value.custom_field.full_text_formatting? %>
     <% end %>
   <% end %>
 <% end %>

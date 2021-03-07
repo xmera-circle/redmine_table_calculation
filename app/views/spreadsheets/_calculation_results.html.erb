@@ -40,6 +40,7 @@
             <%= content_tag(:td, calc.name, class: 'name') %>
             <% @current_row = table.result_row(calc.formula, calc) %>
             <% @current_row.each do |result| %>
+              <% formatted_value = result.col&.full_text_formatting? ? textilizable(value(result.value, result.col)) : value(result.value, result.col) %>
               <%= content_tag(:td, value(result.value, result.col), class: 'name') %>
             <% end %>
             <% if table.is_a? FinalResultTable %>

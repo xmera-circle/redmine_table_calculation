@@ -33,7 +33,8 @@
     <% table.rows.each do |row| %> 
       <%= content_tag :tr do %>
         <% row.custom_field_values.each do |field| %>
-          <%= content_tag(:td, format_value(field.value, field.custom_field), class: 'name') %>
+          <% formatted_value = field.custom_field.full_text_formatting? ? textilizable(format_value(field.value, field.custom_field)) : format_value(field.value, field.custom_field) %>
+            <%= content_tag(:td, formatted_value, class: 'name') %>
         <% end %>
         <%= tag.td class: 'buttons' do %>
           <% if User.current.allowed_to?(:edit_spreadsheet, @project) %>
