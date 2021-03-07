@@ -1,6 +1,6 @@
 # Redmine Table Calculation
 
-![Redmine Plugin Version](https://img.shields.io/badge/Redmine_Plugin-v0.0.3-red) ![Redmine Version](https://img.shields.io/badge/Redmine-v4.x.x-blue) ![Language Support](https://img.shields.io/badge/Languages-en,_de-green) ![Version Stage](https://img.shields.io/badge/Stage-development-important)
+![Redmine Plugin Version](https://img.shields.io/badge/Redmine_Plugin-v0.0.4-red) ![Redmine Version](https://img.shields.io/badge/Redmine-v4.x.x-blue) ![Language Support](https://img.shields.io/badge/Languages-en,_de-green) ![Version Stage](https://img.shields.io/badge/Stage-development-important)
 
 Redmine Table Calculation is a plugin which lets the user create spreadsheets with simple calculation capabilities for each project.
 
