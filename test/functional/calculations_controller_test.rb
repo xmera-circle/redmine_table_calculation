@@ -24,7 +24,7 @@ module TableCaclulation
   class CalculationsControllerTest < ActionDispatch::IntegrationTest
     extend TableCalculation::LoadFixtures
     include TableCalculation::AuthenticateUser
-    include TableCalculation::CreateProjectType
+    include TableCalculation::ProjectTypeCreator
     include Redmine::I18n
 
     fixtures :users, :tables, :project_types, :calculations

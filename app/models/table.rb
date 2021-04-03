@@ -27,8 +27,8 @@ class Table < ActiveRecord::Base
                           join_table: "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
                           association_foreign_key: 'custom_field_id'
 
-  has_and_belongs_to_many :project_types,
-                          -> { order(:position) },
+  has_and_belongs_to_many :project_types, -> { where(is_project_type: true) },
+                          class_name: 'Project',
                           join_table: "#{table_name_prefix}project_types_tables#{table_name_suffix}",
                           association_foreign_key: 'project_type_id'
 

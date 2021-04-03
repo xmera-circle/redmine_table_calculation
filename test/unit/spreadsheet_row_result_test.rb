@@ -23,8 +23,9 @@ require File.expand_path('../test_helper', __dir__)
 module TableCaclulation
   class SpreadsheetRowResultTest < ActiveSupport::TestCase
     extend TableCalculation::LoadFixtures
+    include TableCalculation::ProjectTypeCreator
 
-    fixtures :projects, :users, :tables, :project_types, :spreadsheets
+    fixtures :projects, :users, :tables, :spreadsheets
 
     test 'should have many custom values' do
       association = SpreadsheetRowResult.reflect_on_association(:custom_values)

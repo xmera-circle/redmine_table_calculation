@@ -23,8 +23,9 @@ require File.expand_path('../test_helper', __dir__)
 module TableCaclulation
   class TableTest < ActiveSupport::TestCase
     extend TableCalculation::LoadFixtures
+    include TableCalculation::ProjectTypeCreator
 
-    fixtures :tables, :project_types
+    fixtures :tables
 
     test 'should have many columns' do
       association = Table.reflect_on_association(:columns)
@@ -62,7 +63,7 @@ module TableCaclulation
       table.columns << cf
       assert table.save
       assert table.columns.count == 1
-      pt = ProjectType.find(1)
+      pt = find_project_type(id: 4)
       table.project_types << pt
       assert table.save
       assert table.project_types.count == 1

@@ -23,8 +23,9 @@ require File.expand_path('../test_helper', __dir__)
 module TableCaclulation
   class CalculationTest < ActiveSupport::TestCase
     extend TableCalculation::LoadFixtures
+    include TableCalculation::ProjectTypeCreator
 
-    fixtures :tables, :project_types, :calculations
+    fixtures :tables, :calculations
 
     test 'should belong to table' do
       association = Calculation.reflect_on_association(:table)
