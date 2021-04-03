@@ -31,7 +31,7 @@ class SpreadsheetTable
     @rows = spreadsheet.rows&.split.flatten
   end
 
-  def row_ids(attr=nil)
+  def row_ids(_attr = nil)
     return [] if rows.nil? || rows.empty?
 
     rows.flatten.map(&:id)

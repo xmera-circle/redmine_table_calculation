@@ -51,8 +51,8 @@ class DataMatrix
   def values_by_column
     values = []
     rows.each do |row|
-      field_id_and_value_of(row).each {|pair| values << pair }
-    end 
+      field_id_and_value_of(row).each { |pair| values << pair }
+    end
     values.group_by(&:first)
     # CustomValue
     #   .where(customized_type: klass.to_s)

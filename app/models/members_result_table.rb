@@ -31,7 +31,7 @@ class MembersResultTable < SpreadsheetResultTable
   # Rows are collected over member spreadsheets. Hence,
   # all calculations will be based on these rows.
   #
-  def rows(calculation_id = nil)
+  def rows(_calculation_id = nil)
     collection = []
     members.each do |member|
       collection << member_rows(member)

@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * administration link for table columns in table configuration
+* :de localisation for permissions
+* :en localisation at all
 
 ## 0.0.4 - 2021-03-07
 

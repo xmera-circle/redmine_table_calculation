@@ -37,6 +37,6 @@ class CreateCalculations < ActiveRecord::Migration[4.2]
   end
 
   def self.down
-    drop_table :calculations if table_exists?(:calculations) && table_exists?(:calculations)
+    drop_table :calculations if table_exists?(:calculations)
   end
 end

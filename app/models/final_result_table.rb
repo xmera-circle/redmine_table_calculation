@@ -70,7 +70,8 @@ class FinalResultTable < MembersResultTable
                  col: column)
   end
 
-  def spreadsheet_result_row(calculation_id) # delete
+  # delete
+  def spreadsheet_result_row(calculation_id)
     SpreadsheetRowResult.find_by(calculation_id: calculation_id,
                                  spreadsheet_id: spreadsheet.id)
   end
