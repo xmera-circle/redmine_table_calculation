@@ -27,7 +27,11 @@ module TableCaclulation
     include TableCalculation::ProjectTypeCreator
     include Redmine::I18n
 
-    fixtures :users, :tables, :project_types, :calculations
+    fixtures :users, :tables, :calculations, :projects
+
+    def setup
+      find_project_type(id: 4)
+    end
 
     test 'index by anonymous should redirect to login form' do
       User.anonymous
@@ -99,7 +103,7 @@ module TableCaclulation
       table = Table.new(name: 'Another Table',
                         description: 'for testing',
                         column_ids: ['', cf.id],
-                        project_type_ids: ['', 1])
+                        project_type_ids: ['', 4])
       table.save
       { calculation:
         { name: name,

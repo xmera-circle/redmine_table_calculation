@@ -27,7 +27,11 @@ module TableCaclulation
     include TableCalculation::ProjectTypeCreator
     include Redmine::I18n
 
-    fixtures :users, :tables, :project_types
+    fixtures :users, :tables, :projects
+
+    def setup
+      find_project_type(id: 4)
+    end
 
     test 'index by anonymous should redirect to login form' do
       User.anonymous
@@ -102,7 +106,7 @@ module TableCaclulation
         { name: name,
           description: 'for testing',
           column_ids: ['', cf.id],
-          project_type_ids: ['', 1] }
+          project_type_ids: ['', 4] }
           .merge(associates) }
     end
 

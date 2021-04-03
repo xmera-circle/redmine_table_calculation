@@ -25,7 +25,7 @@ module TableCaclulation
     extend TableCalculation::LoadFixtures
     include TableCalculation::ProjectTypeCreator
 
-    fixtures :tables
+    fixtures :tables, :projects
 
     test 'should have many columns' do
       association = Table.reflect_on_association(:columns)
