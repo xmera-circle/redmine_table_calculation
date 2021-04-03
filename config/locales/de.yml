@@ -58,4 +58,10 @@ de:
   error_field_ids_invalid: gehören zu einer anderen Tabelle.
   error_columns_and_rows_selected: können nicht beide aktiviert werden.
   error_columns_and_rows_unselected: können nicht beide deaktiviert sein.
+
+  permission_add_spreadsheet: Datenblatt erstellen
+  permission_view_spreadsheet: Datenblatt anzeigen
+  permission_destroy_spreadsheet: Datenblatt löschen
+  permission_edit_spreadsheet: Datenblatt bearbeiten
+  permission_edit_spreadsheet_results: Berechnungsergebnisse bearbeiten
   
