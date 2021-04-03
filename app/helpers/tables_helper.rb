@@ -40,24 +40,28 @@ module TablesHelper
     hidden_field_tag('table[project_type_ids][]', '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
-        content_tag(
-          'label',
-          check_box_tag(
-            'table[project_type_ids][]',
-            value,
-            @table.project_type_assigned?(value),
-            id: nil
-          ) + text.to_s,
-          class: 'floating'
-        )
+        project_type_check_boxes(text, value)
       end.join.html_safe
   end
 
+  def project_type_check_boxes(text, value)
+    content_tag(
+      'label',
+      check_box_tag(
+        'table[project_type_ids][]',
+        value,
+        @table.project_type_assigned?(value),
+        id: nil
+      ) + text.to_s,
+      class: 'floating'
+    )
+  end
+
   def available_columns
-    TableCustomField.sorted.collect { |t| [t.name, t.id.to_s] }
+    TableCustomField.sorted.collect { |custom_field| [custom_field.name, custom_field.id.to_s] }
   end
 
   def available_project_types
-    ProjectType.sorted.collect { |t| [t.name, t.id.to_s] }
+    ProjectType.masters.collect { |project_type| [project_type.name, project_type.id.to_s] }
   end
 end
