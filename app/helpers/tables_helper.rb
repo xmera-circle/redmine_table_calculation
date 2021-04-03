@@ -20,23 +20,31 @@
 
 module TablesHelper
   def columns_multiselect(_table, choices)
+    return nothing_to_select if choices.empty?
+
     hidden_field_tag('table[column_ids][]', '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
-        content_tag(
-          'label',
-          check_box_tag(
-            'table[column_ids][]',
-            value,
-            @table.column_assigned?(value),
-            id: nil
-          ) + text.to_s,
-          class: 'floating'
-        )
+        custom_field_check_boxes(text, value)
       end.join.html_safe
   end
 
+  def custom_field_check_boxes(text, value)
+    content_tag(
+      'label',
+      check_box_tag(
+        'table[column_ids][]',
+        value,
+        @table.column_assigned?(value),
+        id: nil
+      ) + text.to_s,
+      class: 'floating'
+    )
+  end
+
   def project_types_multiselect(_table, choices)
+    return nothing_to_select if choices.empty?
+
     hidden_field_tag('table[project_type_ids][]', '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
@@ -57,11 +65,11 @@ module TablesHelper
     )
   end
 
-  def available_columns
-    TableCustomField.sorted.collect { |custom_field| [custom_field.name, custom_field.id.to_s] }
-  end
-
   def available_project_types
     ProjectType.masters.collect { |project_type| [project_type.name, project_type.id.to_s] }
+  end
+
+  def nothing_to_select
+    tag.em l(:text_nothing_to_select), class: 'nothing-to-select'
   end
 end

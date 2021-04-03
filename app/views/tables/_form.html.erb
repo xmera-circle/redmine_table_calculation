@@ -29,11 +29,14 @@
 
 <% if @table.safe_attribute?('column_ids') %>
   <%= content_tag :fieldset, class: 'box tabular', id: 'columns' do %>
+    <%= tag.div class: 'contextual' do %>
+      <%= link_to l(:label_administration), custom_fields_path(tab: 'TableCustomField'), class: "icon icon-settings" %>
+    <% end %>
     <%= tag.legend do %>
       <%= toggle_checkboxes_link('#columns input[type="checkbox"]') %>
       <%= l(:label_column_plural) %>
     <% end %>
-    <%= columns_multiselect(@table, available_columns) %>
+    <%= columns_multiselect(@table, TableCustomField.options_for_select) %>
   <% end %>
 <% end %>
 

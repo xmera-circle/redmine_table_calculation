@@ -22,4 +22,8 @@ class TableCustomField < CustomField
   def type_name
     :menu_table_calculation
   end
+
+  def self.options_for_select
+    TableCustomField.sorted.collect { |custom_field| [custom_field.name, custom_field.id.to_s] }
+  end
 end
