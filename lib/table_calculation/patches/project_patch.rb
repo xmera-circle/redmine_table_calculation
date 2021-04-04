@@ -27,9 +27,8 @@ module TableCalculation
         base.class_eval do
           has_many :spreadsheets, dependent: :destroy
           has_and_belongs_to_many :tables,
-                                  join_table: "#{table_name_prefix}project_types_tables#{table_name_suffix}",
-                                  association_foreign_key: 'table_id',
-                                  foreign_key: 'project_type_id'
+                                  join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
+                                  association_foreign_key: 'table_id'
         end
       end
 

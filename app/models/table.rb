@@ -29,8 +29,8 @@ class Table < ActiveRecord::Base
 
   has_and_belongs_to_many :project_types, -> { where(is_project_type: true) },
                           class_name: 'Project',
-                          join_table: "#{table_name_prefix}project_types_tables#{table_name_suffix}",
-                          association_foreign_key: 'project_type_id'
+                          join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
+                          association_foreign_key: 'project_id'
 
   has_many :calculations, dependent: :destroy
 
