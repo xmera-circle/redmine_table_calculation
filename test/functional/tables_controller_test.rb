@@ -55,14 +55,12 @@ module TableCaclulation
       log_user('admin', 'admin')
       get new_table_path
       assert_response :success
-      assert_template 'new'
     end
 
     test 'should get edit' do
       log_user('admin', 'admin')
       get edit_table_url(id: 1)
       assert_response :success
-      assert_template 'edit'
     end
 
     test 'should redirect after create' do
