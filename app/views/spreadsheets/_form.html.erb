@@ -29,6 +29,6 @@
     <%= label(:spreadsheet, :table_id) do %>
 				<%= l(:label_table) %><span class="required"> *</span>
 		<% end %>
-    <%= f.collection_select(:table_id, @project.project_type.tables.collect, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
+    <%= f.collection_select(:table_id, table_select_options, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
   <% end %>
 <% end %>

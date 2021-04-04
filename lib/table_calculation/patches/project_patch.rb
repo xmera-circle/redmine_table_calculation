@@ -22,14 +22,30 @@ module TableCalculation
   module Patches
     module ProjectPatch
       def self.prepended(base)
-        base.extend(ClassMethods)
+        base.singleton_class.prepend(ClassMethods)
         base.prepend(InstanceMethods)
         base.class_eval do
           has_many :spreadsheets, dependent: :destroy
+          has_and_belongs_to_many :tables,
+                                  join_table: "#{table_name_prefix}project_types_tables#{table_name_suffix}",
+                                  association_foreign_key: 'table_id',
+                                  foreign_key: 'project_type_id'
         end
       end
 
-      module ClassMethods; end
+      module ClassMethods
+        ##
+        # Extends with spreadsheets.
+        #
+        # @override Project#copy_from
+        #
+        def copy_from(project)
+          copy = super(project)
+          project = project.is_a?(Project) ? project : Project.find(project)
+          copy.spreadsheets = project.spreadsheets
+          copy
+        end
+      end
 
       module InstanceMethods; end
     end

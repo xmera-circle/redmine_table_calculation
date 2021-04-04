@@ -19,6 +19,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module SpreadsheetsHelper
+  def table_select_options
+    return @project.tables.collect unless project_type
+
+    project_type.tables.collect
+  end
+
+  def project_type
+    @project.project_type
+  end
+
   def render_card_table(members, spreadsheet)
     render partial: 'spreadsheets/card_table',
            locals: { table: FinalResultTable.new(members, spreadsheet) }
