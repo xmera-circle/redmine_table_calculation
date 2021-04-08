@@ -20,6 +20,6 @@
 
 class ChangeTableNameOfProjectTypesTables < ActiveRecord::Migration[4.2]
   def change
-    rename_table :project_types_tables, :projects_tables
+    rename_table(:project_types_tables, :projects_tables) if table_exists?(:project_types_tables)
   end
 end

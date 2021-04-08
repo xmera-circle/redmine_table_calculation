@@ -20,8 +20,7 @@
 
 module TableCalculation
   module Patches
-    module ProjectsHelperPatch
-    end
+    module ProjectsHelperPatch; end
   end
 end
 

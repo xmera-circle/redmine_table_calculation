@@ -20,6 +20,6 @@
 
 class ChangeColumnNameOfProjectsTables < ActiveRecord::Migration[4.2]
   def change
-    rename_column :projects_tables, :project_type_id, :project_id
+    rename_column(:projects_tables, :project_type_id, :project_id) if column_exists?(:projects_tables, :project_type_id)
   end
 end
