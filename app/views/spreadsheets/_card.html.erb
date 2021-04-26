@@ -26,10 +26,10 @@
       <%= actions_dropdown do %>
         <%= link_to l(:label_calculation_details),
             results_project_spreadsheet_path(@project, id: spreadsheet),
-            class: 'icon icon-zoom-in' %>
+            class: 'icon icon-zoom-in' if User.current.allowed_to?(:view_spreadsheet_results, @project) %>
         <%= link_to l(:label_edit_spreadsheet), 
             project_spreadsheet_path(@project, spreadsheet),
-            class: 'icon icon-edit' %> 
+            class: 'icon icon-edit' if User.current.allowed_to?(:edit_spreadsheet, @project)%> 
       <% end %>
     <% end %>
 
@@ -38,13 +38,13 @@
       <%= link_to l(:label_calculation_details),
             results_project_spreadsheet_path(@project, id: spreadsheet),
             class: 'icon-only icon-zoom-in',
-            title: l(:label_calculation_details) %>
+            title: l(:label_calculation_details) if User.current.allowed_to?(:view_spreadsheet_results, @project)%>
     <% end %>
 
     <%= tag.p spreadsheet.description %>
-    
-    <%= render_card_table(members, spreadsheet) %>
-
+    <% if User.current.allowed_to?(:view_spreadsheet_results, @project) %>
+      <%= render_card_table(members, spreadsheet) %>
+    <% end %>
     <%= tag.small do %>
       <%= authoring spreadsheet.created_on, spreadsheet.author %>.
       <% if spreadsheet.created_on != spreadsheet.updated_on %>

@@ -20,9 +20,21 @@
 
 module SpreadsheetsHelper
   def table_select_options
-    return @project.tables.collect unless project_type
+    return project_tables.select(:id, :name) unless project_type_id
 
-    project_type.tables.collect
+    project_type_tables.select(:id, :name)
+  end
+
+  def project_type_tables
+    project_type.tables
+  end
+
+  def project_tables
+    Table
+  end
+
+  def project_type_id
+    @project.project_type_id
   end
 
   def project_type

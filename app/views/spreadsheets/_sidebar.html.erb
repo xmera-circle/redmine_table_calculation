@@ -33,11 +33,13 @@
         <%= tag.strong table.name %>
           <%= tag.ul do %>
             <% @spreadsheets.map(&:itself).each do |sheet| %>
-              <% if sheet.table == table %>
+              <% if sheet.table == table && User.current.allowed_to?(:view_spreadsheet, @project)%>
                 <%= tag.li link_to(sheet.name, 
                     project_spreadsheet_path(@project, sheet),
                     class: selected_spreadsheet(sheet.id, :show) ) %>
-                <% if sheet.table.calculations.present? && sheet.table.calculations.pluck(:inheritable).any? %>
+                <% if sheet.table.calculations.present? && 
+                      sheet.table.calculations.pluck(:inheritable).any? && 
+                      User.current.allowed_to?(:view_spreadsheet_results, @project) %>
                   <%= tag.ul style: 'padding-left: 1rem' do %>
                     <%= tag.li link_to(table.calculations.map(&:name).join(', '), 
                         results_project_spreadsheet_path(@project, id: sheet),

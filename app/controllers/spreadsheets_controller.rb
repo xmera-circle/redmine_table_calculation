@@ -24,6 +24,7 @@ class SpreadsheetsController < ApplicationController
 
   before_action :find_project_by_project_id
   before_action :find_model_object, except: %i[index new create]
+  before_action :authorize
 
   helper :custom_fields
 

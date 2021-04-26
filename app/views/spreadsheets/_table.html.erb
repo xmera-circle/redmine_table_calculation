@@ -38,12 +38,18 @@
         <% end %>
         <%= tag.td class: 'buttons' do %>
           <% if User.current.allowed_to?(:edit_spreadsheet, @project) %>
-            <%= link_to l(:button_edit), edit_spreadsheet_row_path(row, spreadsheet_id: @spreadsheet), :class => 'icon icon-edit' %>
-            <%= delete_link spreadsheet_row_path(row, spreadsheet_id: @spreadsheet) %>
+            <%= link_to l(:button_edit), 
+                edit_spreadsheet_row_path(row, spreadsheet_id: @spreadsheet), 
+                :class => 'icon icon-edit' %>
+          <% end %>
+          <% if User.current.allowed_to?(:destroy_spreadsheet, @project) %>
+            <%= delete_link(spreadsheet_row_path(row, spreadsheet_id: @spreadsheet)) %>
           <% end %>
         <% end %>
       <% end %>
     <% end %>
-    <%=tag.p link_to l(:label_spreadsheet_row_new), new_project_spreadsheet_spreadsheet_row_path(@project, @spreadsheet), class: 'icon icon-add' %>
+    <%=tag.p link_to l(:label_spreadsheet_row_new), 
+                      new_project_spreadsheet_spreadsheet_row_path(@project, @spreadsheet), 
+                      class: 'icon icon-add' if User.current.allowed_to?(:edit_spreadsheet, @project) %>
   <% end %>
 <% end %>

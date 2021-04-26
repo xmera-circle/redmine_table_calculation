@@ -25,6 +25,7 @@ class SpreadsheetRowResultsController < ApplicationController
   before_action :find_project_by_project_id, only: %i[new create]
   before_action :find_spreadsheet, :find_calculation, except: %i[edit]
   before_action :find_model_object, except: %i[index new create]
+  before_action :authorize, only: %i[edit update]
 
   helper :custom_fields
 

@@ -20,20 +20,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% # %>
+<% if User.current.allowed_to?(:add_spreadsheet, @project) %>
   <%= tag.div class: 'contextual' do %>
     <%= link_to(l(:label_spreadsheet_new), new_project_spreadsheet_path(@project), :class => 'icon icon-add')  %>
     <%= actions_dropdown do %>
       <%= link_to l(:label_calculation_details),
           results_project_spreadsheet_path(@project, id: @spreadsheet),
-          class: 'icon icon-zoom-in' %>
+          class: 'icon icon-zoom-in' if User.current.allowed_to?(:view_spreadsheet_results, @project) %>
       <%= link_to(l(:label_spreadsheet_edit),
           edit_project_spreadsheet_path(@project),
-          class: 'icon icon-settings')  %>
-      <%= delete_link project_spreadsheet_path(@project, id: @spreadsheet) %>
+          class: 'icon icon-settings') if User.current.allowed_to?(:edit_spreadsheet, @project)  %>
+      <%= delete_link project_spreadsheet_path(@project, id: @spreadsheet) if User.current.allowed_to?(:destroy_spreadsheet, @project)%>
     <% end %>
   <% end %>
-<% # %>
+<% end %>
 
 <%= title l(:label_single_spreadsheet), @spreadsheet.name %>
 
@@ -48,8 +48,8 @@
   <%= tag.em @spreadsheet.description %>
 <% end %>
 
-<%= render_spreadsheet_result_table(@spreadsheet) %>
-<%= render_spreadsheet_table(@spreadsheet) %>
+<%= render_spreadsheet_result_table(@spreadsheet) if User.current.allowed_to?(:view_spreadsheet_results, @project) %>
+<%= render_spreadsheet_table(@spreadsheet) if User.current.allowed_to?(:view_spreadsheet, @project) %>
 
 <%= render partial: 'sidebar' %>
 
