@@ -18,29 +18,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
-require 'table_calculation/hooks/view_projects_show_right_hook_listener'
-# require 'table_calculation/patches/projects_helper_patch'
-require 'table_calculation/patches/project_patch'
-require 'table_calculation/patches/project_type_patch'
-
 module TableCalculation
-  module_function
-
-  def partial
-    'settings/table_calculation_settings'
+  module Patches
+    module ProjectTypePatch
+      def self.prepended(base)
+        base.class_eval do
+          has_many :spreadsheets, dependent: :destroy
+          has_and_belongs_to_many :tables,
+                                  join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
+                                  foreign_key: 'project_id',
+                                  association_foreign_key: 'table_id'
+        end
+      end
+    end
   end
+end
 
-  def defaults
-    attr = [attr_one, attr_two]
-    attr.inject(&:merge)
-  end
-
-  def attr_one
-    { attr_one: '' }
-  end
-
-  def attr_two
-    { attr_two: '' }
+# Apply patch
+Rails.configuration.to_prepare do
+  unless ProjectType.included_modules.include?(TableCalculation::Patches::ProjectTypePatch)
+    ProjectType.prepend TableCalculation::Patches::ProjectTypePatch
   end
 end

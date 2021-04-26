@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## unreleased
+
+### Changed
+
+* has_and_belongs_to_many :tables and has_many :spreadsheets to ProjectType class
+
 ## 0.0.5 - 2021-04-08
 
 ### Changed
