@@ -25,9 +25,6 @@ end
 
 resources :projects do
   resources :spreadsheets do
-    member do
-      get 'results'
-    end
     resources :spreadsheet_rows, except: %i[show], shallow: true
     resources :spreadsheet_row_results, except: %i[show], shallow: true
   end

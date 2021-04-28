@@ -34,10 +34,6 @@ class SpreadsheetsController < ApplicationController
     @members = @project.guests.prepend(@project)
   end
 
-  def results
-    index
-  end
-
   def new
     @spreadsheet ||= new_spreadsheet
     @spreadsheet.safe_attributes = params[:spreadsheet]
