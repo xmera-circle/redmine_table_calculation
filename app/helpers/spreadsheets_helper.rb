@@ -41,11 +41,6 @@ module SpreadsheetsHelper
     @project.project_type
   end
 
-  def render_card_table(members, spreadsheet)
-    render partial: 'spreadsheets/card_table',
-           locals: { table: FinalResultTable.new(members, spreadsheet) }
-  end
-
   def selected_spreadsheet_home
     return if params[:action].to_sym != :index
 
@@ -56,21 +51,6 @@ module SpreadsheetsHelper
     return if action.to_sym != params[:action].to_sym
 
     'selected' if params[:id].to_i == id.to_i
-  end
-
-  def render_final_result_table(members, spreadsheet)
-    render partial: 'calculation_results',
-           locals: { table: FinalResultTable.new(members, spreadsheet) }
-  end
-
-  def render_members_result_table(members, spreadsheet)
-    render partial: 'calculation_results',
-           locals: { table: MembersResultTable.new(members, spreadsheet) }
-  end
-
-  def render_spreadsheet_result_table(spreadsheet)
-    render partial: 'calculation_results',
-           locals: { table: SpreadsheetResultTable.new(spreadsheet) }
   end
 
   ##
