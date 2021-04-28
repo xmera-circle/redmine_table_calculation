@@ -32,7 +32,7 @@ class Table < ActiveRecord::Base
                           join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
                           association_foreign_key: 'project_id'
 
-  has_many :calculations, dependent: :destroy
+  has_many :calculations, dependent: :destroy, inverse_of: :table
 
   validates_presence_of :name
   validates_uniqueness_of :name

@@ -21,7 +21,7 @@
 class Calculation < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  belongs_to :table
+  belongs_to :table, inverse_of: :calculations
 
   has_and_belongs_to_many :fields,
                           -> { order(:position) },
