@@ -71,8 +71,4 @@ module SpreadsheetsHelper
     render partial: 'table',
            locals: { table: SpreadsheetTable.new(spreadsheet) }
   end
-
-  def spreadsheet_of(member)
-    member.spreadsheets.find_by(name: @spreadsheet.name)
-  end
 end
