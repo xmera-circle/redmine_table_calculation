@@ -67,6 +67,11 @@ module SpreadsheetsHelper
     format_value(value, column)
   end
 
+  def render_spreadsheet_result_table(spreadsheet)
+    render partial: 'calculation_results',
+           locals: { table: SpreadsheetResultTable.new(spreadsheet) }
+  end
+
   def render_spreadsheet_table(spreadsheet)
     render partial: 'table',
            locals: { table: SpreadsheetTable.new(spreadsheet) }
