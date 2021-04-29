@@ -26,7 +26,7 @@
     <%= actions_dropdown do %>
       <%= link_to l(:label_calculation_details),
           results_project_spreadsheet_path(@project, id: @spreadsheet),
-          class: 'icon icon-zoom-in' if User.current.allowed_to?(:view_spreadsheet_results, @project) %>
+          class: 'icon icon-zoom-in' if defined?(FinalResultTable) && User.current.allowed_to?(:view_spreadsheet_results, @project) %>
       <%= link_to(l(:label_spreadsheet_edit),
           edit_project_spreadsheet_path(@project),
           class: 'icon icon-settings') if User.current.allowed_to?(:edit_spreadsheet, @project)  %>
@@ -48,7 +48,7 @@
   <%= tag.em @spreadsheet.description %>
 <% end %>
 
-<%= render_spreadsheet_result_table(@spreadsheet) if User.current.allowed_to?(:view_spreadsheet_results, @project) %>
+<%= render_spreadsheet_result_table(@spreadsheet) if defined?(FinalResultTable) && User.current.allowed_to?(:view_spreadsheet_results, @project) %>
 <%= render_spreadsheet_table(@spreadsheet) if User.current.allowed_to?(:view_spreadsheet, @project) %>
 
 <%= render partial: 'sidebar' %>

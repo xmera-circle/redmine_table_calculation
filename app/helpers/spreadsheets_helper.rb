@@ -68,7 +68,7 @@ module SpreadsheetsHelper
   end
 
   def render_spreadsheet_result_table(spreadsheet)
-    render partial: 'calculation_results',
+    render partial: 'spreadsheets/calculation_results',
            locals: { table: SpreadsheetResultTable.new(spreadsheet) }
   end
 

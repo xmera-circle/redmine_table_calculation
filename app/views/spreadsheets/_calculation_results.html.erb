@@ -29,7 +29,7 @@
           <% table.columns.each do |column| %>
             <%= content_tag(:th, column.name, class: 'name') %>
           <% end %>
-          <% if table.is_a? FinalResultTable %>
+          <% if defined?(FinalResultTable) && table.is_a?(FinalResultTable) %>
             <%= content_tag(:th, '') %>
           <% end %>
         <% end %>
@@ -43,7 +43,7 @@
               <% formatted_value = result.col&.full_text_formatting? ? textilizable(value(result.value, result.col)) : value(result.value, result.col) %>
               <%= content_tag(:td, value(result.value, result.col), class: 'name') %>
             <% end %>
-            <% if table.is_a? FinalResultTable %>
+            <% if defined?(FinalResultTable) && table.is_a?(FinalResultTable) %>
               <%= tag.td class: 'buttons' do %>
                 <% if User.current.allowed_to?(:edit_spreadsheet_results, @project) %>
                   <% @row_id = @current_row.map(&:row_id).compact.uniq.join %>
