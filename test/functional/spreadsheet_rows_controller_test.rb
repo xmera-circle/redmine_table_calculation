@@ -25,7 +25,6 @@ module TableCaclulation
     extend TableCalculation::LoadFixtures
     include TableCalculation::AuthenticateUser
     include TableCalculation::ProjectTypeCreator
-#    include TableCalculation::TableCustomFieldCreator
     include Redmine::I18n
 
     fixtures :projects,
@@ -36,16 +35,23 @@ module TableCaclulation
       @manager = User.find(2)
       @manager_role = Role.find_by_name('Manager')
 
+      @description_field = TableCustomField.generate!(name: 'Description')
+      @count_field = TableCustomField.generate!(name: 'Count', field_format: 'int')
+
       @project_type_master = find_project_type(id: 4)
       @project_type_master.enable_module!(:table_calculation)
       @project_type_master.members << Member.create(user_id: @manager.id, roles: [@manager_role])
+      second_table = Table.find(2)
+      second_table.columns << [@description_field, @count_field]
+      @third_row = SpreadsheetRow.find(3)
+      @third_row.custom_field_values = { @description_field.id => 'Item 3', @count_field.id => 3 }
+      @third_row.save
 
       @project = Project.find(1)
       @project.enable_module!(:table_calculation)
-      @description_field = TableCustomField.generate!(name: 'Description')
-      @count_field = TableCustomField.generate!(name: 'Count', field_format: 'int')
-      table = Table.find(1)
-      table.columns << [@description_field, @count_field]
+      
+      first_table = Table.find(1)
+      first_table.columns << [@description_field, @count_field]
       @first_row = SpreadsheetRow.find(1)
       @first_row.custom_field_values = { @description_field.id => 'Item 1', @count_field.id => 1 }
       @first_row.save
@@ -85,6 +91,109 @@ module TableCaclulation
       assert_no_difference 'SpreadsheetRow.count' do
         delete "/spreadsheet_rows/#{@second_row.id}?spreadsheet_id=#{spreadsheet.id}", params: nil
       end
+      assert_response 403
+    end
+
+    test 'should render new spreadsheet row' do
+      @manager_role.add_permission!(:add_spreadsheet_row)
+      spreadsheet = @project.spreadsheets.first
+
+      log_user('jsmith', 'jsmith')
+      get new_project_spreadsheet_spreadsheet_row_path(project_id: @project.id,
+                                                       spreadsheet_id: spreadsheet.id)
+      assert_response :success
+      assert_select '.box.tabular.settings'
+      assert_select 'p', 2
+    end
+
+    test 'should not render new spreadsheet row if not allowed to' do
+      spreadsheet = @project.spreadsheets.first
+
+      log_user('jsmith', 'jsmith')
+      get new_project_spreadsheet_spreadsheet_row_path(project_id: @project.id,
+                                                       spreadsheet_id: spreadsheet.id)
+      assert_response 403
+    end
+
+    test 'should create spreadsheet row' do
+      spreadsheet = @project.spreadsheets.first
+      @manager_role.add_permission!(:add_spreadsheet_row)
+      assert @manager.allowed_to?(:add_spreadsheet_row, @project)
+
+      log_user('jsmith', 'jsmith')
+
+      assert_difference 'SpreadsheetRow.count' do
+        post project_spreadsheet_spreadsheet_rows_path(project_id: @project.identifier,
+                                                       spreadsheet_id: spreadsheet.id),
+             params: {
+               spreadsheet_row: {
+                 custom_field_values: {
+                   @description_field.id => 'New Item',
+                   @count_field.id => '3'
+                 }
+               }
+             }
+      end
+      assert_redirected_to project_spreadsheet_path @project, spreadsheet
+    end
+
+    test 'should not create spreadsheet row if not allowed to' do
+      spreadsheet = @project.spreadsheets.first
+      assert_not @manager.allowed_to?(:add_spreadsheet_row, @project)
+
+      log_user('jsmith', 'jsmith')
+
+      assert_no_difference 'SpreadsheetRow.count' do
+        post project_spreadsheet_spreadsheet_rows_path(project_id: @project.identifier,
+                                                       spreadsheet_id: spreadsheet.id),
+             params: {
+               spreadsheet_row: {
+                 custom_field_values: {
+                   @description_field.id => 'New Item',
+                   @count_field.id => '3'
+                 }
+               }
+             }
+      end
+      assert_response 403
+    end
+
+    test 'should update spreadsheet row' do
+      @manager_role.add_permission!(:edit_spreadsheet_row)
+      assert @manager.allowed_to?(:edit_spreadsheet_row, @project_type_master)
+      spreadsheet = Spreadsheet.last
+      spreadsheet_row = spreadsheet.rows.first
+
+      log_user('jsmith', 'jsmith')
+
+      patch spreadsheet_row_path(id: spreadsheet_row.id),
+            params: {
+              spreadsheet_row: {
+                custom_field_values: {
+                  @description_field.id => 'Adjusted item'
+                }
+              }
+            }
+
+      assert_redirected_to project_spreadsheet_path @project_type_master, spreadsheet
+    end
+
+    test 'should not update spreadsheet row if not allowed to' do
+      assert_not @manager.allowed_to?(:edit_spreadsheet_row, @project_type_master)
+      spreadsheet = Spreadsheet.last
+      spreadsheet_row = spreadsheet.rows.first
+
+      log_user('jsmith', 'jsmith')
+
+      patch spreadsheet_row_path(id: spreadsheet_row.id),
+            params: {
+              spreadsheet_row: {
+                custom_field_values: {
+                  @description_field.id => 'Adjusted item'
+                }
+              }
+            }
+
       assert_response 403
     end
   end

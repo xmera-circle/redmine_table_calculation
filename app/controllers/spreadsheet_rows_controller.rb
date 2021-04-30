@@ -90,10 +90,10 @@ class SpreadsheetRowsController < ApplicationController
   end
 
   def spreadsheet_id
-    params[:spreadsheet_id].id || params[:spreadsheet_row][:spreadsheet_id].id
+    params[:spreadsheet_id].to_i || params[:spreadsheet_row][:spreadsheet_id].to_i
   end
 
   def find_project_of_spreadsheet
-    @project = @spreadsheet_row.spreadsheet.project
+    @project = @spreadsheet.project
   end
 end
