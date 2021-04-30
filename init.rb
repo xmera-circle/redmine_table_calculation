@@ -51,11 +51,11 @@ Redmine::Plugin.register :redmine_table_calculation do
     permission :add_spreadsheet, { spreadsheets: %i[new create] }
     permission :view_spreadsheet, { spreadsheets: %i[index show] }
     permission :destroy_spreadsheet, { spreadsheets: :destroy }
-    permission :edit_spreadsheet, { spreadsheets: :edit }
+    permission :edit_spreadsheet, { spreadsheets: %i[edit update] }
     permission :add_spreadsheet_row, { spreadsheet_rows: %i[new create] }
     permission :edit_spreadsheet_row, { spreadsheet_rows: %i[edit update] }
     permission :destroy_spreadsheet_row, { spreadsheet_rows: %i[destroy] }
-    permission :view_spreadsheet_results, { spreadsheets: %i[results index]  }
+    permission :view_spreadsheet_results, { spreadsheets: %i[results index] }
     permission :edit_spreadsheet_results, { spreadsheet_row_results: %i[new create edit update] }
   end
 end

@@ -32,110 +32,77 @@ module TableCaclulation
              :tables, :calculations, :spreadsheets
 
     def setup
-      find_project_type(id: 4)
+      @manager = User.find(2)
+      @manager_role = Role.find_by_name('Manager')
+
+      @project_type_master = find_project_type(id: 4)
+      @project_type_master.enable_module!(:table_calculation)
+      @project_type_master.members << Member.create(user_id: @manager.id, roles: [@manager_role])
+
+      @project = Project.find(1)
+      @project.enable_module!(:table_calculation)
     end
 
     test 'should create no spreadsheet if not allowed to' do
-      project_type = Project.find(4)
       log_user('jsmith', 'jsmith')
 
       assert_no_difference 'Spreadsheet.count' do
-        post project_spreadsheets_path( project_id: project_type.identifier),
-             params: { spreadsheet: { name: 'testsheet', table_id: 1 } }
+        post project_spreadsheets_path(project_id: @project.identifier),
+             params: { spreadsheet: { name: 'testsheet', table_id: 2 } }
       end
-      assert_response :success
+      assert_response 403
     end
 
-    # test 'index by user should respond with 403' do
-    #   log_user('jsmith', 'jsmith')
-    #   get calculations_url
-    #   assert_response 403
-    # end
+    test 'should create spreadsheet if allowed to' do
+      @manager_role.add_permission!(:add_spreadsheet)
+      assert @manager.allowed_to?(:add_spreadsheet, @project)
 
-    # test 'should render index when admin' do
-    #   log_user('admin', 'admin')
-    #   get calculations_path
-    #   assert_response :success
-    # end
+      log_user('jsmith', 'jsmith')
 
-    # test 'should get new' do
-    #   log_user('admin', 'admin')
-    #   get new_calculation_path
-    #   assert_response :success
-    # end
+      assert_difference 'Spreadsheet.count' do
+        post project_spreadsheets_path(project_id: @project.identifier),
+             params: { spreadsheet: { name: 'testsheet', table_id: 2 } }
+      end
+      assert_redirected_to project_spreadsheet_path @project, Spreadsheet.last
+    end
 
-    # test 'should get edit' do
-    #   log_user('admin', 'admin')
-    #   get edit_calculation_url(id: 1)
-    #   assert_response :success
-    # end
+    test 'should update spreadsheet if admin' do
+      spreadsheet = Spreadsheet.last
 
-    # test 'should redirect after create' do
-    #   log_user('admin', 'admin')
-    #   name = 'Another calculation'
-    #   assert_difference after_create do
-    #     post calculations_url, params: calculation_create_params(name: name)
-    #   end
-    #   assert_redirected_to(controller: 'calculations', action: 'index')
-    #   calculation = Calculation.last
-    #   assert_equal name, calculation.name
-    # end
+      log_user('admin', 'admin')
 
-    # test 'should update' do
-    #   log_user('admin', 'admin')
-    #   calculation_to_change = Calculation.first
-    #   patch calculation_url(calculation_to_change), params: calculation_update_params
-    #   calculation_to_change.reload
-    #   assert_equal 'changed', calculation_to_change.name
-    # end
+      patch project_spreadsheet_path(project_id: @project_type_master.identifier,
+                                     id: spreadsheet.id),
+            params: { spreadsheet: { description: 'A very useful spreadsheet for admins' } }
 
-    # test 'should delete' do
-    #   log_user('admin', 'admin')
-    #   post calculations_url, params: calculation_create_params(name: 'One more table')
-    #   assert_redirected_to(controller: 'calculations', action: 'index')
-    #   assert_difference after_delete do
-    #     delete "/admin/calculations/#{Calculation.last.id}", params: nil
-    #   end
-    #   assert_redirected_to(controller: 'calculations', action: 'index')
-    # end
+      assert_redirected_to project_spreadsheet_path @project_type_master, spreadsheet
+    end
 
-    private
+    test 'should update spreadsheet if allowed to' do
+      @manager_role.add_permission!(:edit_spreadsheet)
+      assert @manager.allowed_to?(:edit_spreadsheet, @project_type_master)
+      spreadsheet = Spreadsheet.last
 
-    # def calculation_create_params(name:, associates: {})
-    #   cf = CustomField.generate!(name: 'Field1',
-    #                              type: 'TableCustomField',
-    #                              field_format: 'string')
-    #   table = Table.new(name: 'Another Table',
-    #                     description: 'for testing',
-    #                     column_ids: ['', cf.id],
-    #                     project_type_ids: ['', 4])
-    #   table.save
-    #   { calculation:
-    #     { name: name,
-    #       description: 'for testing',
-    #       table_id: table.id,
-    #       formula: 'min',
-    #       field_ids: ['', cf.id],
-    #       columns: true,
-    #       rows: false }
-    #       .merge(associates) }
-    # end
+      log_user('jsmith', 'jsmith')
 
-    # def calculation_update_params
-    #   cf = CustomField.generate!(name: 'Field2',
-    #                              type: 'TableCustomField',
-    #                              field_format: 'string')
-    #   table = Table.find(1)
-    #   table.columns << cf
-    #   { calculation: { name: 'changed', table_id: 1, field_ids: ['', cf.id] } }
-    # end
+      patch project_spreadsheet_path(project_id: @project_type_master.identifier,
+                                     id: spreadsheet.id),
+            params: { spreadsheet: { description: 'A very useful spreadsheet for managers' } }
 
-    # def after_create
-    #   { -> { Calculation.count } => 1 }
-    # end
+      assert_redirected_to project_spreadsheet_path @project_type_master, spreadsheet
+    end
 
-    # def after_delete
-    #   { -> { Calculation.count } => -1 }
-    # end
+    test 'should not update spreadsheet if not allowed to' do
+      assert_not @manager.allowed_to?(:edit_spreadsheet, @project_type_master)
+      spreadsheet = Spreadsheet.last
+
+      log_user('jsmith', 'jsmith')
+
+      patch project_spreadsheet_path(project_id: @project_type_master.identifier,
+                                     id: spreadsheet.id),
+            params: { spreadsheet: { description: 'A very useful spreadsheet' } }
+
+      assert_response 403
+    end
   end
 end
