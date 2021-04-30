@@ -20,27 +20,5 @@
 
 require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
 require 'table_calculation/hooks/view_projects_show_right_hook_listener'
-# require 'table_calculation/patches/projects_helper_patch'
 require 'table_calculation/patches/project_patch'
 require 'table_calculation/patches/project_type_patch'
-
-module TableCalculation
-  module_function
-
-  def partial
-    'settings/table_calculation_settings'
-  end
-
-  def defaults
-    attr = [attr_one, attr_two]
-    attr.inject(&:merge)
-  end
-
-  def attr_one
-    { attr_one: '' }
-  end
-
-  def attr_two
-    { attr_two: '' }
-  end
-end

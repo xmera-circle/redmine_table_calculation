@@ -30,8 +30,6 @@ class SpreadsheetsController < ApplicationController
 
   def index
     @spreadsheets = @project.spreadsheets
-    @guests = @project.guests
-    @members = @project.guests.prepend(@project)
   end
 
   def new

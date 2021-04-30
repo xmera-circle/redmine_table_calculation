@@ -28,6 +28,6 @@ module TableCaclulation
           locals: context
         }
       end
-    end
+    end if defined? ProjectTypesRelations
   end
 end
