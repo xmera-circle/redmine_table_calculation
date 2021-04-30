@@ -22,9 +22,10 @@ class SpreadsheetRowsController < ApplicationController
   model_object SpreadsheetRow
   menu_item :menu_table_calculation
 
+  before_action :find_model_object, except: %i[index new create]
   before_action :find_project_by_project_id, only: %i[new create]
   before_action :find_spreadsheet
-  before_action :find_model_object, except: %i[index new create]
+  before_action :find_project_of_spreadsheet
   before_action :authorize, except: :index
 
   helper :custom_fields
@@ -55,7 +56,7 @@ class SpreadsheetRowsController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to project_spreadsheet_path row_project, row_spreadsheet
+          redirect_to project_spreadsheet_path @project, @spreadsheet
         end
       end
     else
@@ -70,7 +71,7 @@ class SpreadsheetRowsController < ApplicationController
 
   def destroy
     @spreadsheet_row.destroy
-    redirect_to project_spreadsheet_path row_project, row_spreadsheet
+    redirect_to project_spreadsheet_path @project, @spreadsheet
   end
 
   private
@@ -81,15 +82,18 @@ class SpreadsheetRowsController < ApplicationController
   end
 
   def find_spreadsheet
-    spreadsheet_id = params[:spreadsheet_id] || params[:spreadsheet_row][:spreadsheet_id]
-    @spreadsheet = Spreadsheet.find_by(id: spreadsheet_id.to_i)
+    @spreadsheet = @spreadsheet_row ? @spreadsheet_row.spreadsheet : find_spreadsheet_by_id
   end
 
-  def row_project
-    @spreadsheet_row.spreadsheet.project
+  def find_spreadsheet_by_id
+    Spreadsheet.find_by(id: spreadsheet_id)
   end
 
-  def row_spreadsheet
-    @spreadsheet_row.spreadsheet
+  def spreadsheet_id
+    params[:spreadsheet_id].id || params[:spreadsheet_row][:spreadsheet_id].id
+  end
+
+  def find_project_of_spreadsheet
+    @project = @spreadsheet_row.spreadsheet.project
   end
 end

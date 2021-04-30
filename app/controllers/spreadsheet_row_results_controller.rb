@@ -89,8 +89,12 @@ class SpreadsheetRowResultsController < ApplicationController
     @calculation = Calculation.find_by(id: calculation_id.to_i)
   end
 
-  def find_spreadsheet_by(id:)
-    @spreadsheet = Spreadsheet.find_by(id: id)
+  def find_spreadsheet
+    @spreadsheet = @spreadsheet_row_result ? @spreadsheet_row_result.spreadsheet : find_spreadsheet_by_id
+  end
+
+  def find_spreadsheet_by_id
+    Spreadsheet.find_by(id: spreadsheet_id)
   end
 
   def spreadsheet_id
@@ -99,9 +103,5 @@ class SpreadsheetRowResultsController < ApplicationController
 
   def find_project_of_spreadsheet
     @project = @spreadsheet.project
-  end
-
-  def find_spreadsheet
-    @spreadsheet = @spreadsheet_row_result ? @spreadsheet_row_result.spreadsheet : find_spreadsheet_by(id: spreadsheet_id)
   end
 end
