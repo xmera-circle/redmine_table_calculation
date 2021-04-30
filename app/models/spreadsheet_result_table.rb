@@ -80,20 +80,13 @@ class SpreadsheetResultTable
   end
 
   ##
-  # Provide rows for further calculation. Can be a result or the pure spreadsheet
-  # rows.
+  # Provide rows for further calculation.
   #
+  # @node This method might be overridden of other plugins. Therefore, we use
+  #   the catch-all argument (*).
   #
-  def rows(calculation_id)
-    single_result_row = spreadsheet.result_rows.where(calculation_id: calculation_id)
-    return single_result_row if single_result_row.present?
-
+  def rows(*)
     spreadsheet.rows
-  end
-
-  def spreadsheet_result_row(calculation_id)
-    SpreadsheetRowResult.find_by(calculation_id: calculation_id,
-                                 spreadsheet_id: spreadsheet.id)
   end
 
   ##

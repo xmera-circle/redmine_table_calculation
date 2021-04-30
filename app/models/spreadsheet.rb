@@ -25,7 +25,6 @@ class Spreadsheet < ActiveRecord::Base
   belongs_to :table
   belongs_to :author, class_name: 'User'
   has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
-  has_many :result_rows, class_name: 'SpreadsheetRowResult', dependent: :destroy
 
   validates_uniqueness_of :name, scope: :project_id
 
