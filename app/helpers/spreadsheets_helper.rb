@@ -34,6 +34,8 @@ module SpreadsheetsHelper
   end
 
   def project_type_id
+    return unless defined? ProjectType
+
     @project.project_type_id
   end
 
