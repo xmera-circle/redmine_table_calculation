@@ -24,14 +24,15 @@
   <%= tag.div class: 'spreadsheet box' do %>
     <%= tag.div class: 'contextual' do %>
       <%= actions_dropdown do %>
-        <%= link_to l(:label_edit_spreadsheet), 
-            project_spreadsheet_path(@project, spreadsheet),
-            class: 'icon icon-edit' if User.current.allowed_to?(:edit_spreadsheet, @project)%> 
+        <%= link_to l(:label_spreadsheet_configuration), 
+            edit_project_spreadsheet_path(@project, spreadsheet),
+            class: 'icon icon-settings' if User.current.allowed_to?(:configure_spreadsheet, @project)%>
+        <%= delete_link project_spreadsheet_path(@project, id: spreadsheet) if User.current.allowed_to?(:destroy_spreadsheet, @project)%>
       <% end %>
     <% end %>
 
     <%= tag.h3 class: 'icon icon-document' do %>
-      <%= spreadsheet.name %>
+      <%= link_to spreadsheet.name, project_spreadsheet_path(@project, id: spreadsheet) %>
     <% end %>
     <%= tag.p spreadsheet.description %>
     <%= render_spreadsheet_result_table(spreadsheet) %>

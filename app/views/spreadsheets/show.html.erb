@@ -26,10 +26,10 @@
     <%= actions_dropdown do %>
       <%= link_to l(:label_calculation_details),
           results_project_spreadsheet_path(@project, id: @spreadsheet),
-          class: 'icon icon-zoom-in' if defined?(FinalResultTable) && User.current.allowed_to?(:view_spreadsheet_results, @project) %>
-      <%= link_to(l(:label_spreadsheet_edit),
+          class: 'icon icon-zoom-in' if defined?(FinalResultTable) && User.current.allowed_to?(:view_spreadsheet_results, @project) && @spreadsheet.calculations? %>
+      <%= link_to(l(:label_spreadsheet_configuration),
           edit_project_spreadsheet_path(@project),
-          class: 'icon icon-settings') if User.current.allowed_to?(:edit_spreadsheet, @project)  %>
+          class: 'icon icon-settings') if User.current.allowed_to?(:configure_spreadsheet, @project)  %>
       <%= delete_link project_spreadsheet_path(@project, id: @spreadsheet) if User.current.allowed_to?(:destroy_spreadsheet, @project)%>
     <% end %>
   <% end %>

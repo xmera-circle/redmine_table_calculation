@@ -31,11 +31,12 @@ Redmine::Plugin.register :redmine_table_calculation do
   requires_redmine version_or_higher: '4.1.0'
   requires_redmine_plugin :redmine_project_types, version_or_higher: '4.0.0'
 
-  menu :project_menu,
+  menu(:project_menu,
        :menu_table_calculation,
        { controller: 'spreadsheets', action: 'index' },
        param: :project_id,
-       caption: :label_menu_table_calculation
+       caption: :label_menu_table_calculation,
+       permission: :view_spreadsheet)
 
   menu :admin_menu,
        :menu_table_config,
@@ -47,7 +48,7 @@ Redmine::Plugin.register :redmine_table_calculation do
     permission :add_spreadsheet, { spreadsheets: %i[new create] }
     permission :view_spreadsheet, { spreadsheets: %i[index show] }
     permission :destroy_spreadsheet, { spreadsheets: :destroy }
-    permission :edit_spreadsheet, { spreadsheets: %i[edit update] }
+    permission :configure_spreadsheet, { spreadsheets: %i[edit update] }
     permission :add_spreadsheet_row, { spreadsheet_rows: %i[new create] }
     permission :edit_spreadsheet_row, { spreadsheet_rows: %i[edit update] }
     permission :destroy_spreadsheet_row, { spreadsheet_rows: %i[destroy] }

@@ -43,6 +43,12 @@ module TableCaclulation
       @project.enable_module!(:table_calculation)
     end
 
+    test 'should show no menu item if not allowed to view spreadsheets' do
+      log_user('jsmith', 'jsmith')
+      get project_spreadsheets_path(project_id: @project.identifier)
+      assert_response 403
+    end
+
     test 'should create no spreadsheet if not allowed to' do
       log_user('jsmith', 'jsmith')
 
@@ -66,7 +72,7 @@ module TableCaclulation
       assert_redirected_to project_spreadsheet_path @project, Spreadsheet.last
     end
 
-    test 'should update spreadsheet if admin' do
+    test 'should update spreadsheet configuration if admin' do
       spreadsheet = Spreadsheet.last
 
       log_user('admin', 'admin')
@@ -78,9 +84,9 @@ module TableCaclulation
       assert_redirected_to project_spreadsheet_path @project_type_master, spreadsheet
     end
 
-    test 'should update spreadsheet if allowed to' do
-      @manager_role.add_permission!(:edit_spreadsheet)
-      assert @manager.allowed_to?(:edit_spreadsheet, @project_type_master)
+    test 'should update spreadsheet configuration if allowed to' do
+      @manager_role.add_permission!(:configure_spreadsheet)
+      assert @manager.allowed_to?(:configure_spreadsheet, @project_type_master)
       spreadsheet = Spreadsheet.last
 
       log_user('jsmith', 'jsmith')
@@ -92,8 +98,8 @@ module TableCaclulation
       assert_redirected_to project_spreadsheet_path @project_type_master, spreadsheet
     end
 
-    test 'should not update spreadsheet if not allowed to' do
-      assert_not @manager.allowed_to?(:edit_spreadsheet, @project_type_master)
+    test 'should not update spreadsheet configuration if not allowed to' do
+      assert_not @manager.allowed_to?(:configure_spreadsheet, @project_type_master)
       spreadsheet = Spreadsheet.last
 
       log_user('jsmith', 'jsmith')

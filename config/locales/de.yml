@@ -28,8 +28,9 @@ de:
   label_spreadsheet: Datenblatt
   label_spreadsheet_new: Neues Datenblatt
   label_edit_spreadsheet: Datenblatt bearbeiten
+  label_view_spreadsheet: Datenblatt ansehen
   label_single_spreadsheet: Einzelansicht
-  label_spreadsheet_edit: Konfiguration
+  label_spreadsheet_configuration: Konfiguration
   label_spreadsheet_plural: Datenblätter
   label_spreadsheet_row: Zeile %{count}
   label_spreadsheet_row_edit: bearbeiten
@@ -62,9 +63,10 @@ de:
   permission_add_spreadsheet: Datenblatt erstellen
   permission_view_spreadsheet: Datenblatt anzeigen
   permission_destroy_spreadsheet: Datenblatt löschen
-  permission_edit_spreadsheet: Datenblatt bearbeiten
+  permission_configure_spreadsheet: Datenblatt konfigurieren
   permission_add_spreadsheet_row: Datenblattzeile hinzufügen
   permission_edit_spreadsheet_row: Datenblattzeile bearbeiten
+  permission_destroy_spreadsheet_row: Datenblattzeile lösschen
   permission_view_spreadsheet_results: Berechnungsergebnisse anzeigen
   permission_edit_spreadsheet_results: Berechnungsergebnisse bearbeiten
   

@@ -28,8 +28,9 @@ en:
   label_spreadsheet: Spreadsheet
   label_spreadsheet_new: New Spreadsheet
   label_edit_spreadsheet: Edit Spreadsheet
+  label_view_spreadsheet: View Spreadsheet
   label_single_spreadsheet: Single View
-  label_spreadsheet_edit: Configuration
+  label_spreadsheet_configuration: Configuration
   label_spreadsheet_plural: Spreadsheets
   label_spreadsheet_row: Row %{count}
   label_spreadsheet_row_edit: edit
@@ -62,8 +63,9 @@ en:
   permission_add_spreadsheet: Create spreadsheets
   permission_view_spreadsheet: View spreadsheets
   permission_destroy_spreadsheet: Delete spreadsheets
-  permission_edit_spreadsheet: Edit spreadsheets
+  permission_configure_spreadsheet: Configure spreadsheets
   permission_add_spreadsheet_row: Add spreadsheet row 
   permission_edit_spreadsheet_row: Edit spreadsheet row 
+  permission_destroy_spreadsheet_row: Delete spreadsheet row
   permission_view_spreadsheet_results: View calcualation results
   permission_edit_spreadsheet_results: Edit calculation results 
