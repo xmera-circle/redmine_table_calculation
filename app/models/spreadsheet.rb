@@ -39,4 +39,8 @@ class Spreadsheet < ActiveRecord::Base
   def column_ids
     table.column_ids
   end
+
+  def calculations?
+    table.calculations.present?
+  end
 end

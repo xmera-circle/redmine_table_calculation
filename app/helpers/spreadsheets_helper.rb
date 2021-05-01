@@ -54,6 +54,20 @@ module SpreadsheetsHelper
   end
 
   ##
+  # Define whether to align to the left.
+  #
+  def odd?(index)
+    (index + 1).odd?
+  end
+
+  ##
+  # Define whether to align to the right.
+  #
+  def even?(index)
+    !odd?(index)
+  end
+
+  ##
   # This method formats the given custom value by using
   # CustomFieldsHelper#format_value
   #
