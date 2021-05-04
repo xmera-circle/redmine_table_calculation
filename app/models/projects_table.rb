@@ -18,27 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module TableCalculation
-  module Patches
-    module ProjectTypePatch
-      def self.included(base)
-        base.class_eval do
-          has_many :spreadsheets, foreign_key: :project_id, dependent: :destroy
-          # has_many :projects_tables, foreign_key: :project_id
-          # has_many :tables, through: :projects_tables
-          has_and_belongs_to_many :tables,
-                                  join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
-                                  foreign_key: 'project_id',
-                                  association_foreign_key: 'table_id'
-        end
-      end
-    end
-  end
-end
-
-# Apply patch
-Rails.configuration.to_prepare do
-  unless ProjectType.included_modules.include?(TableCalculation::Patches::ProjectTypePatch)
-    ProjectType.include TableCalculation::Patches::ProjectTypePatch
-  end
+class ProjectsTable < ActiveRecord::Base
+  belongs_to :project
+  belongs_to :table
 end

@@ -21,8 +21,8 @@
 class Spreadsheet < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  belongs_to :project
-  belongs_to :table
+  belongs_to :project, foreign_key: :project_id, inverse_of: :spreadsheets
+  belongs_to :table, inverse_of: :spreadsheets
   belongs_to :author, class_name: 'User'
   has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
 

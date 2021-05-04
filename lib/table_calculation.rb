@@ -18,6 +18,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+# Extensions
+require 'table_calculation/extensions/project_patch'
+require 'table_calculation/extensions/project_type_patch'
+
+# Hooks
 require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
-require 'table_calculation/patches/project_patch'
-require 'table_calculation/patches/project_type_patch'
+
+# Overrides
+require 'table_calculation/overrides/project_patch'

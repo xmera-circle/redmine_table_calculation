@@ -19,17 +19,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TableCalculation
-  module Patches
+  module Overrides
     module ProjectPatch
-      def self.included(base)
+      def self.prepended(base)
         base.singleton_class.prepend(ClassMethods)
-        base.class_eval do
-          has_many :spreadsheets, dependent: :destroy
-          has_and_belongs_to_many :tables,
-                                  join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
-                                  foreign_key: 'project_id',
-                                  association_foreign_key: 'table_id'
-        end
       end
 
       module ClassMethods
@@ -51,7 +44,7 @@ end
 
 # Apply patch
 Rails.configuration.to_prepare do
-  unless Project.included_modules.include?(TableCalculation::Patches::ProjectPatch)
-    Project.include TableCalculation::Patches::ProjectPatch
+  unless Project.included_modules.include?(TableCalculation::Overrides::ProjectPatch)
+    Project.prepend TableCalculation::Overrides::ProjectPatch
   end
 end

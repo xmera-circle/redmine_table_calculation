@@ -19,30 +19,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TableCalculation
-  module Patches
-    module ProjectPatch
+  module Extensions
+    module ProjectTypePatch
       def self.included(base)
-        base.singleton_class.prepend(ClassMethods)
         base.class_eval do
-          has_many :spreadsheets, dependent: :destroy
-          has_and_belongs_to_many :tables,
-                                  join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
-                                  foreign_key: 'project_id',
-                                  association_foreign_key: 'table_id'
-        end
-      end
-
-      module ClassMethods
-        ##
-        # Extends with spreadsheets.
-        #
-        # @override Project#copy_from
-        #
-        def copy_from(project)
-          copy = super(project)
-          project = project.is_a?(Project) ? project : Project.find(project)
-          copy.spreadsheets = project.spreadsheets
-          copy
+          has_many :spreadsheets, foreign_key: :project_id, dependent: :destroy
+          has_many :projects_tables, foreign_key: :project_id
+          has_many :tables, through: :projects_tables, source: :table
         end
       end
     end
@@ -51,7 +34,7 @@ end
 
 # Apply patch
 Rails.configuration.to_prepare do
-  unless Project.included_modules.include?(TableCalculation::Patches::ProjectPatch)
-    Project.include TableCalculation::Patches::ProjectPatch
+  unless ProjectType.included_modules.include?(TableCalculation::Extensions::ProjectTypePatch)
+    ProjectType.include TableCalculation::Extensions::ProjectTypePatch
   end
 end
