@@ -20,7 +20,7 @@
 
 module TablesHelper
   def columns_multiselect(_table, choices)
-    return nothing_to_select if choices.empty?
+    return no_data if choices.empty?
 
     hidden_field_tag('table[column_ids][]', '').html_safe +
       choices.collect do |choice|
@@ -69,7 +69,7 @@ module TablesHelper
     ProjectType.masters.collect { |project_type| [project_type.name, project_type.id.to_s] }
   end
 
-  def nothing_to_select
-    tag.em l(:text_nothing_to_select), class: 'nothing-to-select'
+  def no_data
+    tag.div l(:label_no_data), class: 'nodata half-width'
   end
 end
