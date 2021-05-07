@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
-# This plugin program is free software; you can redistribute it and/or
+# This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
@@ -18,18 +18,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-# Suppresses ruby gems warnings when running tests
-$VERBOSE = nil
-
-# Load the Redmine helper
-require File.expand_path('../../../test/test_helper', __dir__)
-require_relative 'load_fixtures'
-require_relative 'authenticate_user'
-require_relative 'project_type_creator'
-require_relative 'test_object_creators'
-
-# The gem minitest-reporters gives color to the command-line
-require 'minitest/reporters'
-Minitest::Reporters.use!
-# require "minitest/rails/capybara"
-require 'mocha/minitest'
+module TableCalculation
+  class ModelProjectCopyBeforeSaveHookListener < Redmine::Hook::ViewListener
+    def model_project_copy_before_save(context = {})
+      source = context[:source_project]
+      destination = context[:destination_project]
+      destination.copy_spreadsheets(source)
+    end
+  end
+end

@@ -43,4 +43,14 @@ class Spreadsheet < ActiveRecord::Base
   def calculations?
     table.calculations.present?
   end
+
+  def copy_rows(attributes = {})
+    rows.map do |row|
+      row.copy(attributes)
+    end
+  end
+
+  def copy_row_values
+    Hash(rows.map(&:copy_values).first)
+  end
 end

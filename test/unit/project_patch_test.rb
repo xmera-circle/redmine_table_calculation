@@ -58,9 +58,26 @@ module TableCaclulation
       assert_equal [:name], table.errors.keys
     end
 
-    test 'should copy spreadsheets' do
-      new_project = Project.copy_from(Project.find(4))
+    test 'should copy spreadsheets from project' do
+    skip
+      source_project = Project.find(4)
+      new_project = Project.copy_from(source_project)
+      save_project(new_project)
+      new_project = Project.last
       assert_equal 1, new_project.spreadsheets.to_a.count
+      assert_equal 1, source_project.spreadsheets.to_a.count
+      assert new_project.spreadsheets.to_a.map(&:project_id).include? new_project.id
+    end
+
+    test 'should copy spreadsheets from project type master' do
+    skip
+      project_type_master = ProjectType.find(4)
+      new_project = Project.copy_from(project_type_master)
+      save_project(new_project)
+      new_project = Project.last
+      assert_equal 1, new_project.spreadsheets.to_a.count
+      assert_equal 1, project_type_master.spreadsheets.to_a.count
+      assert new_project.spreadsheets.to_a.map(&:project_id).include? new_project.id
     end
 
     private
@@ -70,6 +87,12 @@ module TableCaclulation
       project.project_type_id = type
       project.save
       project
+    end
+
+    def save_project(project)
+      project.identifier ||= 'new-project'
+      project.name ||= 'New Project'
+      project.save
     end
   end
 end

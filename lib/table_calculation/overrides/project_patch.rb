@@ -32,6 +32,8 @@ module TableCalculation
         # @override Project#copy_from
         #
         def copy_from(project)
+          return unless project.spreadsheets.any?
+
           copy = super(project)
           project = project.is_a?(Project) ? project : Project.find(project)
           copy.spreadsheets = project.spreadsheets

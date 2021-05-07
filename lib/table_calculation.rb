@@ -24,6 +24,10 @@ require 'table_calculation/extensions/project_type_patch'
 
 # Hooks
 require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
+require 'table_calculation/hooks/model_project_copy_before_save_hook_listener'
 
 # Overrides
-require 'table_calculation/overrides/project_patch'
+#require 'table_calculation/overrides/project_patch'
+
+# Others
+require 'table_calculation/copyable'

@@ -18,18 +18,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-# Suppresses ruby gems warnings when running tests
-$VERBOSE = nil
+module TableCalculation
+  module Copyable 
 
-# Load the Redmine helper
-require File.expand_path('../../../test/test_helper', __dir__)
-require_relative 'load_fixtures'
-require_relative 'authenticate_user'
-require_relative 'project_type_creator'
-require_relative 'test_object_creators'
+    ##
+    # Returns an unsaved copy
+    #
+    def copy(attributes = nil)
+      copy = self.class.new
+      copy.attributes = self.attributes.dup.except(*attributes_to_ignore)
+      copy.attributes = attributes if attributes
+      copy
+    end
 
-# The gem minitest-reporters gives color to the command-line
-require 'minitest/reporters'
-Minitest::Reporters.use!
-# require "minitest/rails/capybara"
-require 'mocha/minitest'
+    module_function
+    ##
+    # List of strings with attributes which should be ignored when copying.
+    #
+    # @example
+    #   def attributes_to_ignore
+    #     %w[id parent_id]
+    #   end
+    #
+    def attributes_to_ignore
+      raise NotImplementedError
+    end
+  end
+end

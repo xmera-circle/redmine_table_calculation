@@ -20,6 +20,7 @@
 
 class SpreadsheetRow < ActiveRecord::Base
   include Redmine::SafeAttributes
+  include TableCalculation::Copyable
   acts_as_customizable type_class: :table
 
   belongs_to :spreadsheet
@@ -37,7 +38,27 @@ class SpreadsheetRow < ActiveRecord::Base
     CustomField.where(id: column_ids).sorted.to_a
   end
 
+  ##
+  # Copy the custom_field_values of each row as it is.
+  #
+  # @return [Hash(id, value)] A hash where the key is the custom field id and
+  #   the value the custom field value.
+  #
+  def copy_values
+    custom_field_values.each_with_object({}) do |origin, copies|
+      copies[origin.custom_field_id] = origin.value
+      copies
+    end
+  end
+
   private
+
+  ##
+  # Needed for SpreadsheetRow#copy
+  #
+  def attributes_to_ignore
+    %w[id spreadsheet_id created_on updated_on]
+  end
 
   ##
   # TODO: delegate to table
