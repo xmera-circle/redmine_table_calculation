@@ -19,8 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TableCalculation
-  module Copyable 
-
+  module Copyable
     ##
     # Returns an unsaved copy
     #
@@ -32,6 +31,7 @@ module TableCalculation
     end
 
     module_function
+
     ##
     # List of strings with attributes which should be ignored when copying.
     #

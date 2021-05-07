@@ -25,7 +25,7 @@ module TableCaclulation
     extend TableCalculation::LoadFixtures
     include TableCalculation::ProjectTypeCreator
 
-    fixtures :tables, :projects
+    fixtures :projects, :tables, :projects_tables
 
     test 'should have many columns' do
       association = Table.reflect_on_association(:columns)
@@ -63,9 +63,7 @@ module TableCaclulation
       table.columns << cf
       assert table.save
       assert table.columns.count == 1
-      pt = find_project_type(id: 4)
-      table.project_types << pt
-      assert table.save
+      find_project_type(id: 4)
       assert table.project_types.count == 1
     end
 
