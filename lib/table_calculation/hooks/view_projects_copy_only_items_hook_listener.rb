@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculation.
+# Redmine plugin for xmera called Project Types Relations Plugin.
 #
-# Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2017-21 Liane Hampe <liaham@xmera.de>, xmera.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,19 +18,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+##
+# Hooks the partial for project (types) relations.
+#
+#
 module TableCalculation
-  class ModelProjectCopyBeforeSaveHookListener < Redmine::Hook::ViewListener
-    def model_project_copy_before_save(context = {})
-      source = context[:source_project]
-      destination = context[:destination_project]
-      selection = context[:selection]
-      destination.copy_spreadsheets(source) if copy?(selection)
-    end
-
-    def copy?(selection)
-      return true unless selection
-
-      selection&.include?('spreadsheets')
+  module Hooks
+    class ViewProjectsCopyOnlyItemsHook < Redmine::Hook::ViewListener
+      def view_projects_copy_only_items(context = {})
+        context[:controller].send :render_to_string, {
+          partial: 'projects/copy_spreadsheets'
+        }
+      end
     end
   end
 end

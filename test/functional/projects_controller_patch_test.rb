@@ -47,6 +47,46 @@ module TableCaclulation
       second_row.save
     end
 
+    test 'should not copy spreadsheets when not selected' do
+      log_user('admin', 'admin')
+      assert_difference 'Project.count' do
+        post copy_project_path(id: 4),
+             params: {
+               project: {
+                 name: 'Copy',
+                 identifier: 'unique-copy',
+                 enabled_module_names: %w[table_calculation]
+               },
+               only: []
+             }
+      end
+      project = Project.find('unique-copy')
+      assert_equal %w[table_calculation], project.enabled_module_names.sort
+
+      assert_equal 1, @project_type_master.spreadsheets.count
+      assert_equal 0, project.spreadsheets.count
+    end
+
+    test 'should not copy spreadsheets when selected' do
+      log_user('admin', 'admin')
+      assert_difference 'Project.count' do
+        post copy_project_path(id: 4),
+             params: {
+               project: {
+                 name: 'Copy',
+                 identifier: 'unique-copy',
+                 enabled_module_names: %w[table_calculation]
+               },
+               only: %w[spreadsheets]
+             }
+      end
+      project = Project.find('unique-copy')
+      assert_equal %w[table_calculation], project.enabled_module_names.sort
+
+      assert_equal 1, @project_type_master.spreadsheets.count
+      assert_equal 1, project.spreadsheets.count
+    end
+
     test 'should copy spreadsheet when creating project with project type' do
       log_user('jsmith', 'jsmith')
 

@@ -23,9 +23,44 @@ module TableCalculation
     module ProjectPatch
       def self.prepended(base)
         base.singleton_class.prepend(ClassMethods)
+        base.prepend(InstanceMethods)
       end
 
       module ClassMethods; end
+      module InstanceMethods
+        ##
+        # Adds the options[:only] hash to the call_hook.
+        #
+        # @ override Project#copy
+        #
+        def copy(project, options={})
+          project = project.is_a?(Project) ? project : Project.find(project)
+          selection = options[:only]
+          to_be_copied = %w[members wiki versions issue_categories issues queries boards documents]
+          to_be_copied = to_be_copied & Array.wrap(selection) if selection
+
+          Project.transaction do
+            if save
+              reload
+
+              self.attachments = project.attachments.map do |attachment|
+                attachment.copy(container: self)
+              end
+
+              to_be_copied.each do |name|
+                send "copy_#{name}", project
+              end
+              Redmine::Hook.call_hook(:model_project_copy_before_save,
+                                      source_project: project,
+                                      destination_project: self,
+                                      selection: selection)
+              save
+            else
+              false
+            end
+          end
+        end
+      end
     end
   end
 end
