@@ -43,7 +43,7 @@ module TablesHelper
   end
 
   def project_types_multiselect(_table, choices)
-    return nothing_to_select if choices.empty?
+    return no_data if choices.empty?
 
     hidden_field_tag('table[project_type_ids][]', '').html_safe +
       choices.collect do |choice|
