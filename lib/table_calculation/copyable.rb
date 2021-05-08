@@ -21,7 +21,9 @@
 module TableCalculation
   module Copyable
     ##
-    # Returns an unsaved copy
+    # Returns an unsaved copy of an object.
+    #
+    # @note Associates won't be copied.
     #
     def copy(attributes = nil)
       copy = self.class.new

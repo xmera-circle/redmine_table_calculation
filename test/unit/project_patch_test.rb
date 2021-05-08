@@ -25,7 +25,7 @@ module TableCaclulation
     extend TableCalculation::LoadFixtures
     include TableCalculation::ProjectTypeCreator
 
-    fixtures :projects, :tables, :spreadsheets, :projects_tables
+    fixtures :projects, :tables, :spreadsheets, :projects_tables, :spreadsheet_rows
 
     def setup
       find_project_type(id: 4)
@@ -64,6 +64,7 @@ module TableCaclulation
       assert_equal 1, new_project.spreadsheets.to_a.count
       assert_equal 1, source_project.spreadsheets.to_a.count
       assert new_project.spreadsheets.to_a.map(&:project_id).include? new_project.id
+      assert_equal 2, new_project.spreadsheets.first.rows.to_a.count
     end
 
     test 'should copy spreadsheets from project type master' do
@@ -75,6 +76,7 @@ module TableCaclulation
       assert_equal 1, new_project.spreadsheets.to_a.count
       assert_equal 1, project_type_master.spreadsheets.to_a.count
       assert new_project.spreadsheets.to_a.map(&:project_id).include? new_project.id
+      assert_equal 2, new_project.spreadsheets.first.rows.to_a.count
     end
 
     private

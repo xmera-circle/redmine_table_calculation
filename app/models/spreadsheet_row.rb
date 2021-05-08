@@ -51,6 +51,15 @@ class SpreadsheetRow < ActiveRecord::Base
     end
   end
 
+  ##
+  # Assigns explicitly values and saves them. This method is used during
+  # the copy process of Spreadsheet#copy.
+  #
+  def assign_values(values)
+    self.custom_field_values = values
+    save
+  end
+
   private
 
   ##

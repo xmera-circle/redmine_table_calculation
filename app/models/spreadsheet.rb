@@ -20,6 +20,7 @@
 
 class Spreadsheet < ActiveRecord::Base
   include Redmine::SafeAttributes
+  include TableCalculation::Copyable
 
   belongs_to :project, foreign_key: :project_id, inverse_of: :spreadsheets
   belongs_to :table, inverse_of: :spreadsheets
@@ -44,13 +45,38 @@ class Spreadsheet < ActiveRecord::Base
     table.calculations.present?
   end
 
+  def copy(attributes = nil)
+    copy = super(attributes)
+    row_attributes = { spreadsheet_id: copy.id }
+    copy.rows = copy_rows(row_attributes)
+    copy.copy_row_values(self)
+    copy
+  end
+
+  private
+
+  def attributes_to_ignore
+    %w[id project_id created_on updated_on]
+  end
+
   def copy_rows(attributes = {})
     rows.map do |row|
       row.copy(attributes)
     end
   end
 
-  def copy_row_values
-    Hash(rows.map(&:copy_values).first)
+  protected
+
+  def copy_row_values(spreadsheet)
+    all_row_values = spreadsheet.copied_row_values
+    return unless all_row_values.any?(&:present?)
+
+    rows.zip(all_row_values).each do |row, row_values|
+      row.assign_values(row_values)
+    end
+  end
+
+  def copied_row_values
+    rows.map(&:copy_values)
   end
 end

@@ -39,9 +39,12 @@ module TableCaclulation
       string_column = TableCustomField.generate!(name: 'Name', field_format: 'string')
       int_column = TableCustomField.generate!(name: 'Count', field_format: 'int')
       table.columns << [string_column, int_column]
-      row = SpreadsheetRow.find(3)
-      row.custom_field_values = { string_column.id => 'Smartphone', int_column.id => 5 }
-      row.save
+      first_row = SpreadsheetRow.find(3)
+      first_row.custom_field_values = { string_column.id => 'Smartphone', int_column.id => 5 }
+      first_row.save
+      second_row = SpreadsheetRow.find(4)
+      second_row.custom_field_values = { string_column.id => 'Laptop', int_column.id => 2 }
+      second_row.save
     end
 
     test 'should copy spreadsheet when creating project with project type' do
@@ -63,16 +66,23 @@ module TableCaclulation
       new_project = Project.last
       spreadsheets = new_project.spreadsheets
       spreadsheet = spreadsheets.first
-      row = spreadsheet.rows.first
-      project_type_master_row = @project_type_master.spreadsheets.first.rows.first
+      first_row = spreadsheet.rows.first
+      second_row = spreadsheet.rows.last
+      project_type_master_first_row = @project_type_master.spreadsheets.first.rows.first
+      project_type_master_second_row = @project_type_master.spreadsheets.first.rows.last
 
       assert_equal @project_type_master.id, new_project.project_type_id
       assert_equal 1, spreadsheets.to_a.count
-      assert_equal 1, spreadsheet.rows.to_a.count
-      assert_equal 'Smartphone', row.custom_field_values.first.value
-      assert_equal '5', row.custom_field_values.last.value
-      assert_equal 'Smartphone', project_type_master_row.custom_field_values.first.value
-      assert_equal '5', project_type_master_row.custom_field_values.last.value
+      assert_equal 2, spreadsheet.rows.to_a.count
+      assert_equal 'Smartphone', first_row.custom_field_values.first.value
+      assert_equal '5', first_row.custom_field_values.last.value
+      assert_equal 'Laptop', second_row.custom_field_values.first.value
+      assert_equal '2', second_row.custom_field_values.last.value
+
+      assert_equal 'Smartphone', project_type_master_first_row.custom_field_values.first.value
+      assert_equal '5', project_type_master_first_row.custom_field_values.last.value
+      assert_equal 'Laptop', project_type_master_second_row.custom_field_values.first.value
+      assert_equal '2', project_type_master_second_row.custom_field_values.last.value
     end
   end
 end

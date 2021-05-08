@@ -25,21 +25,7 @@ module TableCalculation
         base.singleton_class.prepend(ClassMethods)
       end
 
-      module ClassMethods
-        ##
-        # Extends with spreadsheets.
-        #
-        # @override Project#copy_from
-        #
-        def copy_from(project)
-          return unless project.spreadsheets.any?
-
-          copy = super(project)
-          project = project.is_a?(Project) ? project : Project.find(project)
-          copy.spreadsheets = project.spreadsheets
-          copy
-        end
-      end
+      module ClassMethods; end
     end
   end
 end
