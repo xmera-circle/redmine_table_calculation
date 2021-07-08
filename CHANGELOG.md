@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * class mismatch of Formula to avoid incompatability with other plugins
 
+### Added
+
+* tooltip for spreadsheet column headlines
+* wikitoolbar to spreadsheet description
+
 ## 0.2.0 - 2021-05-29
 
 ### Added

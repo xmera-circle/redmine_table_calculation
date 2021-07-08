@@ -45,7 +45,7 @@
 </p>
 
 <%= tag.p do %>
-  <%= tag.em @spreadsheet.description %>
+  <%= tag.em textilizable @spreadsheet.description %>
 <% end %>
 
 <%= render_spreadsheet_result_table(@spreadsheet) if defined?(FinalResultTable) && User.current.allowed_to?(:view_spreadsheet_results, @project) %>
