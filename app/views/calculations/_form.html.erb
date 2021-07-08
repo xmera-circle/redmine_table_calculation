@@ -31,7 +31,7 @@
 		<% end %>
     <%= f.collection_select(:table_id, Table.all.collect, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
   <% end %>
-  <%= content_tag :p, f.select(:formula, Formula.operators.collect {|k,v| [l(v),k] }, {required: true} ,{ include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---" }) %>
+  <%= content_tag :p, f.select(:formula, TableFormula.operators.collect {|k,v| [l(v),k] }, {required: true} ,{ include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---" }) %>
   <%= tag.p do %>
     <%= label(:calculation, :field_ids) do %>
     		<%= l(:label_field_plural) %><span class="required"> *</span>

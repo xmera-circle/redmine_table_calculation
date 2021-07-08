@@ -21,7 +21,7 @@
 ##
 # Calculates over given values, i.e. Arrays.
 #
-class Formula
+class TableFormula
   class_attribute :operators
   self.operators = {
     max: :label_max,
@@ -31,7 +31,7 @@ class Formula
 
   ##
   # @params values Array(String|Integer)
-  # @params operation Formula.operators.key
+  # @params operation TableFormula.operators.key
   #
   def initialize(operation, values)
     @operation = operation

@@ -56,7 +56,7 @@ class Calculation < ActiveRecord::Base
   end
 
   def locale_formula
-    Formula.operators[formula.to_sym]
+    TableFormula.operators[formula.to_sym]
   end
 
   def inheritable?
