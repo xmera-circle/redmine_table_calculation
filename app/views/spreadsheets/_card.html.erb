@@ -34,7 +34,9 @@
     <%= tag.h3 class: 'icon icon-document' do %>
       <%= link_to spreadsheet.name, project_spreadsheet_path(@project, id: spreadsheet) %>
     <% end %>
-    <%= tag.p spreadsheet.description %>
+    <% tag.div class: 'wiki'%>
+      <%= textilizable(spreadsheet, :description) %>
+    <% end %>
     <%= render_spreadsheet_result_table(spreadsheet) %>
     <%= tag.small do %>
       <%= authoring spreadsheet.created_on, spreadsheet.author %>.

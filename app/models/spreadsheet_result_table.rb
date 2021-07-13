@@ -23,7 +23,7 @@ class SpreadsheetResultTable
 
   def initialize(spreadsheet)
     @spreadsheet = spreadsheet
-    @table = spreadsheet.table
+    @table = spreadsheet.table || NullTable.new
     @calculations = @table.calculations
     @columns = calculable_columns
   end

@@ -28,6 +28,7 @@ class Spreadsheet < ActiveRecord::Base
   has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
 
   validates_uniqueness_of :name, scope: :project_id
+  validates_presence_of :name, :table_id
 
   safe_attributes(
     :name,
@@ -38,11 +39,11 @@ class Spreadsheet < ActiveRecord::Base
   )
 
   def column_ids
-    table.column_ids
+    secure_table.column_ids
   end
 
   def calculations?
-    table.calculations.present?
+    secure_table.calculations.present?
   end
 
   def copy(attributes = nil)
@@ -63,6 +64,10 @@ class Spreadsheet < ActiveRecord::Base
     rows.map do |row|
       row.copy(attributes)
     end
+  end
+
+  def secure_table
+    table || NullTable.new
   end
 
   protected

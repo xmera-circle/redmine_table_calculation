@@ -5,16 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## unreleased
+## 0.2.1 - 2021-07-13
 
 ### Fixed
 
 * class mismatch of Formula to avoid incompatability with other plugins
+* nil errors with spreadsheets having no table assigned
 
 ### Added
 
 * tooltip for spreadsheet column headlines
 * wikitoolbar to spreadsheet description
+* spreadsheet validations for name and table
 
 ## 0.2.0 - 2021-05-29
 

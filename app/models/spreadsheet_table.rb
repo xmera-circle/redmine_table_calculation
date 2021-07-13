@@ -26,7 +26,7 @@ class SpreadsheetTable
   attr_reader :table, :columns, :rows
 
   def initialize(spreadsheet)
-    @table = spreadsheet.table
+    @table = spreadsheet.table || NullTable.new
     @columns = @table.columns
     @rows = spreadsheet.rows&.split.flatten
   end

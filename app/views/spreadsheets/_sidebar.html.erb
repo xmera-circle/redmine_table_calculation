@@ -29,6 +29,7 @@
 
   <%= tag.ul id: 'sidebar-menu' do %>
     <% @spreadsheets.map(&:table).uniq.each do |table| %>
+      <% table = table ? table : NullTable.new %>
       <%= tag.div class: 'table-object' do %>   
         <%= tag.strong table.name %>
           <%= tag.ul do %>
