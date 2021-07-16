@@ -54,17 +54,28 @@ class DataMatrix
       field_id_and_value_of(row).each { |pair| values << pair }
     end
     values.group_by(&:first)
-    # CustomValue
-    #   .where(customized_type: klass.to_s)
-    #   .where(customized_id: row_ids)
-    #   .where(custom_field_id: column_ids)
-    #   .pluck(:custom_field_id, :value)
-    #   .group_by(&:first)
   end
 
   def field_id_and_value_of(row)
-    row
-      .custom_values
-      .pluck(:custom_field_id, :value)
+    row.custom_field_values.map do |cfv|
+      [cfv.custom_field_id, cast_value(cfv)]
+    end
+  end
+
+  ##
+  # If key/value field, the command CustomField#cast_value returns for instance
+  # #<CustomFieldEnumeration id: 1, custom_field_id: 1, name: "B 1.1 ISMS", active: true, position: 1>
+  # If so, the computable value is the position instead of the custom_field_id since
+  # it is easier for the user to derive the value from a key/value custom field by
+  # counting its position.
+  #
+  # @note: Could also be implemented in CustomField class.
+  #
+  def cast_value(cfv)
+    value(cfv).is_a?(CustomFieldEnumeration) ? value(cfv).position : value(cfv)
+  end
+
+  def value(cfv)
+    cfv.custom_field.cast_value(cfv.value)
   end
 end

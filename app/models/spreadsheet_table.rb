@@ -23,17 +23,21 @@
 # which are needed to render the spreadsheet.
 #
 class SpreadsheetTable
-  attr_reader :table, :columns, :rows
+  attr_reader :table, :columns
 
   def initialize(spreadsheet)
     @table = spreadsheet.table || NullTable.new
     @columns = @table.columns
-    @rows = spreadsheet.rows&.split.flatten
+    @rows = spreadsheet.rows&.split
   end
 
   def row_ids(_attr = nil)
     return [] if rows.nil? || rows.empty?
 
     rows.flatten.map(&:id)
+  end
+
+  def rows
+    @rows.flatten
   end
 end
