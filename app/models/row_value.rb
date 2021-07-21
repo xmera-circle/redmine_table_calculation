@@ -52,8 +52,11 @@ class RowValue
 
   private
 
+  ##
+  # If there is a SpreadsheetResultRow then the value needs no further treatment.
+  #
   def enumeration?
-    col&.field_format == 'enumeration'
+    col&.field_format == 'enumeration' && row.blank?
   end
 
   ##
