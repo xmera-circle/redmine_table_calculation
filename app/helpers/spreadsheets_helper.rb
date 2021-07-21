@@ -70,15 +70,16 @@ module SpreadsheetsHelper
   end
 
   ##
-  # This method formats the given custom value by using
-  # CustomFieldsHelper#format_value
+  # This method formats the given (custom) value by using
+  # CustomFieldsHelper#format_value or a special format for non custom value
+  # fields.
   #
   # @param value [String|Integer] The value of a custom field.
   # @param column [CustomField] The column of the table, i.e. the custom field
   #  corresponding to the given value.
   #
   def value(value, column)
-    return value if column.nil?
+    return non_custom_field_value(value) if column.nil?
 
     format_value(value, column)
   end
@@ -91,5 +92,12 @@ module SpreadsheetsHelper
   def render_spreadsheet_table(spreadsheet)
     render partial: 'table',
            locals: { table: SpreadsheetTable.new(spreadsheet) }
+  end
+
+  ##
+  # Consider by default string values to be textilizable.
+  #
+  def non_custom_field_value(value)
+    value.is_a?(String) ? textilizable(value) : value
   end
 end

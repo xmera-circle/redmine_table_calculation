@@ -38,6 +38,10 @@ class RowValue
     cast_value
   end
 
+  def col_id
+    col.nil? ? col : col.id
+  end
+
   def row_id
     row.nil? ? row : row.id
   end
