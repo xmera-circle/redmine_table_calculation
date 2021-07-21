@@ -50,8 +50,7 @@ class SpreadsheetResultTable
   # A single row value of a given column operation.
   #
   def result_value(operation, column, calculation)
-    RowValue.new(value: TableFormula.new(operation,
-                                    column_values(column.id, calculation)).exec,
+    RowValue.new(value: TableFormula.new(operation, column_values(column.id, calculation)).exec,
                  row: nil,
                  col: column)
   end

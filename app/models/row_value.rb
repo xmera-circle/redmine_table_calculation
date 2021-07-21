@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 class RowValue
-  attr_accessor :value, :row, :col
+  attr_accessor :row, :col
 
   ##
   # @param value [String] The custom value.
@@ -32,11 +32,32 @@ class RowValue
     @col = col
   end
 
+  def value
+    return @value unless enumeration?
+
+    cast_value
+  end
+
   def row_id
     row.nil? ? row : row.id
   end
 
   def value?
     value.present?
+  end
+
+  private
+
+  def enumeration?
+    col&.field_format == 'enumeration'
+  end
+
+  ##
+  # The value will be transformed from the position number to the custom
+  # field enumeration id.
+  #
+  def cast_value
+    entry = col.enumerations.find { |enum| enum.position == @value }
+    entry ? entry.id : entry
   end
 end
