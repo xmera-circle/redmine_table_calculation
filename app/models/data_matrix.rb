@@ -51,12 +51,12 @@ class DataMatrix
   def values_by_column
     values = []
     rows.each do |row|
-      field_id_and_value_of(row).each { |pair| values << pair }
+      row_related_data(row).each { |pair| values << pair }
     end
     values.group_by(&:first)
   end
 
-  def field_id_and_value_of(row)
+  def row_related_data(row)
     row.custom_field_values.map do |cfv|
       [cfv.custom_field_id, cast_value(cfv)]
     end

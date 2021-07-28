@@ -84,6 +84,12 @@ module SpreadsheetsHelper
     format_value(value, column)
   end
 
+  def color(value, column)
+    return '' unless column
+
+    column.cast_color(value)
+  end
+
   def render_spreadsheet_result_table(spreadsheet)
     render partial: 'spreadsheets/calculation_results',
            locals: { table: SpreadsheetResultTable.new(spreadsheet) }

@@ -50,9 +50,13 @@ class SpreadsheetResultTable
   # A single row value of a given column operation.
   #
   def result_value(operation, column, calculation)
-    RowValue.new(value: TableFormula.new(operation, column_values(column.id, calculation)).exec,
+    RowValue.new(value: calculation_result(operation, column, calculation),
                  row: nil,
                  col: column)
+  end
+
+  def calculation_result(operation, column, calculation)
+    TableFormula.new(operation, column_values(column.id, calculation)).exec
   end
 
   ##
@@ -74,8 +78,11 @@ class SpreadsheetResultTable
   # @return Array(String) All row values of a given calculable column.
   #
   def column_values(id, calculation)
-    data_matrix = DataMatrix.new(rows(calculation.id), calculation.column_ids)
-    data_matrix.column_values(id)
+    data_matrix(calculation).column_values(id)
+  end
+
+  def data_matrix(calculation)
+    DataMatrix.new(rows(calculation.id), calculation.column_ids)
   end
 
   ##

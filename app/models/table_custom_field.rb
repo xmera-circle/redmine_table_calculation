@@ -26,4 +26,8 @@ class TableCustomField < CustomField
   def self.options_for_select
     TableCustomField.sorted.collect { |custom_field| [custom_field.name, custom_field.id.to_s] }
   end
+
+  def cast_color(value)
+    format.cast_color(self, value)
+  end
 end
