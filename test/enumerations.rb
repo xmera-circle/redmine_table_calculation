@@ -19,15 +19,44 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TableCalculation
-  class ViewLayoutsBaseHtmlHeadHookListener < Redmine::Hook::ViewListener
-    render_on :view_layouts_base_html_head,
-              partial: 'redmine_table_calculation/redmine_table_calculation_header_tags'
+  ##
+  # Provide user login test
+  #
+  module Enumerations
+    def create_colored_custom_field
+      custom_field = TableCustomField.generate!(
+        { field_format: 'enumeration' }
+      )
+      table_custom_field_enumerations.each do |_key, values|
+        custom_field.enumerations.build(values)
+        custom_field.save!
+      end
+      custom_field
+    end
 
-    def view_layouts_base_html_head(context = {})
-      return unless /(Spreadsheets|Projects)/.match?(context[:controller].class.name.to_s)
+    def table_custom_field_enumerations
+      {
+        '1': { color: yellow, name: 'value1' },
+        '2': { color: green, name: 'value2' },
+        '3': { color: red, name: 'value3' },
+        '4': { color: blue, name: 'value4' }
+      }
+    end
 
-      "\n".html_safe + javascript_include_tag('table_calculation.js', plugin: :redmine_table_calculation) +
-        "\n".html_safe + stylesheet_link_tag( 'table_calculation.css', plugin: 'redmine_table_calculation')
+    def yellow
+      '#ffff00'
+    end
+
+    def green
+      '#008000'
+    end
+
+    def red
+      '#ff0000'
+    end
+
+    def blue
+      '#0066cc'
     end
   end
 end

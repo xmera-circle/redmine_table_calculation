@@ -49,7 +49,7 @@ module TableCaclulation
 
       @project = Project.find(1)
       @project.enable_module!(:table_calculation)
-      
+
       first_table = Table.find(1)
       first_table.columns << [@description_field, @count_field]
       @first_row = SpreadsheetRow.find(1)
