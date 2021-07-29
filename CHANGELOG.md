@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * calculation base for custom field enumerations to position
 
+### Added
+
+* color badges for custom field enumerations
+
 ## 0.2.1 - 2021-07-13
 
 ### Fixed
