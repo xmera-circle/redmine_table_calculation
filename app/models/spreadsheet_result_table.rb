@@ -66,7 +66,7 @@ class SpreadsheetResultTable
   # @note: calling columns gives nil, even though the attr_reader is set in
   #   SpreadsheetTable
   def extend_result_row(results, _calculation)
-    gap = calculable_columns&.size - results&.size # if @columns&.size&.positive?
+    gap = calculable_columns_size - results&.size
     return results unless gap.positive?
 
     results.append([RowValue.new(value: nil)] * gap).flatten
@@ -107,5 +107,9 @@ class SpreadsheetResultTable
       .map(&:split)
       .flatten
       .uniq
+  end
+
+  def calculable_columns_size
+    calculable_columns&.size
   end
 end
