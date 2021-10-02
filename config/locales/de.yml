@@ -67,6 +67,4 @@ de:
   permission_add_spreadsheet_row: Datenblattzeile hinzufügen
   permission_edit_spreadsheet_row: Datenblattzeile bearbeiten
   permission_destroy_spreadsheet_row: Datenblattzeile löschen
-  permission_view_spreadsheet_results: Berechnungsergebnisse anzeigen
-  permission_edit_spreadsheet_results: Berechnungsergebnisse bearbeiten
-  
+    
