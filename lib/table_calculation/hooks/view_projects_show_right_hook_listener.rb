@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2021 Liane Hampe <liaham@xmera.de>, xmera.
 #
-# This plugin program is free software; you can redistribute it and/or
+# This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
@@ -18,18 +18,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-# Extensions
-require 'table_calculation/extensions/project_patch'
-require 'table_calculation/extensions/project_type_patch'
-
-# Hooks
-require 'table_calculation/hooks/view_layouts_base_html_head_hook_listener'
-require 'table_calculation/hooks/model_project_copy_before_save_hook_listener'
-require 'table_calculation/hooks/view_projects_copy_only_items_hook_listener'
-require 'table_calculation/hooks/view_projects_show_right_hook_listener'
-
-# Overrides
-require 'table_calculation/overrides/project_patch'
-
-# Others
-require 'table_calculation/copyable'
+module TableCaclulation
+  module Hooks
+    class ViewProjectsShowRightHookListener < ProjectTypesRelations::Hooks::ViewProjectsShowRightHookListener
+      def view_projects_show_right(context = {})
+        super
+        context[:controller].send :render_to_string, {
+          partial: 'projects/favorite_spreadsheet',
+          locals: context
+        }
+      end
+    end
+  end
+end
