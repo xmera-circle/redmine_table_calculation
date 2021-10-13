@@ -24,7 +24,7 @@ Redmine::Plugin.register :redmine_table_calculation do
   name 'Redmine Table Calculation'
   author 'Liane Hampe, xmera'
   description 'Create a custom table and calculate over columns'
-  version '0.2.1'
+  version '1.0.0'
   url 'https://circle.xmera.de/projects/redmine-table-calculation'
   author_url 'http://xmera.de'
 
@@ -53,8 +53,6 @@ Redmine::Plugin.register :redmine_table_calculation do
     permission :add_spreadsheet_row, { spreadsheet_rows: %i[new create] }
     permission :edit_spreadsheet_row, { spreadsheet_rows: %i[edit update] }
     permission :destroy_spreadsheet_row, { spreadsheet_rows: %i[destroy] }
-    permission :view_spreadsheet_results, { spreadsheets: %i[results index] }
-    permission :edit_spreadsheet_results, { spreadsheet_row_results: %i[new create edit update] }
   end
 end
 

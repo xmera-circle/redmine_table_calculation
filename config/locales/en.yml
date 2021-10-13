@@ -67,5 +67,3 @@ en:
   permission_add_spreadsheet_row: Add spreadsheet row 
   permission_edit_spreadsheet_row: Edit spreadsheet row 
   permission_destroy_spreadsheet_row: Delete spreadsheet row
-  permission_view_spreadsheet_results: View calcualation results
-  permission_edit_spreadsheet_results: Edit calculation results 

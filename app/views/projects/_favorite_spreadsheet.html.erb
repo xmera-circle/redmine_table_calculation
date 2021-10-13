@@ -23,5 +23,6 @@
 <% if @project.respond_to?(:spreadsheets) && @project.spreadsheets.present? %>
   <%= render partial: 'spreadsheets/card', 
             locals: { spreadsheet: @project.spreadsheets.first,
-                      members: @project.guests.prepend(@project) } %>
+                      guests: @project.guests - [@project],
+                      project: @project } %>
 <% end %>
