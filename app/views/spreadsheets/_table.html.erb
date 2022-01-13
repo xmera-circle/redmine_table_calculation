@@ -24,8 +24,7 @@
   <%= content_tag :thead do %>
     <%= content_tag :tr do %>
       <% table.columns.each do |column| %>
-        <% css =  column.description ? 'name field-description' : 'name' %>
-        <%= content_tag(:th, column.name, class: css, title: column.description) %>
+        <%= content_tag(:th, column.name, class: 'name', title: column.description) %>
       <% end %>
       <%= content_tag(:th, '') %>
     <% end %>
