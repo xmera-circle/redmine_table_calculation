@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2021 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@ Redmine::Plugin.register :redmine_table_calculation do
   name 'Redmine Table Calculation'
   author 'Liane Hampe, xmera'
   description 'Create a custom table and calculate over columns'
-  version '1.0.1'
+  version '1.0.2'
   url 'https://circle.xmera.de/projects/redmine-table-calculation'
   author_url 'http://xmera.de'
 
