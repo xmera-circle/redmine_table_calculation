@@ -103,7 +103,8 @@ module TableCaclulation
                                                        spreadsheet_id: spreadsheet.id)
       assert_response :success
       assert_select '.box.tabular.settings'
-      assert_select 'p', 2
+      assert_select '#spreadsheet_row_custom_field_values_1'
+      assert_select '#spreadsheet_row_custom_field_values_2'
     end
 
     test 'should not render new spreadsheet row if not allowed to' do
