@@ -34,6 +34,13 @@ class SpreadsheetRow < ActiveRecord::Base
     :custom_field_values
   )
 
+  ##
+  # Is required by ApplicationHelper#format_object.
+  #
+  def visible?
+    true
+  end
+
   def available_custom_fields
     CustomField.where(id: column_ids).sorted.to_a
   end
