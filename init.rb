@@ -24,7 +24,7 @@ Redmine::Plugin.register :redmine_table_calculation do
   name 'Redmine Table Calculation'
   author 'Liane Hampe, xmera'
   description 'Create a custom table and calculate over columns'
-  version '1.0.2'
+  version '1.0.3'
   url 'https://circle.xmera.de/projects/redmine-table-calculation'
   author_url 'http://xmera.de'
 
