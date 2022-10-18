@@ -72,7 +72,7 @@ module TableCaclulation
       new_project = Project.copy_from(project_type_master)
       save_project(new_project)
       new_project = Project.last
-      new_project.copy(project_type_master )
+      new_project.copy(project_type_master)
       assert_equal 1, new_project.spreadsheets.to_a.count
       assert_equal 1, project_type_master.spreadsheets.to_a.count
       assert new_project.spreadsheets.to_a.map(&:project_id).include? new_project.id
