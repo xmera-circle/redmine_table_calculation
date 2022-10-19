@@ -35,13 +35,15 @@ module TableCaclulation
       @project_type_master.enable_module!(:table_calculation)
       table = Table.find(2)
       enum_column = create_colored_custom_field
+      enum_values = enum_column.enumerations.pluck(:id)
       int_column = TableCustomField.generate!(name: 'Count', field_format: 'int')
+      int_values = [5, 2]
       table.columns << [enum_column, int_column]
       first_row = SpreadsheetRow.find(3)
-      first_row.custom_field_values = { enum_column.id => 1, int_column.id => 5 }
+      first_row.custom_field_values = { enum_column.id => enum_values.first, int_column.id => int_values.first }
       first_row.save
       second_row = SpreadsheetRow.find(4)
-      second_row.custom_field_values = { enum_column.id => 2, int_column.id => 2 }
+      second_row.custom_field_values = { enum_column.id => enum_values.second, int_column.id => int_values.second }
       second_row.save
       Capybara.current_session.reset!
       log_user 'admin', 'admin'
