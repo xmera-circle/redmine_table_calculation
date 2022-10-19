@@ -39,6 +39,7 @@ module TableCaclulation
       assert matrix.respond_to? :column_values
     end
 
+    # test is unstable since it could sometimes not find its enumerations
     test 'should use position to calculate with enumerations' do
       value1 = '1'
       row1 = SpreadsheetRow.find(1)
@@ -53,14 +54,16 @@ module TableCaclulation
       matrix = DataMatrix.new(rows, column_ids)
       grouped_values = matrix.send :values_by_column
       expected = {}
-      expected.merge!({ 1 => [[1, 1]], 2 => [[2, 2]] })
+      expected.merge!({ field1.id => [[field1.id, 1]], field2.id => [[field2.id, 2]] })
       assert_equal expected, grouped_values
+      # change values, i.e., position
       enum1 = CustomFieldEnumeration.find(1)
       enum3 = CustomFieldEnumeration.find(3)
       enum1.update_attribute(:position, 3)
       enum3.update_attribute(:position, 1)
       grouped_values = matrix.send :values_by_column
-      expected.merge!({ 1 => [[1, 3]], 2 => [[2, 2]] })
+      expected = {}
+      expected.merge!({ field1.id => [[field1.id, 3]], field2.id => [[field2.id, 2]] })
       assert_equal expected, grouped_values
     end
 
@@ -78,7 +81,7 @@ module TableCaclulation
       matrix = DataMatrix.new(rows, column_ids)
       grouped_values = matrix.send :values_by_column
       expected = {}
-      expected.merge!({ 1 => [[1, 8]], 2 => [[2, 5]] })
+      expected.merge!({ field1.id => [[field1.id, 8]], field2.id => [[field2.id, 5]] })
       assert_equal expected, grouped_values
     end
 
