@@ -41,24 +41,29 @@ module TableCaclulation
 
     # test is unstable since it could sometimes not find its enumerations
     test 'should use position to calculate with enumerations' do
-      value1 = '1'
       row1 = SpreadsheetRow.find(1)
       field1 = custom_field('enumeration', %w[1 2 3])
+      field1_values = field1.enumerations.pluck(:id)
+      value1 = field1_values.first
       row1.custom_field_values << custom_field_value(field1, row1, value1)
-      value2 = '2'
       row2 = SpreadsheetRow.find(2)
       field2 = custom_field('enumeration', %w[4 5 6])
+      field2_values = field2.enumerations.pluck(:id)
+      value2 = field2_values.second
       row2.custom_field_values << custom_field_value(field2, row2, value2)
       rows = [row1, row2]
       column_ids = []
       matrix = DataMatrix.new(rows, column_ids)
       grouped_values = matrix.send :values_by_column
       expected = {}
+      # the second item in the inner arrays is the position of the enum whereas
+      # the value added above is the enum id. This is since we calculate with
+      # the position but identify the enums via id.
       expected.merge!({ field1.id => [[field1.id, 1]], field2.id => [[field2.id, 2]] })
       assert_equal expected, grouped_values
       # change values, i.e., position
-      enum1 = CustomFieldEnumeration.find(1)
-      enum3 = CustomFieldEnumeration.find(3)
+      enum1 = CustomFieldEnumeration.find(field1_values.first)
+      enum3 = CustomFieldEnumeration.find(field1_values.last)
       enum1.update_attribute(:position, 3)
       enum3.update_attribute(:position, 1)
       grouped_values = matrix.send :values_by_column
