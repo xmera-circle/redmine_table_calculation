@@ -28,16 +28,16 @@ class SpreadsheetTable
   def initialize(spreadsheet)
     @table = spreadsheet.table || NullTable.new
     @columns = @table.columns
-    @rows = spreadsheet.rows&.split
+    @rows = spreadsheet.rows
   end
 
   def row_ids(_attr = nil)
     return [] if rows.nil? || rows.empty?
 
-    rows.flatten.map(&:id)
+    rows.pluck(&:id)
   end
 
   def rows
-    @rows.flatten
+    @rows.sort_by(&:id)
   end
 end

@@ -61,7 +61,7 @@ class Spreadsheet < ActiveRecord::Base
   end
 
   def copy_rows(attributes = {})
-    rows.map do |row|
+    sorted_rows.map do |row|
       row.copy(attributes)
     end
   end
@@ -76,12 +76,22 @@ class Spreadsheet < ActiveRecord::Base
     all_row_values = spreadsheet.copied_row_values
     return unless all_row_values.any?(&:present?)
 
-    rows.zip(all_row_values).each do |row, row_values|
+    sorted_rows.zip(all_row_values).each do |row, row_values|
       row.assign_values(row_values)
     end
   end
 
   def copied_row_values
-    rows.map(&:copy_values)
+    sorted_rows.map(&:copy_values)
+  end
+
+  ##
+  # Rows needs to be sorted this way to avoid to copy them
+  # unsorted.
+  # @note There was an attempt to sort the rows in the association above
+  #       but that leads to sideeffects and ends in an exception.
+  #
+  def sorted_rows
+    rows.sort_by(&:id)
   end
 end
