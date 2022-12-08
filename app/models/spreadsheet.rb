@@ -21,6 +21,7 @@
 class Spreadsheet < ActiveRecord::Base
   include Redmine::SafeAttributes
   include TableCalculation::Copyable
+  include TableCalculation::Sortable
 
   belongs_to :project, foreign_key: :project_id, inverse_of: :spreadsheets
   belongs_to :table, inverse_of: :spreadsheets
@@ -89,9 +90,9 @@ class Spreadsheet < ActiveRecord::Base
   # Rows needs to be sorted this way to avoid to copy them
   # unsorted.
   # @note There was an attempt to sort the rows in the association above
-  #       but that leads to sideeffects and ends in an exception.
+  #       but that leads to side effects and ends in an exception.
   #
   def sorted_rows
-    rows.sort_by(&:id)
+    sorted_by_id(rows)
   end
 end
