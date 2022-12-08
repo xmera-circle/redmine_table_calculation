@@ -29,6 +29,7 @@ require_relative 'authenticate_user'
 require_relative 'enumerations'
 require_relative 'project_type_creator'
 require_relative 'test_object_creators'
+require_relative 'prepare_spreadsheet'
 
 # The gem minitest-reporters gives color to the command-line
 require 'minitest/reporters'
