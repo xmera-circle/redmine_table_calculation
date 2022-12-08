@@ -24,6 +24,7 @@ module TableCaclulation
   class ProjectPatchTest < ActiveSupport::TestCase
     extend TableCalculation::LoadFixtures
     include TableCalculation::ProjectTypeCreator
+    include TableCalculation::ProjectCreator
     include TableCalculation::PrepareSpreadsheet
     include Redmine::I18n
 
@@ -106,21 +107,6 @@ module TableCaclulation
                    l(:error_records_with_required_field_could_not_be_saved, project_type_master.name)) do
         new_project.copy(project_type_master)
       end
-    end
-
-    private
-
-    def project(id:, type:)
-      project = Project.find(id.to_i)
-      project.project_type_id = type
-      project.save
-      project
-    end
-
-    def save_project(project)
-      project.identifier ||= 'new-project'
-      project.name ||= 'New Project'
-      project.save
     end
   end
 end
