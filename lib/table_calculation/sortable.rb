@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2022 Liane Hampe <liaham@xmera.de>, xmera.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,28 +18,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-##
-# Provides basic data of a spreadsheet table such that columns and rows
-# which are needed to render the spreadsheet.
-#
-class SpreadsheetTable
-  include TableCalculation::Sortable
-
-  attr_reader :table, :columns
-
-  def initialize(spreadsheet)
-    @table = spreadsheet.table || NullTable.new
-    @columns = @table.columns
-    @rows = spreadsheet.rows
-  end
-
-  def row_ids(_attr = nil)
-    return [] if rows.nil? || rows.empty?
-
-    @rows.pluck(:id)
-  end
-
-  def rows
-    sorted_by_id(@rows)
+module TableCalculation
+  module Sortable
+    ##
+    # Will sort enumeration objects by its id.
+    # @examples
+    #  - ActiveRecord::Associations::CollectionProxy
+    #
+    def sorted_by_id(enumerations)
+      enumerations.sort_by(&:id)
+    end
   end
 end

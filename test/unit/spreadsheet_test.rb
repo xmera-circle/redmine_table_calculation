@@ -29,6 +29,10 @@ module TableCaclulation
              :members, :member_roles, :roles, :users,
              :tables, :spreadsheets
 
+    test 'should respond to sorted_by_id' do
+      assert Spreadsheet.find(1).respond_to? :sorted_by_id
+    end
+
     test 'should respond to safe attributes' do
       assert Spreadsheet.respond_to? :safe_attributes
     end
