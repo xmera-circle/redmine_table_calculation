@@ -28,6 +28,7 @@ require_relative 'load_fixtures'
 require_relative 'authenticate_user'
 require_relative 'enumerations'
 require_relative 'project_type_creator'
+require_relative 'project_creator'
 require_relative 'test_object_creators'
 require_relative 'prepare_spreadsheet'
 

@@ -22,14 +22,18 @@ module TableCalculation
   ##
   # Provide user login test
   #
-  module CreateProjectType
-    def project_type_create_params(associates)
-      { project_type:
-        { name: 'Lore ipsum',
-          description: 'for testing',
-          is_public: 0,
-          default_member_role_id: 3,
-          position: 4 }.merge(associates) }
+  module ProjectCreator
+    def project(id:, type:)
+      project = Project.find(id.to_i)
+      project.project_type_id = type
+      project.save
+      project
+    end
+
+    def save_project(project)
+      project.identifier ||= 'new-project'
+      project.name ||= 'New Project'
+      project.save
     end
   end
 end
