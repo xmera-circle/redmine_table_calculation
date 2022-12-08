@@ -24,6 +24,8 @@ module TableCaclulation
   class ProjectPatchTest < ActiveSupport::TestCase
     extend TableCalculation::LoadFixtures
     include TableCalculation::ProjectTypeCreator
+    include TableCalculation::PrepareSpreadsheet
+    include Redmine::I18n
 
     fixtures :projects, :tables, :spreadsheets, :projects_tables, :spreadsheet_rows
 
@@ -57,6 +59,10 @@ module TableCaclulation
 
     test 'should copy spreadsheets from project' do
       source_project = Project.find(4)
+      spreadsheet = source_project.spreadsheets.first
+      optional_field = TableCustomField.generate!(name: 'Description')
+      add_spreadsheet_field(spreadsheet, optional_field)
+      add_content_to_spreadsheet(spreadsheet, optional_field)
       new_project = Project.copy_from(source_project)
       save_project(new_project)
       new_project = Project.last
@@ -69,6 +75,10 @@ module TableCaclulation
 
     test 'should copy spreadsheets from project type master' do
       project_type_master = ProjectType.find(4)
+      spreadsheet = project_type_master.spreadsheets.first
+      optional_field = TableCustomField.generate!(name: 'Description')
+      add_spreadsheet_field(spreadsheet, optional_field)
+      add_content_to_spreadsheet(spreadsheet, optional_field)
       new_project = Project.copy_from(project_type_master)
       save_project(new_project)
       new_project = Project.last
@@ -79,9 +89,28 @@ module TableCaclulation
       assert_equal 2, new_project.spreadsheets.first.rows.to_a.count
     end
 
+    test 'should raise an exception when copying spreadsheets with existing rows and required fields' do
+      ## Refers to issue #1358 where existing rows are extended with a
+      # required field afterwards
+      project_type_master = ProjectType.find(4)
+      spreadsheet = project_type_master.spreadsheets.first
+      optional_field = TableCustomField.generate!(name: 'Description')
+      add_spreadsheet_field(spreadsheet, optional_field)
+      add_content_to_spreadsheet(spreadsheet, optional_field)
+      required_field = TableCustomField.generate!(name: 'Count', field_format: 'int', is_required: 1)
+      add_spreadsheet_field(spreadsheet, required_field)
+      new_project = Project.copy_from(project_type_master)
+      save_project(new_project)
+      new_project = Project.last
+      assert_raise(ActiveModel::ValidationError,
+                   l(:error_records_with_required_field_could_not_be_saved, project_type_master.name)) do
+        new_project.copy(project_type_master)
+      end
+    end
+
     private
 
-    def project(id: , type: )
+    def project(id:, type:)
       project = Project.find(id.to_i)
       project.project_type_id = type
       project.save

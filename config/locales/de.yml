@@ -53,6 +53,8 @@ de:
   error_field_ids_invalid: gehören zu einer anderen Tabelle.
   error_columns_and_rows_selected: können nicht beide aktiviert werden.
   error_columns_and_rows_unselected: können nicht beide deaktiviert sein.
+  error_records_with_required_field_could_not_be_saved: "%{value} hat mind. 1 Datenblattzeile,
+   die nicht gespeichert werden konnte. Wahrscheinlich ist ein erforderliches Feld nicht ausgefüllt."
 
   permission_add_spreadsheet: Datenblatt erstellen
   permission_view_spreadsheet: Datenblatt anzeigen

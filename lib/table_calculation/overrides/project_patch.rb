@@ -30,14 +30,20 @@ module TableCalculation
       module InstanceMethods
         ##
         # Adds the options[:only] hash to the call_hook.
+        # Can be removed if https://www.redmine.org/issues/38023 is solved!
         #
-        # @ override Project#copy
+        # @override Project#copy
+        #
+        # @note If there is any validation error it will be re-raised to the
+        #       method caller. This could be ProjectsController#create or
+        #       ProjectsController#copy. See Redmine Project Types plugin for a
+        #       manipulation of these methods.
         #
         def copy(project, options={})
           project = project.is_a?(Project) ? project : Project.find(project)
           selection = options[:only]
           to_be_copied = %w[members wiki versions issue_categories issues queries boards documents]
-          to_be_copied = to_be_copied & Array.wrap(selection) if selection
+          to_be_copied &= Array.wrap(selection) if selection
 
           Project.transaction do
             if save
@@ -59,6 +65,8 @@ module TableCalculation
               false
             end
           end
+        rescue ActiveModel::ValidationError => e
+          raise ActiveModel::ValidationError, e.model
         end
       end
     end
