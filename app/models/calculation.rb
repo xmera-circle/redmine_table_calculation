@@ -29,7 +29,7 @@ class Calculation < ActiveRecord::Base
                           join_table: "#{table_name_prefix}custom_fields_calculations#{table_name_suffix}",
                           association_foreign_key: 'custom_field_id'
 
-  validates_presence_of :name, :formula, :field_ids
+  validates :name, :formula, :field_ids, presence: true
   validate :validate_table_presence
   validate :validate_fields
   validate :validate_columns_and_rows

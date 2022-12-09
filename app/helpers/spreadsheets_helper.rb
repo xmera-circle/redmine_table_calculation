@@ -36,9 +36,7 @@ module SpreadsheetsHelper
     @project.tables
   end
 
-  def project_type_tables
-    project_type.tables
-  end
+  delegate :tables, to: :project_type, prefix: true
 
   def project_tables
     Table

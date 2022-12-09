@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen enum_literal: true
 
 # This file is part of the Plugin Redmine Table Calculation.

@@ -32,8 +32,17 @@ class SpreadsheetsController < ApplicationController
     @spreadsheets = @project.spreadsheets
   end
 
+  def show
+    index
+  end
+
   def new
     @spreadsheet ||= new_spreadsheet
+    @spreadsheet.safe_attributes = params[:spreadsheet]
+  end
+
+  def edit
+    @spreadsheet.rows << SpreadsheetRow.new(position: 1) if @spreadsheet.rows.empty?
     @spreadsheet.safe_attributes = params[:spreadsheet]
   end
 
@@ -46,15 +55,6 @@ class SpreadsheetsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def show
-    index
-  end
-
-  def edit
-    @spreadsheet.rows << SpreadsheetRow.new(position: 1) if @spreadsheet.rows.empty?
-    @spreadsheet.safe_attributes = params[:spreadsheet]
   end
 
   def update

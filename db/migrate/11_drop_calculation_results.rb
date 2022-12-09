@@ -24,20 +24,20 @@ class DropCalculationResults < ActiveRecord::Migration[4.2]
   end
 
   def self.down
-    unless table_exists?(:calculation_results)
-      create_table :calculation_results do |t|
-        t.string :name, limit: 60, default: '', null: false
-        t.text :description
-        t.integer :table_id, default: 0, null: false
-        t.string :formula, limit: 30, default: '', null: false
-        t.boolean :columns, default: false, null: false
-        t.boolean :rows, default: false, null: false
-        t.timestamp :created_on
-        t.timestamp :updated_on
-      end
+    return if table_exists?(:calculation_results)
 
-      add_index :calculation_results, %i[calculation_id], name: 'calculation_results_by_calculation'
-      add_index :calculation_results, %i[type calculation_id], name: 'calculation_results_by_calculation_and_type'
+    create_table :calculation_results do |t|
+      t.string :name, limit: 60, default: '', null: false
+      t.text :description
+      t.integer :table_id, default: 0, null: false
+      t.string :formula, limit: 30, default: '', null: false
+      t.boolean :columns, default: false, null: false
+      t.boolean :rows, default: false, null: false
+      t.timestamp :created_on
+      t.timestamp :updated_on
     end
+
+    add_index :calculation_results, %i[calculation_id], name: 'calculation_results_by_calculation'
+    add_index :calculation_results, %i[type calculation_id], name: 'calculation_results_by_calculation_and_type'
   end
 end

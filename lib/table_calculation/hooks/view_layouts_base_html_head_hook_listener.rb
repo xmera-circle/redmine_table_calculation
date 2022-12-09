@@ -27,7 +27,7 @@ module TableCalculation
       return unless /(Spreadsheets|Projects)/.match?(context[:controller].class.name.to_s)
 
       "\n".html_safe + javascript_include_tag('table_calculation.js', plugin: :redmine_table_calculation) +
-        "\n".html_safe + stylesheet_link_tag( 'table_calculation.css', plugin: 'redmine_table_calculation')
+        "\n".html_safe + stylesheet_link_tag('table_calculation.css', plugin: :redmine_table_calculation)
     end
   end
 end

@@ -93,7 +93,7 @@ module TableCaclulation
     private
 
     def custom_field_value(field, row, value)
-      CustomFieldValue.new({ custom_field: field, customized: row, value: value})
+      CustomFieldValue.new({ custom_field: field, customized: row, value: value })
     end
 
     def custom_field(format, ids = nil, attributes: {})

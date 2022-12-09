@@ -23,13 +23,14 @@ class Spreadsheet < ActiveRecord::Base
   include TableCalculation::Copyable
   include TableCalculation::Sortable
 
-  belongs_to :project, foreign_key: :project_id, inverse_of: :spreadsheets
+  belongs_to :project, inverse_of: :spreadsheets
   belongs_to :table, inverse_of: :spreadsheets
   belongs_to :author, class_name: 'User'
   has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
 
-  validates_uniqueness_of :name, scope: :project_id
-  validates_presence_of :name, :table_id
+  validates :name, uniqueness: { scope: :project_id }
+  validates :name, presence: true
+  validates :table_id, presence: true # table is not required when not validated!
 
   safe_attributes(
     :name,
@@ -39,9 +40,7 @@ class Spreadsheet < ActiveRecord::Base
     :author_id
   )
 
-  def column_ids
-    secure_table.column_ids
-  end
+  delegate :column_ids, to: :secure_table
 
   def calculations?
     secure_table.calculations.present?

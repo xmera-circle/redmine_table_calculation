@@ -53,6 +53,6 @@ class TableFormula
   attr_reader :operation, :values
 
   def valid?(operation)
-    self.class.operators.keys.include? operation.to_sym
+    self.class.operators.key?(operation.to_sym)
   end
 end

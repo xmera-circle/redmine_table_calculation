@@ -34,7 +34,7 @@ class SpreadsheetTable
   end
 
   def row_ids(_attr = nil)
-    return [] if rows.nil? || rows.empty?
+    return [] if rows.blank?
 
     @rows.pluck(:id)
   end

@@ -34,9 +34,13 @@ class CalculationsController < ApplicationController
     @calculations = Calculation.all
   end
 
+  def show; end
+
   def new
     @calculation = Calculation.new
   end
+
+  def edit; end
 
   def create
     @calculation = Calculation.new
@@ -48,10 +52,6 @@ class CalculationsController < ApplicationController
       render :new
     end
   end
-
-  def show; end
-
-  def edit; end
 
   def update
     @calculation.safe_attributes = remove_duplicate_field_ids
