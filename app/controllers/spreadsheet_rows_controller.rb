@@ -37,6 +37,8 @@ class SpreadsheetRowsController < ApplicationController
     @spreadsheet_row.safe_attributes = params[:spreadsheet_row]
   end
 
+  def edit; end
+
   def create
     @spreadsheet_row ||= new_row
     @spreadsheet_row.safe_attributes = params[:spreadsheet_row]
@@ -47,8 +49,6 @@ class SpreadsheetRowsController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     @spreadsheet_row.safe_attributes = params[:spreadsheet_row]

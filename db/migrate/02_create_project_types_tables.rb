@@ -20,14 +20,14 @@
 
 class CreateProjectTypesTables < ActiveRecord::Migration[4.2]
   def self.up
-    unless table_exists?(:project_types_tables)
-      create_table :project_types_tables, id: false do |t|
-        t.integer :project_type_id, default: 0, null: false
-        t.integer :table_id, default: 0, null: false
-      end
+    return if table_exists?(:project_types_tables)
 
-      add_index :project_types_tables, %i[project_type_id table_id]
+    create_table :project_types_tables, id: false do |t|
+      t.integer :project_type_id, default: 0, null: false
+      t.integer :table_id, default: 0, null: false
     end
+
+    add_index :project_types_tables, %i[project_type_id table_id]
   end
 
   def self.down

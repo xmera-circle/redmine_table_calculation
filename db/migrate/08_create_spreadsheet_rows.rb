@@ -20,17 +20,17 @@
 
 class CreateSpreadsheetRows < ActiveRecord::Migration[4.2]
   def self.up
-    unless table_exists?(:spreadsheet_rows)
-      create_table :spreadsheet_rows do |t|
-        t.integer :spreadsheet_id
-        t.integer :position
-        t.timestamp :created_on
-        t.timestamp :updated_on
-      end
-      add_index :spreadsheet_rows,
-                %i[spreadsheet_id],
-                name: :rows_by_spreadsheet
+    return if table_exists?(:spreadsheet_rows)
+
+    create_table :spreadsheet_rows do |t|
+      t.integer :spreadsheet_id
+      t.integer :position
+      t.timestamp :created_on
+      t.timestamp :updated_on
     end
+    add_index :spreadsheet_rows,
+              %i[spreadsheet_id],
+              name: :rows_by_spreadsheet
   end
 
   def self.down

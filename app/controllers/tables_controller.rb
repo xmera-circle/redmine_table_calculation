@@ -32,9 +32,13 @@ class TablesController < ApplicationController
     @tables = Table.all
   end
 
+  def show; end
+
   def new
     @table = Table.new
   end
+
+  def edit; end
 
   def create
     @table = Table.new
@@ -46,10 +50,6 @@ class TablesController < ApplicationController
       render :new
     end
   end
-
-  def show; end
-
-  def edit; end
 
   def update
     @table.safe_attributes = params[:table]

@@ -33,3 +33,4 @@ require 'table_calculation/overrides/project_patch'
 
 # Others
 require 'table_calculation/copyable'
+require 'table_calculation/sortable'

@@ -26,6 +26,7 @@ module TableCaclulation
     include TableCalculation::AuthenticateUser
     include TableCalculation::ProjectTypeCreator
     include TableCalculation::TestObjectCreators
+    include TableCalculation::PrepareSpreadsheet
     include Redmine::I18n
 
     fixtures :projects, :users, :roles, :members,
@@ -67,7 +68,7 @@ module TableCaclulation
       assert_equal 0, project.spreadsheets.count
     end
 
-    test 'should not copy spreadsheets when selected' do
+    test 'should copy spreadsheets when selected' do
       log_user('admin', 'admin')
       assert_difference 'Project.count' do
         post copy_project_path(id: 4),
@@ -123,6 +124,59 @@ module TableCaclulation
       assert_equal '5', project_type_master_first_row.custom_field_values.last.value
       assert_equal 'Laptop', project_type_master_second_row.custom_field_values.first.value
       assert_equal '2', project_type_master_second_row.custom_field_values.last.value
+    end
+
+    # ProjectsController#create based on project type
+    # @note Exception handling in ProjectsController is implemented in Redmine Project Types
+    test 'should render error message when creating project failed due to invalid spreadsheet' do
+      spreadsheet = @project_type_master.spreadsheets.first
+      optional_field = TableCustomField.generate!(name: 'Description')
+      add_spreadsheet_field(spreadsheet, optional_field)
+      add_content_to_spreadsheet(spreadsheet, optional_field)
+      required_field = TableCustomField.generate!(name: 'Number', field_format: 'int', is_required: 1)
+      add_spreadsheet_field(spreadsheet, required_field)
+
+      log_user('jsmith', 'jsmith')
+
+      assert_no_difference 'Project.count' do
+        post projects_path, params: {
+          project: {
+            name: 'Project with project type',
+            identifier: 'project-with-project-type',
+            is_public: false,
+            project_type_id: @project_type_master.id,
+            is_project_type: false
+          }
+        }
+      end
+      assert_redirected_to settings_project_path(id: @project_type_master.identifier)
+      assert flash[:error].match(/has at least 1 spreadsheet row which cannot be saved/)
+    end
+
+    # ProjectsController#copy
+    # @note Exception handling in ProjectsController is implemented in Redmine Project Types
+    test 'should render error message when copying project failed due to invalid spreadsheet' do
+      spreadsheet = @project_type_master.spreadsheets.first
+      optional_field = TableCustomField.generate!(name: 'Description')
+      add_spreadsheet_field(spreadsheet, optional_field)
+      add_content_to_spreadsheet(spreadsheet, optional_field)
+      required_field = TableCustomField.generate!(name: 'Number', field_format: 'int', is_required: 1)
+      add_spreadsheet_field(spreadsheet, required_field)
+
+      log_user('admin', 'admin')
+      assert_no_difference 'Project.count' do
+        post copy_project_path(id: 4),
+             params: {
+               project: {
+                 name: 'Copy',
+                 identifier: 'unique-copy',
+                 enabled_module_names: %w[table_calculation]
+               },
+               only: %w[spreadsheets]
+             }
+      end
+      assert_redirected_to settings_project_path(id: @project_type_master.identifier)
+      assert flash[:error].match(/has at least 1 spreadsheet row which cannot be saved/)
     end
   end
 end

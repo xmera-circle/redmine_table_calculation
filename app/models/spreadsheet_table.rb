@@ -23,21 +23,23 @@
 # which are needed to render the spreadsheet.
 #
 class SpreadsheetTable
+  include TableCalculation::Sortable
+
   attr_reader :table, :columns
 
   def initialize(spreadsheet)
     @table = spreadsheet.table || NullTable.new
     @columns = @table.columns
-    @rows = spreadsheet.rows&.split
+    @rows = spreadsheet.rows
   end
 
   def row_ids(_attr = nil)
-    return [] if rows.nil? || rows.empty?
+    return [] if rows.blank?
 
-    rows.flatten.map(&:id)
+    @rows.pluck(:id)
   end
 
   def rows
-    @rows.flatten
+    sorted_by_id(@rows)
   end
 end

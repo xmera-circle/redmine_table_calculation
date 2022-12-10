@@ -20,20 +20,20 @@
 
 class CreateCalculations < ActiveRecord::Migration[4.2]
   def self.up
-    unless table_exists?(:calculations)
-      create_table :calculations do |t|
-        t.string :name, limit: 60, default: '', null: false
-        t.text :description
-        t.integer :table_id, default: 0, null: false
-        t.string :formula, limit: 30, default: '', null: false
-        t.boolean :columns, default: false, null: false
-        t.boolean :rows, default: false, null: false
-        t.timestamp :created_on
-        t.timestamp :updated_on
-      end
+    return if table_exists?(:calculations)
 
-      add_index :calculations, %i[table_id], name: 'calculation_by_table'
+    create_table :calculations do |t|
+      t.string :name, limit: 60, default: '', null: false
+      t.text :description
+      t.integer :table_id, default: 0, null: false
+      t.string :formula, limit: 30, default: '', null: false
+      t.boolean :columns, default: false, null: false
+      t.boolean :rows, default: false, null: false
+      t.timestamp :created_on
+      t.timestamp :updated_on
     end
+
+    add_index :calculations, %i[table_id], name: 'calculation_by_table'
   end
 
   def self.down

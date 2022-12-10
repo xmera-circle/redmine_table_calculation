@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2022 Liane Hampe <liaham@xmera.de>, xmera.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,15 +19,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TableCalculation
-  class ViewLayoutsBaseHtmlHeadHookListener < Redmine::Hook::ViewListener
-    render_on :view_layouts_base_html_head,
-              partial: 'redmine_table_calculation/redmine_table_calculation_header_tags'
+  ##
+  # Some spreadsheets needs special configuration
+  #
+  module PrepareSpreadsheet
+    def add_spreadsheet_field(spreadsheet, field)
+      spreadsheet.table.columns << field
+    end
 
-    def view_layouts_base_html_head(context = {})
-      return unless /(Spreadsheets|Projects)/.match?(context[:controller].class.name.to_s)
-
-      "\n".html_safe + javascript_include_tag('table_calculation.js', plugin: :redmine_table_calculation) +
-        "\n".html_safe + stylesheet_link_tag('table_calculation.css', plugin: :redmine_table_calculation)
+    ##
+    # @param spreadsheet [Spreadsheet] A spreadsheet instance having at least one row.
+    # @param field [TableCustomField] A table custom field accepting text as value.
+    #
+    def add_content_to_spreadsheet(spreadsheet, field)
+      row = spreadsheet.rows.first
+      row.custom_field_values = { field.id => "Content for #{field.id}" }
+      row.save!
     end
   end
 end

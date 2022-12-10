@@ -19,15 +19,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module TableCalculation
-  class ViewLayoutsBaseHtmlHeadHookListener < Redmine::Hook::ViewListener
-    render_on :view_layouts_base_html_head,
-              partial: 'redmine_table_calculation/redmine_table_calculation_header_tags'
+  ##
+  # Provide user login test
+  #
+  module ProjectCreator
+    def project(id:, type:)
+      project = Project.find(id.to_i)
+      project.project_type_id = type
+      project.save
+      project
+    end
 
-    def view_layouts_base_html_head(context = {})
-      return unless /(Spreadsheets|Projects)/.match?(context[:controller].class.name.to_s)
-
-      "\n".html_safe + javascript_include_tag('table_calculation.js', plugin: :redmine_table_calculation) +
-        "\n".html_safe + stylesheet_link_tag('table_calculation.css', plugin: :redmine_table_calculation)
+    def save_project(project)
+      project.identifier ||= 'new-project'
+      project.name ||= 'New Project'
+      project.save
     end
   end
 end
