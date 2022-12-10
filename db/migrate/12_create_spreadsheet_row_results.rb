@@ -20,20 +20,20 @@
 
 class CreateSpreadsheetRowResults < ActiveRecord::Migration[4.2]
   def self.up
-    unless table_exists?(:spreadsheet_row_results)
-      create_table :spreadsheet_row_results do |t|
-        t.integer :author_id, default: 0, null: false
-        t.integer :spreadsheet_id, default: 0, null: false
-        t.integer :calculation_id, default: 0, null: false
-        t.text :comment
-        t.timestamp :created_on
-        t.timestamp :updated_on
-      end
+    return if table_exists?(:spreadsheet_row_results)
 
-      add_index :spreadsheet_row_results, %i[spreadsheet_id], name: 'row_results_by_spreadsheet'
-      add_index :spreadsheet_row_results, %i[spreadsheet_id calculation_id],
-                name: 'row_results_by_spreadsheet_and_calculation'
+    create_table :spreadsheet_row_results do |t|
+      t.integer :author_id, default: 0, null: false
+      t.integer :spreadsheet_id, default: 0, null: false
+      t.integer :calculation_id, default: 0, null: false
+      t.text :comment
+      t.timestamp :created_on
+      t.timestamp :updated_on
     end
+
+    add_index :spreadsheet_row_results, %i[spreadsheet_id], name: 'row_results_by_spreadsheet'
+    add_index :spreadsheet_row_results, %i[spreadsheet_id calculation_id],
+              name: 'row_results_by_spreadsheet_and_calculation'
   end
 
   def self.down

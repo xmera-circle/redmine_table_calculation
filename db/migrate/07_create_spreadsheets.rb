@@ -20,16 +20,16 @@
 
 class CreateSpreadsheets < ActiveRecord::Migration[4.2]
   def self.up
-    unless table_exists?(:spreadsheets)
-      create_table :spreadsheets do |t|
-        t.string :name, limit: 60, default: '', null: false
-        t.text :description
-        t.integer :project_id
-        t.integer :author_id
-        t.integer :table_id
-        t.timestamp :created_on
-        t.timestamp :updated_on
-      end
+    return if table_exists?(:spreadsheets)
+
+    create_table :spreadsheets do |t|
+      t.string :name, limit: 60, default: '', null: false
+      t.text :description
+      t.integer :project_id
+      t.integer :author_id
+      t.integer :table_id
+      t.timestamp :created_on
+      t.timestamp :updated_on
     end
   end
 

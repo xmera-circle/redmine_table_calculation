@@ -27,6 +27,7 @@ module TableCalculation
       end
 
       module ClassMethods; end
+
       module InstanceMethods
         ##
         # Adds the options[:only] hash to the call_hook.
@@ -39,7 +40,7 @@ module TableCalculation
         #       ProjectsController#copy. See Redmine Project Types plugin for a
         #       manipulation of these methods.
         #
-        def copy(project, options={})
+        def copy(project, options = {})
           project = project.is_a?(Project) ? project : Project.find(project)
           selection = options[:only]
           to_be_copied = %w[members wiki versions issue_categories issues queries boards documents]
