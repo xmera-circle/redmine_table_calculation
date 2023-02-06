@@ -22,8 +22,8 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class SpreadsheetsHelperTest < Redmine::HelperTest
-    include TableCalculation::ProjectTypeCreator
-    include TableCalculation::ProjectCreator
+    include RedmineTableCalculation::ProjectTypeCreator
+    include RedmineTableCalculation::ProjectCreator
     include SpreadsheetsHelper
 
     fixtures :projects, :projects_tables,

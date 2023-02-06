@@ -22,7 +22,7 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class SpreadsheetTableTest < ActiveSupport::TestCase
-    extend TableCalculation::LoadFixtures
+    extend RedmineTableCalculation::LoadFixtures
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,

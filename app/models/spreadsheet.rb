@@ -20,8 +20,8 @@
 
 class Spreadsheet < ActiveRecord::Base
   include Redmine::SafeAttributes
-  include TableCalculation::Copyable
-  include TableCalculation::Sortable
+  include RedmineTableCalculation::Copyable
+  include RedmineTableCalculation::Sortable
 
   belongs_to :project, inverse_of: :spreadsheets
   belongs_to :table, inverse_of: :spreadsheets

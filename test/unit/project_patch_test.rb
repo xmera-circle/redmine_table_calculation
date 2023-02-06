@@ -22,10 +22,10 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class ProjectPatchTest < ActiveSupport::TestCase
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::ProjectTypeCreator
-    include TableCalculation::ProjectCreator
-    include TableCalculation::PrepareSpreadsheet
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::ProjectTypeCreator
+    include RedmineTableCalculation::ProjectCreator
+    include RedmineTableCalculation::PrepareSpreadsheet
     include Redmine::I18n
 
     fixtures :projects, :tables, :spreadsheets, :projects_tables, :spreadsheet_rows

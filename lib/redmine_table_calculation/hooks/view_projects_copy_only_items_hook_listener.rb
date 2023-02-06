@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculation.
+# Redmine plugin for xmera called Project Types Relations Plugin.
 #
-# Copyright (C) 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2017-21 Liane Hampe <liaham@xmera.de>, xmera.
 #
-# This plugin program is free software; you can redistribute it and/or
+# This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
@@ -18,15 +18,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module TableCalculation
-  module Sortable
-    ##
-    # Will sort enumeration objects by its id.
-    # @examples
-    #  - ActiveRecord::Associations::CollectionProxy
-    #
-    def sorted_by_id(enumerations)
-      enumerations.sort_by(&:id)
+##
+# Hooks the partial for project (types) relations.
+#
+#
+module RedmineTableCalculation
+  module Hooks
+    class ViewProjectsCopyOnlyItemsHookListener < Redmine::Hook::ViewListener
+      def view_projects_copy_only_items(context = {})
+        context[:controller].send :render_to_string, {
+          partial: 'projects/copy_spreadsheets'
+        }
+      end
     end
   end
 end

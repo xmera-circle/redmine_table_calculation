@@ -18,13 +18,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module TableCalculation
+module RedmineTableCalculation
   module Extensions
     module ProjectPatch
       def self.included(base)
         base.include(InstanceMethods)
         base.class_eval do
-          has_many :spreadsheets, dependent: :destroy
+          has_many :spreadsheets, foreign_key: :project_id, dependent: :destroy
           has_many :projects_tables, foreign_key: :project_id
           has_many :tables, through: :projects_tables, source: :table
         end
@@ -40,12 +40,5 @@ module TableCalculation
         end
       end
     end
-  end
-end
-
-# Apply patch
-Rails.configuration.to_prepare do
-  unless Project.included_modules.include?(TableCalculation::Extensions::ProjectPatch)
-    Project.include TableCalculation::Extensions::ProjectPatch
   end
 end

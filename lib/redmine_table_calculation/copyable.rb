@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
 #
-# This program is free software; you can redistribute it and/or
+# This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
@@ -18,16 +18,32 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module TableCalculation
-  class ViewLayoutsBaseHtmlHeadHookListener < Redmine::Hook::ViewListener
-    render_on :view_layouts_base_html_head,
-              partial: 'redmine_table_calculation/redmine_table_calculation_header_tags'
+module RedmineTableCalculation
+  module Copyable
+    ##
+    # Returns an unsaved copy of an object.
+    #
+    # @note Associates won't be copied.
+    #
+    def copy(attributes = nil)
+      copy = self.class.new
+      copy.attributes = self.attributes.dup.except(*attributes_to_ignore)
+      copy.attributes = attributes if attributes
+      copy
+    end
 
-    def view_layouts_base_html_head(context = {})
-      return unless /(Spreadsheets|Projects)/.match?(context[:controller].class.name.to_s)
+    module_function
 
-      "\n".html_safe + javascript_include_tag('table_calculation.js', plugin: :redmine_table_calculation) +
-        "\n".html_safe + stylesheet_link_tag('table_calculation.css', plugin: :redmine_table_calculation)
+    ##
+    # List of strings with attributes which should be ignored when copying.
+    #
+    # @example
+    #   def attributes_to_ignore
+    #     %w[id parent_id]
+    #   end
+    #
+    def attributes_to_ignore
+      raise NotImplementedError
     end
   end
 end

@@ -18,15 +18,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-require_dependency 'table_calculation'
+require File.expand_path('lib/redmine_table_calculation', __dir__)
 
 Redmine::Plugin.register :redmine_table_calculation do
-  name 'Redmine Table Calculation'
-  author 'Liane Hampe, xmera'
+  name 'Table Calculation'
+  author 'Liane Hampe (xmera Solutions GmbH)'
   description 'Create a custom table and calculate over columns'
   version '1.0.4'
   url 'https://circle.xmera.de/projects/redmine-table-calculation'
-  author_url 'http://xmera.de'
+  author_url 'https://circle.xmera.de/users/5'
 
   requires_redmine version_or_higher: '4.1.0'
   requires_redmine_plugin :redmine_project_types, version_or_higher: '4.0.0'
@@ -56,11 +56,4 @@ Redmine::Plugin.register :redmine_table_calculation do
   end
 end
 
-ActiveSupport::Reloader.to_prepare do
-  table_custom_fields = { name: 'TableCustomField',
-                          partial: 'custom_fields/index',
-                          label: :table_calculation }
-  CustomFieldsHelper::CUSTOM_FIELDS_TABS << table_custom_fields
-  Redmine::FieldFormat::RecordList.customized_class_names << 'Table'
-  ProjectsController.send :helper, SpreadsheetsHelper
-end
+RedmineTableCalculation.setup

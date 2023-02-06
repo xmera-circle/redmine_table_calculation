@@ -22,9 +22,9 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class SpreadsheetRowsControllerTest < ActionDispatch::IntegrationTest
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::AuthenticateUser
-    include TableCalculation::ProjectTypeCreator
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::AuthenticateUser
+    include RedmineTableCalculation::ProjectTypeCreator
     include Redmine::I18n
 
     fixtures :projects,

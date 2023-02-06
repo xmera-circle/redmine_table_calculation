@@ -22,8 +22,8 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class DataMatrixTest < ActiveSupport::TestCase
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::ProjectTypeCreator
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::ProjectTypeCreator
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,

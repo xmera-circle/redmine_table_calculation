@@ -23,7 +23,7 @@
 # which are needed to render the spreadsheet.
 #
 class SpreadsheetTable
-  include TableCalculation::Sortable
+  include RedmineTableCalculation::Sortable
 
   attr_reader :table, :columns
 
