@@ -22,8 +22,8 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class TableTest < ActiveSupport::TestCase
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::ProjectTypeCreator
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::ProjectTypeCreator
 
     fixtures :projects, :tables, :projects_tables
 

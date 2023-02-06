@@ -20,7 +20,7 @@
 
 class SpreadsheetRow < ActiveRecord::Base
   include Redmine::SafeAttributes
-  include TableCalculation::Copyable
+  include RedmineTableCalculation::Copyable
   acts_as_customizable type_class: :table
 
   belongs_to :spreadsheet

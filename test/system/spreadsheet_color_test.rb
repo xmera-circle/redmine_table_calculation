@@ -24,8 +24,8 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class SpreadsheetColorTest < ApplicationSystemTestCase
-    include TableCalculation::Enumerations
-    include TableCalculation::ProjectTypeCreator
+    include RedmineTableCalculation::Enumerations
+    include RedmineTableCalculation::ProjectTypeCreator
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,

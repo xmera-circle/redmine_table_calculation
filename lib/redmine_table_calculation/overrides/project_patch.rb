@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module TableCalculation
+module RedmineTableCalculation
   module Overrides
     module ProjectPatch
       def self.prepended(base)
@@ -71,12 +71,5 @@ module TableCalculation
         end
       end
     end
-  end
-end
-
-# Apply patch
-Rails.configuration.to_prepare do
-  unless Project.included_modules.include?(TableCalculation::Overrides::ProjectPatch)
-    Project.prepend TableCalculation::Overrides::ProjectPatch
   end
 end
