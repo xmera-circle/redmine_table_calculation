@@ -17,6 +17,7 @@ AllCops:
     - '**/test/**/*'
     - '**/db/migrate/*'
     - 'db/schema.rb'
+    - '**/*_patch.rb'
 
 require:
   - rubocop-performance
@@ -56,3 +57,11 @@ Rails/ApplicationRecord:
 Naming/VariableNumber:
   Exclude:
     - 'test/**/*'
+  
+Rails/ActionControllerFlashBeforeRender:
+ Enabled:   false
+
+Rails/OutputSafety:
+  Exclude:
+    - 'app/presenters/**/*'
+    - 'app/helpers/**/*'
