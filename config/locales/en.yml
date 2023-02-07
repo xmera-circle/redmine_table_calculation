@@ -10,7 +10,8 @@ en:
   label_table_plural: Tables
   label_table_config: Table configuration
   label_table_new: New Table
-  label_name: Name 
+  label_name: Name
+  label_description: Description
   label_column_plural: Columns
   label_row_plural: Rows
   label_calculation: Calculation
