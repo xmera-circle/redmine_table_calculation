@@ -71,6 +71,8 @@ module RedmineTableCalculation
     end
 
     def add_table_custom_fields
+      return if CustomFieldsHelper::CUSTOM_FIELDS_TABS.any? { |tab| tab[:name] == 'TableCustomField' }
+
       table_custom_fields = { name: 'TableCustomField',
                               partial: 'custom_fields/index',
                               label: :table_calculation }
