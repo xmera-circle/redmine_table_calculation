@@ -43,14 +43,29 @@ class TableFormula
   # Strings bearing other characters than numbers will turn to 0.
   #
   def exec
-    return '-' unless valid? operation
+    return '-' unless valid?(operation)
+    return '-' if values.blank?
 
-    values&.map(&:to_i)&.send(operation)
+    casted_values = values.map do |value|
+      prepare_for_operation(value)
+    end
+    casted_values&.map(&:to_i)&.send(operation)
   end
 
   private
 
   attr_reader :operation, :values
+
+  def prepare_for_operation(value)
+    case value
+    when TrueClass
+      1
+    when Integer, String
+      value.to_i
+    else # if FalseClass or anything else
+      0
+    end
+  end
 
   def valid?(operation)
     self.class.operators.key?(operation.to_sym)
