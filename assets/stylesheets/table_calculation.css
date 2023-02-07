@@ -16,9 +16,6 @@
 .table-object:not(:first-of-type) {
   padding-top: 1rem;
 }
-.controller-spreadsheets .contextual [href*="edit"]::before {
-    content: "";
-}
 
 table.enumeration-badge {
   width: 80px;
@@ -40,4 +37,10 @@ table.enumeration-badge td {
   height: 16px;
   padding: 0;
   border: 0 none;
+}
+
+table.list.config-tables th.name,
+table.list.config-calculations th.name,
+table.list.spreadsheets th.name {
+  text-align: left;
 }
