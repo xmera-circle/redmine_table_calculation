@@ -29,7 +29,7 @@ module TableCaclulation
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,
-             :tables, :calculations, :spreadsheets, :spreadsheet_rows
+             :table_configs, :calculation_configs, :spreadsheets, :spreadsheet_rows
 
     def setup
       @manager = User.find(2)
@@ -41,8 +41,8 @@ module TableCaclulation
       @project_type_master = find_project_type(id: 4)
       @project_type_master.enable_module!(:table_calculation)
       @project_type_master.members << Member.create(user_id: @manager.id, roles: [@manager_role])
-      second_table = Table.find(2)
-      second_table.columns << [@description_field, @count_field]
+      second_table_config = TableConfig.find(2)
+      second_table_config.columns << [@description_field, @count_field]
       @third_row = SpreadsheetRow.find(3)
       @third_row.custom_field_values = { @description_field.id => 'Item 3', @count_field.id => 3 }
       @third_row.save
@@ -50,8 +50,8 @@ module TableCaclulation
       @project = Project.find(1)
       @project.enable_module!(:table_calculation)
 
-      first_table = Table.find(1)
-      first_table.columns << [@description_field, @count_field]
+      first_table_config = TableConfig.find(1)
+      first_table_config.columns << [@description_field, @count_field]
       @first_row = SpreadsheetRow.find(1)
       @first_row.custom_field_values = { @description_field.id => 'Item 1', @count_field.id => 1 }
       @first_row.save

@@ -25,11 +25,11 @@
 class SpreadsheetTable
   include RedmineTableCalculation::Sortable
 
-  attr_reader :table, :columns
+  attr_reader :table_config, :columns
 
   def initialize(spreadsheet)
-    @table = spreadsheet.table || NullTable.new
-    @columns = @table.columns
+    @table_config = spreadsheet.table_config || NullTableConfig.new
+    @columns = @table_config.columns
     @rows = spreadsheet.rows
   end
 

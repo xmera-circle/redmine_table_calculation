@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NullTable
+class NullTableConfig
   def columns
     []
   end
@@ -13,7 +13,7 @@ class NullTable
     '-'
   end
 
-  def calculations
-    Calculation.none
+  def calculation_configs
+    CalculationConfig.none
   end
 end

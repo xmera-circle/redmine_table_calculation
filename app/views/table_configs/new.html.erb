@@ -20,9 +20,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<%= title [l(:label_table_plural), tables_path], @table.name %>
+<%= title [l(:label_table_plural), table_configs_path], l(:label_table_config_new) %>
 
-<%= labelled_form_for @table do |f| %>
+<%= labelled_form_for @table_config do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_create) %>
 <% end %>

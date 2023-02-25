@@ -20,65 +20,62 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
-  class TableTest < ActiveSupport::TestCase
-    extend RedmineTableCalculation::LoadFixtures
-    include RedmineTableCalculation::ProjectTypeCreator
-
-    fixtures :projects, :tables, :projects_tables
+module RedmineTableCalculation
+  class TableConfigTest < UnitTestCase
+    fixtures :projects, :table_configs, :projects_table_configs
 
     test 'should have many columns' do
-      association = Table.reflect_on_association(:columns)
+      association = TableConfig.reflect_on_association(:columns)
       assert_equal :columns, association.name
       assert_equal :has_and_belongs_to_many, association.macro
     end
 
     test 'should have many project types' do
-      association = Table.reflect_on_association(:project_types)
+      association = TableConfig.reflect_on_association(:project_types)
       assert_equal :project_types, association.name
       assert_equal :has_and_belongs_to_many, association.macro
     end
 
     test 'should respond to safe attributes' do
-      assert Table.respond_to? :safe_attributes
+      assert TableConfig.respond_to? :safe_attributes
     end
 
     test 'should respond to column_assigned?' do
-      assert Table.find(1).respond_to? :column_assigned?
+      assert TableConfig.find(1).respond_to? :column_assigned?
     end
 
     test 'should respond to project_type_assigned?' do
-      assert Table.find(1).respond_to? :project_type_assigned?
+      assert TableConfig.find(1).respond_to? :project_type_assigned?
     end
 
     test 'table should not be valid without name' do
-      table = Table.new
-      assert_not table.valid?
-      assert_equal [:name], table.errors.keys
+      table_config = TableConfig.new
+      assert_not table_config.valid?
+      assert_equal [:name], table_config.errors.keys
     end
 
     test 'should find columns and project types' do
       cf = custom_field
-      table = Table.find(1)
-      table.columns << cf
-      assert table.save
-      assert table.columns.count == 1
+      table_config = TableConfig.find(1)
+      table_config.columns << cf
+      assert table_config.save
+      assert table_config.columns.count == 1
       find_project_type(id: 4)
-      assert table.project_types.count == 1
+      assert table_config.project_types.count == 1
     end
 
     test 'should update table' do
-      table = Table.new(name: 'Table to update')
-      name = 'Updated Table'
-      table.name = name
-      assert table.save
-      assert table.name == name
+      table_config = TableConfig.new(name: 'Table config to update')
+      name = 'Updated Table config'
+      table_config.name = name
+      assert table_config.save
+      assert table_config.name == name
     end
 
     test 'should delete table' do
-      table = Table.new(name: 'Table to delete')
-      assert table.destroy
-      assert table.destroyed?
+      table_config = TableConfig.new(name: 'Table config to delete')
+      assert table_config.destroy
+      assert table_config.destroyed?
     end
 
     private

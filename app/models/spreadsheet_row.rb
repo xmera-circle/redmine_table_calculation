@@ -80,14 +80,14 @@ class SpreadsheetRow < ActiveRecord::Base
   # TODO: delegate to table
   #
   def column_ids
-    table.column_ids
+    table_config.column_ids
   end
 
   def destroy_row_values
     CustomValue.where(customized_id: id).delete_all
   end
 
-  def table
-    spreadsheet.table || NullTable.new
+  def table_config
+    spreadsheet.table_config || NullTableConfig.new
   end
 end

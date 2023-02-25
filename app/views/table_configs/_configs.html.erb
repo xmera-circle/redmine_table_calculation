@@ -21,16 +21,16 @@
 %>
 
 <%= tag.div class: 'contextual' do %>
-  <%= link_to(l(:label_table_new), new_table_path,
+  <%= link_to(l(:label_table_config_new), new_table_config_path,
               :class => 'icon icon-add') %>
-  <%= link_to(l(:label_calculation_plural), calculations_path,
+  <%= link_to(l(:label_calculation_plural), calculation_configs_path,
             :class => 'icon icon-stats') %>
 <% end %>
 
-<%= tag.h2 l(:label_table_plural) %>
+<%= tag.h2 l(:label_table_config_plural) %>
 
-<% if @tables.present? %>
-  <%= tag.table class: 'list config-tables' do %>
+<% if @table_configs.present? %>
+  <%= tag.table class: 'list table-configs' do %>
     <%= content_tag :thead do %>
       <%= content_tag :tr do %>
         <%= content_tag(:th, l(:label_name), class: 'name') %>
@@ -42,15 +42,15 @@
       <% end %>
     <% end %>
     <%= content_tag :tbody do %>
-      <% @tables.each do |table| %>
+      <% @table_configs.each do |config| %>
         <%= content_tag :tr do %>
-          <%= content_tag(:td, link_to(table.name, edit_table_path(table)), class: 'name') %>
-          <%= content_tag(:td, table.description, class: 'name') %>
-          <%= content_tag(:td, table.columns.map(&:name).join(', '), class: 'name') %>
-          <%= content_tag(:td, table.project_types.map(&:name).join(', '), class: 'name') %>
+          <%= content_tag(:td, link_to(config.name, edit_table_config_path(config)), class: 'name') %>
+          <%= content_tag(:td, config.description, class: 'name') %>
+          <%= content_tag(:td, config.columns.map(&:name).join(', '), class: 'name') %>
+          <%= content_tag(:td, config.project_types.map(&:name).join(', '), class: 'name') %>
           <%= content_tag(:td, '') %>
           <%= tag.td class: 'buttons' do %>
-            <%= delete_link table_path(table) %>
+            <%= delete_link table_config_path(config) %>
           <% end %>
         <% end %>
       <% end %>

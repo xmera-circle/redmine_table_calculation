@@ -19,44 +19,44 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 class SpreadsheetResultTable
-  attr_reader :spreadsheet, :calculations, :columns
+  attr_reader :spreadsheet, :calculation_configs, :columns
 
   def initialize(spreadsheet)
     @spreadsheet = spreadsheet
-    @table = spreadsheet.table || NullTable.new
-    @calculations = @table.calculations
+    @table_config = spreadsheet.table_config || NullTableConfig.new
+    @calculation_configs = @table_config.calculation_configs
     @columns = calculable_columns
   end
 
   ##
   # A result table row of a given column operation.
   #
-  def result_row(operation, calculation)
+  def result_row(operation, calculation_config)
     results = []
-    calculation.fields.each do |column|
-      results << result_table_row(operation, column, calculation)
+    calculation_config.columns.each do |column|
+      results << result_table_row(operation, column, calculation_config)
     end
-    results = extend_result_row(results, calculation)
+    results = extend_result_row(results, calculation_config)
     results.flatten
   end
 
   private
 
-  def result_table_row(operation, column, calculation)
-    result_value(operation, column, calculation)
+  def result_table_row(operation, column, calculation_config)
+    result_value(operation, column, calculation_config)
   end
 
   ##
   # A single row value of a given column operation.
   #
-  def result_value(operation, column, calculation)
-    RowValue.new(value: calculation_result(operation, column, calculation),
+  def result_value(operation, column, calculation_config)
+    RowValue.new(value: calculation_result(operation, column, calculation_config),
                  row: nil,
                  col: column)
   end
 
-  def calculation_result(operation, column, calculation)
-    TableFormula.new(operation, column_values(column.id, calculation)).exec
+  def calculation_result(operation, column, calculation_config)
+    TableFormula.new(operation, column_values(column.id, calculation_config)).exec
   end
 
   ##
@@ -65,7 +65,7 @@ class SpreadsheetResultTable
   #
   # @note: calling columns gives nil, even though the attr_reader is set in
   #   SpreadsheetTable
-  def extend_result_row(results, _calculation)
+  def extend_result_row(results, _calculation_config)
     gap = calculable_columns_size - results&.size
     return results unless gap.positive?
 
@@ -77,12 +77,12 @@ class SpreadsheetResultTable
   #
   # @return Array(String) All row values of a given calculable column.
   #
-  def column_values(id, calculation)
-    data_matrix(calculation).column_values(id)
+  def column_values(id, calculation_config)
+    data_matrix(calculation_config).column_values(id)
   end
 
-  def data_matrix(calculation)
-    DataMatrix.new(rows(calculation.id), calculation.column_ids)
+  def data_matrix(calculation_config)
+    DataMatrix.new(rows(calculation_config.id), calculation_config.column_ids)
   end
 
   ##
@@ -101,9 +101,9 @@ class SpreadsheetResultTable
   # collected and unified.
   #
   def calculable_columns
-    calculations
+    calculation_configs
       .to_a
-      .map(&:fields)
+      .map(&:columns)
       .map(&:split)
       .flatten
       .uniq

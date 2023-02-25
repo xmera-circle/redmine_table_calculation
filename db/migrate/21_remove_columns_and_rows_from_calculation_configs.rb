@@ -1,9 +1,8 @@
-<%
 # frozen_string_literal: true
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,11 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-%>
 
-<%= title [l(:label_table_plural), tables_path], [l(:label_calculation_plural), calculations_path], l(:label_calculation_new) %>
-
-<%= labelled_form_for @calculation do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= submit_tag l(:button_create) %>
-<% end %>
+class RemoveColumnsAndRowsFromCalculationConfigs < ActiveRecord::Migration[5.2]
+  def change
+    remove_column :calculation_configs, :columns
+    remove_column :calculation_configs, :rows
+  end
+end

@@ -31,15 +31,15 @@ module TableCaclulation
 
     fixtures :projects, :users, :roles, :members,
              :member_roles, :enabled_modules,
-             :tables, :calculations, :spreadsheets,
-             :projects_tables, :spreadsheet_rows
+             :table_configs, :calculation_configs, :spreadsheets,
+             :projects_table_configs, :spreadsheet_rows
 
     def setup
       @project_type_master = find_project_type(id: 4)
-      table = Table.find(2)
+      table_config = TableConfig.find(2)
       string_column = TableCustomField.generate!(name: 'Name', field_format: 'string')
       int_column = TableCustomField.generate!(name: 'Count', field_format: 'int')
-      table.columns << [string_column, int_column]
+      table_config.columns << [string_column, int_column]
       first_row = SpreadsheetRow.find(3)
       first_row.custom_field_values = { string_column.id => 'Smartphone', int_column.id => 5 }
       first_row.save

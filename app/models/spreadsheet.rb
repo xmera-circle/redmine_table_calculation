@@ -24,26 +24,26 @@ class Spreadsheet < ActiveRecord::Base
   include RedmineTableCalculation::Sortable
 
   belongs_to :project, inverse_of: :spreadsheets
-  belongs_to :table, inverse_of: :spreadsheets
+  belongs_to :table_config, inverse_of: :spreadsheets
   belongs_to :author, class_name: 'User'
   has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
 
   validates :name, uniqueness: { scope: :project_id }
   validates :name, presence: true
-  validates :table_id, presence: true # table is not required when not validated!
+  validates :table_config_id, presence: true # table_config is not required when not validated!
 
   safe_attributes(
     :name,
     :description,
-    :table_id,
+    :table_config_id,
     :project_id,
     :author_id
   )
 
   delegate :column_ids, to: :secure_table
 
-  def calculations?
-    secure_table.calculations.present?
+  def calculation_configs?
+    secure_table.calculation_configs.present?
   end
 
   def copy(attributes = nil)
@@ -67,7 +67,7 @@ class Spreadsheet < ActiveRecord::Base
   end
 
   def secure_table
-    table || NullTable.new
+    table_config || NullTableConfig.new
   end
 
   protected

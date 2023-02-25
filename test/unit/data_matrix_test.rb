@@ -20,18 +20,15 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
-  class DataMatrixTest < ActiveSupport::TestCase
-    extend RedmineTableCalculation::LoadFixtures
-    include RedmineTableCalculation::ProjectTypeCreator
-
+module RedmineTableCalculation
+  class DataMatrixTest < UnitTestCase
     fixtures :projects,
              :members, :member_roles, :roles, :users,
-             :tables, :spreadsheets, :spreadsheet_rows, :calculations
+             :table_configs, :spreadsheets, :spreadsheet_rows, :calculation_configs
 
     def setup
-      @table = Table.find(1)
-      @calculation = Calculation.find(1)
+      @table_config = TableConfig.find(1)
+      @calculation_config = CalculationConfig.find(1)
     end
 
     test 'should respond to column_values' do

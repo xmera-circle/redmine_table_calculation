@@ -2,9 +2,9 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2022-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
-# This program is free software; you can redistribute it and/or
+# This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
@@ -18,23 +18,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module RedmineTableCalculation
-  ##
-  # Some spreadsheets needs special configuration
-  #
-  module PrepareSpreadsheet
-    def add_spreadsheet_field(spreadsheet, field)
-      spreadsheet.table_config.columns << field
-    end
-
-    ##
-    # @param spreadsheet [Spreadsheet] A spreadsheet instance having at least one row.
-    # @param field [TableCustomField] A table custom field accepting text as value.
-    #
-    def add_content_to_spreadsheet(spreadsheet, field)
-      row = spreadsheet.rows.first
-      row.custom_field_values = { field.id => "Content for #{field.id}" }
-      row.save!
-    end
+class RenameTablesToTableConfigs < ActiveRecord::Migration[5.2]
+  def change
+    rename_table :tables, :table_configs
   end
 end

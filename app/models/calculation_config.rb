@@ -18,39 +18,62 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class Table < ActiveRecord::Base
+class CalculationConfig < ActiveRecord::Base
   include Redmine::SafeAttributes
-  has_many :spreadsheets, inverse_of: :table
+
+  belongs_to :table_config, inverse_of: :calculation_configs
 
   has_and_belongs_to_many :columns,
                           -> { order(:position) },
                           class_name: 'TableCustomField',
-                          join_table: "#{table_name_prefix}custom_fields_tables#{table_name_suffix}",
+                          join_table: "#{table_name_prefix}custom_fields_calculation_configs#{table_name_suffix}",
                           association_foreign_key: 'custom_field_id'
 
-  has_and_belongs_to_many :project_types, -> { where(is_project_type: true) },
-                          class_name: 'Project',
-                          join_table: "#{table_name_prefix}projects_tables#{table_name_suffix}",
-                          foreign_key: 'table_id',
-                          association_foreign_key: 'project_id'
+  validates :name, :formula, :column_ids, presence: true
+  validate :validate_table_config_presence
+  validate :validate_columns
 
-  has_many :calculations, dependent: :destroy, inverse_of: :table
-
-  validates :name, presence: true
-  validates :name, uniqueness: true
+  scope :inheritables, -> { where(inheritable: true) }
 
   safe_attributes(
     :name,
     :description,
+    :table_config_id,
+    :formula,
     :column_ids,
-    :project_type_ids
+    :inheritable
   )
 
-  def column_assigned?(id)
-    columns.to_a.map(&:id).include? id.to_i
+  def column?(id)
+    column_ids.include?(id)
   end
 
-  def project_type_assigned?(id)
-    project_types.to_a.map(&:id).include? id.to_i
+  def locale_formula
+    TableFormula.operators[formula.to_sym]
+  end
+
+  def inheritable?
+    inheritable
+  end
+
+  private
+
+  def validate_table_config_presence
+    errors.add :table_config, l(:error_table_config_id_not_present) unless table_config_id&.positive?
+  end
+
+  def validate_columns
+    return unless table_config_id&.positive?
+
+    errors.add :columns, l(:error_column_ids_invalid) unless column_ids_belong_to?(table_config)
+    errors.add :columns, l(:error_column_ids_doubled) unless column_ids_unique?
+  end
+
+  def column_ids_belong_to?(table_config)
+    (column_ids - table_config.column_ids).empty?
+  end
+
+  def column_ids_unique?
+    (column_ids - column_ids.uniq).empty?
   end
 end

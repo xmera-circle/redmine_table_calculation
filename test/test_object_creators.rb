@@ -20,15 +20,15 @@
 
 module RedmineTableCalculation
   module TestObjectCreators
-    def Table.generate!(attributes = {})
-      @generated_table_name ||= +'Table 0'
-      @generated_table_name.succ!
-      table = new(attributes)
-      table.name = @generated_table_name.dup if table.name.blank?
-      table.description = 'A test table' if table.description.blank?
-      yield table if block_given?
-      table.save!
-      table
+    def TableConfig.generate!(attributes = {})
+      @generated_table_config_name ||= +'Table Config 0'
+      @generated_table_config_name.succ!
+      table_config = new(attributes)
+      table_config.name = @generated_table_config_name.dup if table_config.name.blank?
+      table_config.description = 'A test table config' if table_config.description.blank?
+      yield table_config if block_given?
+      table_config.save!
+      table_config
     end
 
     def Spreadsheet.generate!(attributes = {})

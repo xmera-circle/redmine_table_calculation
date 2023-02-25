@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This file is part of the Plugin Redmine Table Calculation.
+# This file is part of the Plugin Redmine Table CalculationConfig.
 #
 # Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
@@ -18,9 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class TablesController < ApplicationController
-  model_object Table
+class CalculationConfigsController < ApplicationController
+  model_object CalculationConfig
   menu_item :menu_table_config
+
+  helper :table_configs
 
   before_action :find_model_object, except: %i[index new create]
   before_action :require_admin
@@ -29,35 +31,35 @@ class TablesController < ApplicationController
   self.main_menu = false
 
   def index
-    @tables = Table.all
+    @calculation_configs = CalculationConfig.all
   end
 
   def show; end
 
   def new
-    @table = Table.new
+    @calculation_config = CalculationConfig.new
   end
 
   def edit; end
 
   def create
-    @table = Table.new
-    @table.safe_attributes = params[:table]
-    if @table.save
+    @calculation_config = CalculationConfig.new
+    @calculation_config.safe_attributes = remove_duplicate_column_ids
+    if @calculation_config.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to tables_path
+      redirect_to calculation_configs_path
     else
       render :new
     end
   end
 
   def update
-    @table.safe_attributes = params[:table]
-    if @table.save
+    @calculation_config.safe_attributes = remove_duplicate_column_ids
+    if @calculation_config.save
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to tables_path
+          redirect_to calculation_configs_path
         end
       end
     else
@@ -71,7 +73,15 @@ class TablesController < ApplicationController
   end
 
   def destroy
-    @table.destroy
-    redirect_to tables_path
+    @calculation_config.destroy
+    redirect_to calculation_configs_path
+  end
+
+  private
+
+  def remove_duplicate_column_ids
+    uniq_field_ids = params[:calculation_config][:column_ids].uniq
+    params[:calculation_config][:column_ids] = uniq_field_ids
+    params[:calculation_config]
   end
 end

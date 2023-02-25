@@ -41,7 +41,7 @@ Redmine::Plugin.register :redmine_table_calculation do
 
   menu :admin_menu,
        :menu_table_config,
-       :tables_path,
+       :table_configs_path,
        caption: :label_menu_table_config,
        html: { class: 'icon icon-tables' }
 

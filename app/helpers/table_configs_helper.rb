@@ -18,11 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module TablesHelper
-  def columns_multiselect(_table, choices)
+module TableConfigsHelper
+  def columns_multiselect(_table_config, choices)
     return no_data if choices.empty?
 
-    hidden_field_tag('table[column_ids][]', '').html_safe +
+    hidden_field_tag('table_config[column_ids][]', '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
         custom_field_check_boxes(text, value)
@@ -33,19 +33,19 @@ module TablesHelper
     content_tag(
       'label',
       check_box_tag(
-        'table[column_ids][]',
+        'table_config[column_ids][]',
         value,
-        @table.column_assigned?(value),
+        @table_config.column_assigned?(value),
         id: nil
       ) + text.to_s,
       class: 'floating'
     )
   end
 
-  def project_types_multiselect(_table, choices)
+  def project_types_multiselect(_table_config, choices)
     return no_data if choices.empty?
 
-    hidden_field_tag('table[project_type_ids][]', '').html_safe +
+    hidden_field_tag('table_config[project_type_ids][]', '').html_safe +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
         project_type_check_boxes(text, value)
@@ -56,9 +56,9 @@ module TablesHelper
     content_tag(
       'label',
       check_box_tag(
-        'table[project_type_ids][]',
+        'table_config[project_type_ids][]',
         value,
-        @table.project_type_assigned?(value),
+        @table_config.project_type_assigned?(value),
         id: nil
       ) + text.to_s,
       class: 'floating'

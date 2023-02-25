@@ -18,29 +18,33 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-# Suppresses ruby gems warnings when running tests
-$VERBOSE = nil
-
-# Load the Redmine helper
-require File.expand_path('../../../test/test_helper', __dir__)
-require File.expand_path('../../../test/application_system_test_case', __dir__)
-require_relative 'load_fixtures'
-require_relative 'authenticate_user'
-require_relative 'enumerations'
-require_relative 'project_type_creator'
-require_relative 'project_creator'
-require_relative 'test_object_creators'
-require_relative 'prepare_spreadsheet'
-
-# The gem minitest-reporters gives color to the command-line
-require 'minitest/reporters'
-Minitest::Reporters.use!
-# require "minitest/rails/capybara"
-require 'mocha/minitest'
+require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
-  class UnitTestCase < ActiveSupport::TestCase
-    extend LoadFixtures
-    include ProjectTypeCreator
+  class TableConfigsLayoutTest < ActionDispatch::IntegrationTest
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::AuthenticateUser
+    include RedmineTableCalculation::ProjectTypeCreator
+    include Redmine::I18n
+
+    fixtures :users, :table_configs
+
+    test 'should render index with table configs' do
+      log_user('admin', 'admin')
+      get table_configs_path
+      assert_response :success
+      assert_select 'table.table-configs'
+      assert_select 'table.list.table-configs tbody tr', 2
+    end
+
+    test 'should render new form' do
+      log_user('admin', 'admin')
+      get new_table_config_path
+      assert_response :success
+      assert_select '#table_config_name'
+      assert_select '#table_config_description'
+      assert_select '#columns'
+      assert_select '#project-types'
+    end
   end
 end

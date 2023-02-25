@@ -9,16 +9,17 @@ de:
   label_table: Tabelle
   label_table_plural: Tabellen
   label_table_config: Tabellenkonfiguration
+  label_table_config_plural: Tabellenkonfigurationen
+  label_table_config_new: Neue Tabellenkonfiguration
   label_table_new: Neue Tabelle
   label_name: Name
   label_description: Beschreibung
   label_column_plural: Spalten
   label_row_plural: Reihen
-  label_calculation: Berechnung
-  label_calculation_plural: Berechnungen
-  label_calculation_new: Neue Berechnung
+  label_calculation_config: Berechnung
+  label_calculation_config_plural: Berechnungen
+  label_calculation_config_new: Neue Berechnung
   label_formula: Formel
-  label_field_plural: Felder
   label_max: Maximum 
   label_min: Minimum
   label_sum: Summe
@@ -39,10 +40,9 @@ de:
 
   text_calculate_over: 'Berechnung über:'
 
-  field_columns: Tabellenspalten
-  field_rows: Tabellenreihen
+  field_columns: Spalten
+  field_rows: Reihen
   field_table: Tabelle
-  field_fields: Felder
   field_columns_and_rows: Spalten und Zeilen
   field_comment: Begründung
   activerecord:
@@ -50,7 +50,7 @@ de:
       calculation: 
         inheritable: Ergebnisse von assoziierten Projekten aggregieren
 
-  error_table_id_not_present: muss ausgewählt werden.
+  error_table_config_id_not_present: muss ausgewählt werden.
   error_field_ids_invalid: gehören zu einer anderen Tabelle.
   error_columns_and_rows_selected: können nicht beide aktiviert werden.
   error_columns_and_rows_unselected: können nicht beide deaktiviert sein.

@@ -20,13 +20,11 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
-  class SpreadsheetTableTest < ActiveSupport::TestCase
-    extend RedmineTableCalculation::LoadFixtures
-
+module RedmineTableCalculation
+  class SpreadsheetTableTest < UnitTestCase
     fixtures :projects,
              :members, :member_roles, :roles, :users,
-             :tables, :spreadsheets, :spreadsheet_rows
+             :table_configs, :spreadsheets, :spreadsheet_rows
 
     setup do
       spreadsheet = spreadsheets :spreadsheets_001

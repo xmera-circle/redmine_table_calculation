@@ -25,8 +25,8 @@ module RedmineTableCalculation
         base.include(InstanceMethods)
         base.class_eval do
           has_many :spreadsheets, foreign_key: :project_id, dependent: :destroy
-          has_many :projects_tables, foreign_key: :project_id
-          has_many :tables, through: :projects_tables, source: :table
+          has_many :projects_table_configs, foreign_key: :project_id
+          has_many :table_configs, through: :projects_table_configs, source: :table_config
         end
       end
 

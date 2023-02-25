@@ -19,9 +19,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module SpreadsheetsHelper
-  def table_select_options
-    return project_tables.select(:id, :name) unless project_type_id || project_type_master
-    return project_type_tables.select(:id, :name) if project_type_id
+  def table_config_select_options
+    return project_table_configs.select(:id, :name) unless project_type_id || project_type_master
+    return project_type_table_configs.select(:id, :name) if project_type_id
 
     project_type_master_tables.select(:id, :name)
   end
@@ -33,13 +33,13 @@ module SpreadsheetsHelper
   end
 
   def project_type_master_tables
-    @project.tables
+    @project.table_configs
   end
 
-  delegate :tables, to: :project_type, prefix: true
+  delegate :table_configs, to: :project_type, prefix: true
 
-  def project_tables
-    Table
+  def project_table_configs
+    TableConfig
   end
 
   def project_type_id

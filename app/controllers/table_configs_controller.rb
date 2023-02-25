@@ -18,11 +18,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class CalculationsController < ApplicationController
-  model_object Calculation
+class TableConfigsController < ApplicationController
+  model_object TableConfig
   menu_item :menu_table_config
-
-  helper :tables
 
   before_action :find_model_object, except: %i[index new create]
   before_action :require_admin
@@ -31,35 +29,35 @@ class CalculationsController < ApplicationController
   self.main_menu = false
 
   def index
-    @calculations = Calculation.all
+    @table_configs = TableConfig.all
   end
 
   def show; end
 
   def new
-    @calculation = Calculation.new
+    @table_config = TableConfig.new
   end
 
   def edit; end
 
   def create
-    @calculation = Calculation.new
-    @calculation.safe_attributes = remove_duplicate_field_ids
-    if @calculation.save
+    @table_config = TableConfig.new
+    @table_config.safe_attributes = params[:table_config]
+    if @table_config.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to calculations_path
+      redirect_to table_configs_path
     else
       render :new
     end
   end
 
   def update
-    @calculation.safe_attributes = remove_duplicate_field_ids
-    if @calculation.save
+    @table_config.safe_attributes = params[:table_config]
+    if @table_config.save
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to calculations_path
+          redirect_to table_configs_path
         end
       end
     else
@@ -73,15 +71,7 @@ class CalculationsController < ApplicationController
   end
 
   def destroy
-    @calculation.destroy
-    redirect_to calculations_path
-  end
-
-  private
-
-  def remove_duplicate_field_ids
-    uniq_field_ids = params[:calculation][:field_ids].uniq
-    params[:calculation][:field_ids] = uniq_field_ids
-    params[:calculation]
+    @table_config.destroy
+    redirect_to table_configs_path
   end
 end

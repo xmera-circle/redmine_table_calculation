@@ -29,7 +29,7 @@ module TableCaclulation
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,
-             :tables, :calculations, :spreadsheets
+             :table_configs, :calculation_configs, :spreadsheets
 
     def setup
       @manager = User.find(2)
@@ -54,7 +54,7 @@ module TableCaclulation
 
       assert_no_difference 'Spreadsheet.count' do
         post project_spreadsheets_path(project_id: @project.identifier),
-             params: { spreadsheet: { name: 'testsheet', table_id: 2 } }
+             params: { spreadsheet: { name: 'testsheet', table_config_id: 2 } }
       end
       assert_response 403
     end
@@ -67,7 +67,7 @@ module TableCaclulation
 
       assert_difference 'Spreadsheet.count' do
         post project_spreadsheets_path(project_id: @project.identifier),
-             params: { spreadsheet: { name: 'testsheet', table_id: 2 } }
+             params: { spreadsheet: { name: 'testsheet', table_config_id: 2 } }
       end
       assert_redirected_to project_spreadsheet_path @project, Spreadsheet.last
     end

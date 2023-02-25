@@ -20,15 +20,13 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
-  class ProjectPatchTest < ActiveSupport::TestCase
-    extend RedmineTableCalculation::LoadFixtures
-    include RedmineTableCalculation::ProjectTypeCreator
-    include RedmineTableCalculation::ProjectCreator
-    include RedmineTableCalculation::PrepareSpreadsheet
+module RedmineTableCalculation
+  class ProjectPatchTest < UnitTestCase
+    include PrepareSpreadsheet
+    include ProjectCreator
     include Redmine::I18n
 
-    fixtures :projects, :tables, :spreadsheets, :projects_tables, :spreadsheet_rows
+    fixtures :projects, :table_configs, :spreadsheets, :projects_table_configs, :spreadsheet_rows
 
     def setup
       find_project_type(id: 4)
@@ -42,20 +40,20 @@ module TableCaclulation
       assert_equal 1, project_type.spreadsheets.count
     end
 
-    test 'should have tables' do
+    test 'should have table_configs' do
       project1 = project(id: 1, type: 4)
-      assert_equal 1, project1.project_type.tables.count
-      assert_equal 1, find_project_type(id: 4).tables.count
+      assert_equal 1, project1.project_type.table_configs.count
+      assert_equal 1, find_project_type(id: 4).table_configs.count
     end
 
     test 'should respond to project_type_assigned?' do
-      assert Table.find(1).respond_to? :project_type_assigned?
+      assert TableConfig.find(1).respond_to? :project_type_assigned?
     end
 
     test 'table should not be valid without name' do
-      table = Table.new
-      assert_not table.valid?
-      assert_equal [:name], table.errors.keys
+      table_config = TableConfig.new
+      assert_not table_config.valid?
+      assert_equal [:name], table_config.errors.keys
     end
 
     test 'should copy spreadsheets from project' do
