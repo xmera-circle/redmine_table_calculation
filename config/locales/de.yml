@@ -16,6 +16,7 @@ de:
   label_description: Beschreibung
   label_column_plural: Spalten
   label_row_plural: Reihen
+  label_calculation: Berechnung
   label_calculation_config: Berechnung
   label_calculation_config_plural: Berechnungen
   label_calculation_config_new: Neue Berechnung
@@ -40,10 +41,7 @@ de:
 
   text_calculate_over: 'Berechnung über:'
 
-  field_columns: Spalten
-  field_rows: Reihen
   field_table: Tabelle
-  field_columns_and_rows: Spalten und Zeilen
   field_comment: Begründung
   activerecord:
     attributes:

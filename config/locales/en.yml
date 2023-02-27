@@ -24,6 +24,7 @@ en:
   label_min: Minimum
   label_sum: Sum
   label_data_plural: Records
+  label_calculation: Calculation
   label_calculation_details: Calculation details
   label_calculation_summary: Summary
   label_spreadsheet_home: Main page
@@ -40,10 +41,7 @@ en:
 
   text_calculate_over: 'Calculation over:'
 
-  field_columns: Columns
-  field_rows: Rows
   field_table_config: Table configuration
-  field_columns_and_rows: Columns and rows
   field_comment: Rational
   activerecord:
     attributes:
