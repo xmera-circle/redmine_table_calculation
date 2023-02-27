@@ -21,7 +21,7 @@
 require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
-  class TableTest < UnitTestCase
+  class TableRowTest < UnitTestCase
     include PrepareSpreadsheet
 
     fixtures :projects,
@@ -29,33 +29,17 @@ module RedmineTableCalculation
              :table_configs, :spreadsheets, :spreadsheet_rows
 
     setup do
-      @column = TableCustomField.generate!(name: 'Name')
-      spreadsheet = spreadsheets :spreadsheets_001
-      add_spreadsheet_column(spreadsheet, @column)
-      add_content_to_spreadsheet(spreadsheet, @column)
-      @table = Table.new(spreadsheet: spreadsheet)
+      row = spreadsheet_rows :spreadsheet_rows_001
+      column = TableCustomField.generate!(name: 'Name')
+      @table_row = TableRow.new(row: row, width: 1)
+      add_table_column(@table_row, column)
+      add_content_to_table_row(@table_row, column)
     end
 
-    test 'should have header' do
-      assert_equal [@column], @table.header
-    end
-
-    test 'should know table width' do
-      assert_equal 1, @table.width
-    end
-
-    test 'should return table rows' do
-      klasses = @table.rows.map(&:class).uniq
+    test 'should return cells' do
+      klasses = @table_row.cells.map(&:class).uniq
       assert_equal 1, klasses.count
-      assert_equal TableRow, klasses.first
-    end
-
-    test 'should return table length' do
-      assert_equal 2, @table.length
-    end
-
-    test 'should return empty array when table has no rows' do
-      skip
+      assert_equal TableCell, klasses.first
     end
   end
 end

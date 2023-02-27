@@ -131,10 +131,10 @@ module TableCaclulation
     test 'should render error message when creating project failed due to invalid spreadsheet' do
       spreadsheet = @project_type_master.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_field(spreadsheet, optional_field)
+      add_spreadsheet_column(spreadsheet, optional_field)
       add_content_to_spreadsheet(spreadsheet, optional_field)
       required_field = TableCustomField.generate!(name: 'Number', field_format: 'int', is_required: 1)
-      add_spreadsheet_field(spreadsheet, required_field)
+      add_spreadsheet_column(spreadsheet, required_field)
 
       log_user('jsmith', 'jsmith')
 
@@ -158,10 +158,10 @@ module TableCaclulation
     test 'should render error message when copying project failed due to invalid spreadsheet' do
       spreadsheet = @project_type_master.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_field(spreadsheet, optional_field)
+      add_spreadsheet_column(spreadsheet, optional_field)
       add_content_to_spreadsheet(spreadsheet, optional_field)
       required_field = TableCustomField.generate!(name: 'Number', field_format: 'int', is_required: 1)
-      add_spreadsheet_field(spreadsheet, required_field)
+      add_spreadsheet_column(spreadsheet, required_field)
 
       log_user('admin', 'admin')
       assert_no_difference 'Project.count' do

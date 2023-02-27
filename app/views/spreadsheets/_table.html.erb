@@ -23,7 +23,7 @@
 <%= content_tag :table, class: 'list spreadsheets' do %>
   <%= content_tag :thead do %>
     <%= content_tag :tr do %>
-      <% table.columns.each do |column| %>
+      <% table.header.each do |column| %>
         <%= content_tag(:th, column.name, class: 'name', title: column.description) %>
       <% end %>
       <%= content_tag(:th, '') %>
@@ -32,9 +32,9 @@
   <%= content_tag :tbody do %>
     <% table.rows.each do |row| %> 
       <%= content_tag :tr do %>
-        <% row.custom_field_values.each do |field| %>
-          <% formatted_value = field.custom_field.full_text_formatting? ? textilizable(format_value(field.value, field.custom_field)) : format_value(field.value, field.custom_field) %>
-            <%= content_tag(:td, formatted_value, class: 'name', data: { color: field.cast_color(field.value) }) %>
+        <% row.cells.each do |cell| %>
+          <% formatted_value = cell.full_text_formatting? ? textilizable(format_value(cell.value, cell.send(:column))) : format_value(cell.value, cell.send(:column)) %>
+            <%= content_tag(:td, formatted_value, class: 'name', data: { color: cell.cast_color }) %>
         <% end %>
         <%= tag.td class: 'buttons' do %>
           <% if User.current.allowed_to?(:edit_spreadsheet_row, @project) %>

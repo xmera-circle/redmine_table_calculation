@@ -60,7 +60,7 @@ module RedmineTableCalculation
       source_project = Project.find(4)
       spreadsheet = source_project.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_field(spreadsheet, optional_field)
+      add_spreadsheet_column(spreadsheet, optional_field)
       add_content_to_spreadsheet(spreadsheet, optional_field)
       new_project = Project.copy_from(source_project)
       save_project(new_project)
@@ -76,7 +76,7 @@ module RedmineTableCalculation
       project_type_master = ProjectType.find(4)
       spreadsheet = project_type_master.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_field(spreadsheet, optional_field)
+      add_spreadsheet_column(spreadsheet, optional_field)
       add_content_to_spreadsheet(spreadsheet, optional_field)
       new_project = Project.copy_from(project_type_master)
       save_project(new_project)
@@ -94,10 +94,10 @@ module RedmineTableCalculation
       project_type_master = ProjectType.find(4)
       spreadsheet = project_type_master.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_field(spreadsheet, optional_field)
+      add_spreadsheet_column(spreadsheet, optional_field)
       add_content_to_spreadsheet(spreadsheet, optional_field)
       required_field = TableCustomField.generate!(name: 'Count', field_format: 'int', is_required: 1)
-      add_spreadsheet_field(spreadsheet, required_field)
+      add_spreadsheet_column(spreadsheet, required_field)
       new_project = Project.copy_from(project_type_master)
       save_project(new_project)
       new_project = Project.last

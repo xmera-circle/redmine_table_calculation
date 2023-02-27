@@ -23,17 +23,30 @@ module RedmineTableCalculation
   # Some spreadsheets needs special configuration
   #
   module PrepareSpreadsheet
-    def add_spreadsheet_field(spreadsheet, field)
-      spreadsheet.table_config.columns << field
+    # @param spreadsheet [Spreadsheet] A spreadsheet instance having at least one row.
+    # @param column [TableCustomField] A table custom field accepting text as value.
+    def add_spreadsheet_column(spreadsheet, column)
+      spreadsheet.table_config.columns << column
+    end
+
+    def add_table_column(table_row, column)
+      spreadsheet = table_row.send(:row).spreadsheet
+      spreadsheet.table_config.columns << column
     end
 
     ##
     # @param spreadsheet [Spreadsheet] A spreadsheet instance having at least one row.
-    # @param field [TableCustomField] A table custom field accepting text as value.
+    # @param column [TableCustomField] A table custom field accepting text as value.
     #
-    def add_content_to_spreadsheet(spreadsheet, field)
+    def add_content_to_spreadsheet(spreadsheet, column)
       row = spreadsheet.rows.first
-      row.custom_field_values = { field.id => "Content for #{field.id}" }
+      row.custom_field_values = { column.id => "Content for #{column.id}" }
+      row.save!
+    end
+
+    def add_content_to_table_row(table_row, column)
+      row = table_row.send(:row)
+      row.custom_field_values = { column.id => "Content for #{column.id}" }
       row.save!
     end
   end

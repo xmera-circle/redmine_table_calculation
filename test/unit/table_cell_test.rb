@@ -21,7 +21,7 @@
 require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
-  class TableTest < UnitTestCase
+  class TableCellTest < UnitTestCase
     include PrepareSpreadsheet
 
     fixtures :projects,
@@ -29,33 +29,32 @@ module RedmineTableCalculation
              :table_configs, :spreadsheets, :spreadsheet_rows
 
     setup do
+      @row = spreadsheet_rows :spreadsheet_rows_001
       @column = TableCustomField.generate!(name: 'Name')
-      spreadsheet = spreadsheets :spreadsheets_001
-      add_spreadsheet_column(spreadsheet, @column)
-      add_content_to_spreadsheet(spreadsheet, @column)
-      @table = Table.new(spreadsheet: spreadsheet)
+      @table_row = TableRow.new(row: @row, width: 1)
+      add_table_column(@table_row, @column)
+      add_content_to_table_row(@table_row, @column)
+      @table_cell = @table_row.cells.first
     end
 
-    test 'should have header' do
-      assert_equal [@column], @table.header
+    test 'should know column_id' do
+      assert_equal @column.id, @table_cell.column_id
     end
 
-    test 'should know table width' do
-      assert_equal 1, @table.width
+    test 'should know row_id' do
+      assert_equal @row.id, @table_cell.row_id
     end
 
-    test 'should return table rows' do
-      klasses = @table.rows.map(&:class).uniq
-      assert_equal 1, klasses.count
-      assert_equal TableRow, klasses.first
+    test 'should know value' do
+      assert_equal "Content for #{@column.id}", @table_cell.value
     end
 
-    test 'should return table length' do
-      assert_equal 2, @table.length
+    test 'should know row_index' do
+      assert_equal @row.position, @table_cell.row_index
     end
 
-    test 'should return empty array when table has no rows' do
-      skip
+    test 'should know column_index' do
+      assert_equal @column.position, @table_cell.column_index
     end
   end
 end

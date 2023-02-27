@@ -106,7 +106,7 @@ module SpreadsheetsHelper
 
   def render_spreadsheet_table(spreadsheet)
     render partial: 'table',
-           locals: { table: SpreadsheetTable.new(spreadsheet) }
+           locals: { table: Table.new(spreadsheet: spreadsheet) }
   end
 
   ##
