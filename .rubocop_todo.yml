@@ -58,10 +58,3 @@ Rails/RedundantPresenceValidationOnBelongsTo:
 Style/IfUnlessModifier:
   Exclude:
     - 'lib/redmine_table_calculation/hooks/view_layouts_base_html_head_hook_listener.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, AllowedPatterns, IgnoredPatterns.
-# URISchemes: http, https
-Layout/LineLength:
-  Max: 124
