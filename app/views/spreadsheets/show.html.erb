@@ -48,8 +48,8 @@
   <%= tag.em textilizable @spreadsheet.description %>
 <% end %>
 
-<%= render_spreadsheet_result_table(@spreadsheet) if User.current.allowed_to?(:view_spreadsheet_results, @project) %>
-<%= render_spreadsheet_table(@spreadsheet) if User.current.allowed_to?(:view_spreadsheet, @project) %>
+<%= render_spreadsheet_result_table(result_table: @result_table) if User.current.allowed_to?(:view_spreadsheet, @project) %>
+<%= render_spreadsheet_table(data_table: @data_table) if User.current.allowed_to?(:view_spreadsheet, @project) %>
 
 <%= render partial: 'sidebar' %>
 

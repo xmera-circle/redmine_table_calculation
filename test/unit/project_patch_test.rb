@@ -22,12 +22,6 @@ require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
   class ProjectPatchTest < UnitTestCase
-    include PrepareSpreadsheet
-    include ProjectCreator
-    include Redmine::I18n
-
-    fixtures :projects, :table_configs, :spreadsheets, :projects_table_configs, :spreadsheet_rows
-
     def setup
       find_project_type(id: 4)
       project(id: 1, type: 4)
@@ -60,8 +54,8 @@ module RedmineTableCalculation
       source_project = Project.find(4)
       spreadsheet = source_project.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_column(spreadsheet, optional_field)
-      add_content_to_spreadsheet(spreadsheet, optional_field)
+      add_column_to_table_config(object: spreadsheet, column: optional_field)
+      add_content_to_spreadsheet(object: spreadsheet, column: optional_field, row_index: 1)
       new_project = Project.copy_from(source_project)
       save_project(new_project)
       new_project = Project.last
@@ -76,8 +70,8 @@ module RedmineTableCalculation
       project_type_master = ProjectType.find(4)
       spreadsheet = project_type_master.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_column(spreadsheet, optional_field)
-      add_content_to_spreadsheet(spreadsheet, optional_field)
+      add_column_to_table_config(object: spreadsheet, column: optional_field)
+      add_content_to_spreadsheet(object: spreadsheet, column: optional_field, row_index: 1)
       new_project = Project.copy_from(project_type_master)
       save_project(new_project)
       new_project = Project.last
@@ -88,23 +82,39 @@ module RedmineTableCalculation
       assert_equal 2, new_project.spreadsheets.first.rows.to_a.count
     end
 
-    test 'should raise an exception when copying spreadsheets with existing rows and required fields' do
-      ## Refers to issue #1358 where existing rows are extended with a
+    test 'should copy spreadsheets with existing rows and required fields' do
+      ## Refers to issue #1358 on circle.xmera.de where existing rows are extended with a
       # required field afterwards
       project_type_master = ProjectType.find(4)
-      spreadsheet = project_type_master.spreadsheets.first
+
+      # Creates a spreadsheet with two columns and one row
+      # where the required column is added after the first row exists
+      spreadsheet = project_type_master.spreadsheets.first # spreadsheet id: 2
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_column(spreadsheet, optional_field)
-      add_content_to_spreadsheet(spreadsheet, optional_field)
+      add_column_to_table_config(object: spreadsheet, column: optional_field)
+      content = 'Book'
+      add_content_to_spreadsheet(object: spreadsheet,
+                                 column: optional_field,
+                                 content: content,
+                                 row_index: 1)
       required_field = TableCustomField.generate!(name: 'Count', field_format: 'int', is_required: 1)
-      add_spreadsheet_column(spreadsheet, required_field)
+      add_column_to_table_config(object: spreadsheet, column: required_field)
+
+      # Copy the spreadsheet to a new project
       new_project = Project.copy_from(project_type_master)
       save_project(new_project)
       new_project = Project.last
-      assert_raise(ActiveModel::ValidationError,
-                   l(:error_records_with_required_field_could_not_be_saved, project_type_master.name)) do
-        new_project.copy(project_type_master)
-      end
+      new_project.copy(project_type_master)
+
+      # Check the new spreadsheet
+      rows = new_project.spreadsheets.first.rows
+      assert_equal 2, rows.count
+      custom_field_values = rows.map(&:custom_field_values).flatten
+      custom_fields = custom_field_values.map(&:custom_field).uniq
+      assert_equal %w[Description Count], custom_fields.map(&:name)
+      assert_equal content, custom_field_values.map(&:value).first
+      required_field = custom_fields.map(&:is_required).last
+      assert required_field
     end
   end
 end

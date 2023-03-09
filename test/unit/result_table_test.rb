@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,40 +21,38 @@
 require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
-  class TableTest < UnitTestCase
-    include PrepareSpreadsheet
-
-    fixtures :projects,
-             :members, :member_roles, :roles, :users,
-             :table_configs, :spreadsheets, :spreadsheet_rows
-
+  class ResultTableTest < UnitTestCase
     setup do
-      @column = TableCustomField.generate!(name: 'Name')
-      spreadsheet = spreadsheets :spreadsheets_001
-      add_spreadsheet_column(spreadsheet, @column)
-      add_content_to_spreadsheet(spreadsheet, @column)
-      @table = Table.new(spreadsheet: spreadsheet)
+      default_data_table
+      @result_table = ResultTable.new(data_table: @data_table)
     end
 
     test 'should have header' do
-      assert_equal [@column], @table.header
+      calculation_name = 'Calculation'
+      name_field = ''
+      field_names = [@quality_field, @amount_field, @price_field].map(&:name)
+      expected = field_names.prepend(name_field).prepend(calculation_name)
+      actual = @result_table.header.map(&:name)
+      assert_equal expected, actual
     end
 
-    test 'should know table width' do
-      assert_equal 1, @table.width
+    test 'should respond to data table rows' do
+      assert @result_table.respond_to?(:rows)
     end
 
-    test 'should return table rows' do
-      klasses = @table.rows.map(&:class).uniq
-      assert_equal 1, klasses.count
-      assert_equal TableRow, klasses.first
+    test 'should respond to table config' do
+      assert @result_table.respond_to?(:table_config)
     end
 
-    test 'should return table length' do
-      assert_equal 2, @table.length
+    test 'should respond to calculation configs' do
+      assert @result_table.respond_to?(:calculation_configs)
     end
 
-    test 'should return empty array when table has no rows' do
+    test 'should have rows' do
+      skip
+    end
+
+    test 'should have columns' do
       skip
     end
   end

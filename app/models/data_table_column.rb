@@ -18,42 +18,52 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class TableCell
+class DataTableColumn
+  include Enumerable
+
   def initialize(**attrs)
-    @custom_field_value = attrs[:custom_field_value]
+    @column = attrs[:column]
+    @table_config = attrs[:table_config]
   end
 
-  def value
-    row.custom_field_value(column_id)
+  # Position of the column in the table
+  def index
+    map(&:column_index).uniq[0]
   end
 
-  delegate :full_text_formatting?, to: :column
-
-  def cast_color
-    column.cast_color(value)
+  # Custom field id for this column
+  def id
+    map(&:column_id).uniq[0]
   end
 
-  def column_index
-    column.position
+  # Raw values of DataTableCells in this column
+  def values
+    map(&:value)
   end
 
-  delegate :id, to: :column, prefix: true
-
-  def row_index
-    row.position
+  # Format of the underlying custom field
+  def format
+    map(&:format).uniq[0]
   end
 
-  delegate :id, to: :row, prefix: true
+  # Custom field object
+  def custom_field
+    map(&:custom_field).uniq[0]
+  end
+
+  # Is the column relevant for the given calculation?
+  def calculable?(calculation_config)
+    calculation_config.column_ids.include? id
+  end
+
+  # Allows to iterate through DataTableCell instances
+  def each(&block)
+    column.each(&block)
+  end
 
   private
 
-  attr_reader :custom_field_value
+  attr_reader :column, :table_config
 
-  def row
-    custom_field_value.customized
-  end
-
-  def column
-    custom_field_value.custom_field
-  end
+  delegate :calculation_configs, to: :table_config
 end

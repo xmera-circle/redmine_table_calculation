@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,25 +21,16 @@
 require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
-  class TableRowTest < UnitTestCase
-    include PrepareSpreadsheet
-
-    fixtures :projects,
-             :members, :member_roles, :roles, :users,
-             :table_configs, :spreadsheets, :spreadsheet_rows
-
+  class DataTableRowTest < UnitTestCase
     setup do
-      row = spreadsheet_rows :spreadsheet_rows_001
-      column = TableCustomField.generate!(name: 'Name')
-      @table_row = TableRow.new(row: row, width: 1)
-      add_table_column(@table_row, column)
-      add_content_to_table_row(@table_row, column)
+      default_data_table
+      @data_table_row = data_table_row(1)
     end
 
     test 'should return cells' do
-      klasses = @table_row.cells.map(&:class).uniq
+      klasses = @data_table_row.cells.map(&:class).uniq
       assert_equal 1, klasses.count
-      assert_equal TableCell, klasses.first
+      assert_equal DataTableCell, klasses.first
     end
   end
 end

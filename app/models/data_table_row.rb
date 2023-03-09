@@ -18,28 +18,35 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-##
-# Provides basic data of a spreadsheet table such that columns and rows
-# which are needed to render the spreadsheet.
-#
-class SpreadsheetTable
-  include RedmineTableCalculation::Sortable
+class DataTableRow
+  include Enumerable
 
-  attr_reader :table_config, :columns
+  delegate :id, to: :row
 
-  def initialize(spreadsheet)
-    @table_config = spreadsheet.table_config || NullTableConfig.new
-    @columns = @table_config.columns
-    @rows = spreadsheet.rows
+  def initialize(**attrs)
+    @row = attrs[:row]
   end
 
-  def row_ids(_attr = nil)
-    return [] if rows.blank?
-
-    @rows.pluck(:id)
+  def index
+    row.position
   end
 
-  def rows
-    sorted_by_id(@rows)
+  # Allows to iterate through DataTableCell instances
+  def each(&block)
+    cells.each(&block)
   end
+
+  def <=>(other)
+    row.position <=> other.row.position
+  end
+
+  def cells
+    row.custom_field_values.map do |custom_field_value|
+      DataTableCell.new(custom_field_value: custom_field_value)
+    end
+  end
+
+  private
+
+  attr_reader :row
 end

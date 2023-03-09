@@ -44,16 +44,12 @@ class CalculationConfig < ActiveRecord::Base
     :inheritable
   )
 
-  def column?(id)
-    column_ids.include?(id)
+  def inheritable?
+    inheritable
   end
 
   def locale_formula
     TableFormula.operators[formula.to_sym]
-  end
-
-  def inheritable?
-    inheritable
   end
 
   private

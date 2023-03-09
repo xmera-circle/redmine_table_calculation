@@ -31,6 +31,17 @@ module RedmineTableCalculation
       table_config
     end
 
+    def CalculationConfig.generate!(attributes = {})
+      @generated_calc_config_name ||= +'Calculation Config 0'
+      @generated_calc_config_name.succ!
+      calc_config = new(attributes)
+      calc_config.name = @generated_calc_config_name.dup if calc_config.name.blank?
+      calc_config.description = 'A test calculation config' if calc_config.description.blank?
+      yield calc_config if block_given?
+      calc_config.save!
+      calc_config
+    end
+
     def Spreadsheet.generate!(attributes = {})
       @generated_spreadsheet_name ||= +'Spreadsheet 0'
       @generated_spreadsheet_name.succ!
@@ -40,6 +51,18 @@ module RedmineTableCalculation
       yield sheet if block_given?
       sheet.save!
       sheet
+    end
+
+    def TableCustomField.generate!(attributes = {})
+      enumerations = attributes.delete(:enumerations)
+      field = super
+      if enumerations.present?
+        enumerations.each do |_key, values|
+          field.enumerations.build(values)
+          field.save!
+        end
+      end
+      field
     end
   end
 end

@@ -42,6 +42,9 @@ en:
   text_calculate_over: 'Calculation over:'
 
   field_table_config: Table configuration
+  field_calculation_direction: Calculation direction
+  field_over_columns: Over columns
+  field_over_rows: Over rows
   field_comment: Rational
   activerecord:
     attributes:
@@ -51,8 +54,8 @@ en:
   error_table_config_id_not_present: needs to be choosen.
   error_column_ids_invalid: belongs to another table.
   error_column_ids_doubled: already exists.
-  error_columns_and_rows_selected: could not be selected together.
-  error_columns_and_rows_unselected: could not be unselected together.
+  error_calculation_direction_not_well_defined: could not be selected together.
+  error_calculation_direction_not_present: needs to be selected.
   error_records_with_required_field_could_not_be_saved: "%{value} has at least 1 spreadsheet row
    which cannot be saved. Probably, there is a required field without value."
 

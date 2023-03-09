@@ -22,10 +22,6 @@ require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
   class SpreadsheetRowTest < UnitTestCase
-    fixtures :projects,
-             :members, :member_roles, :roles, :users,
-             :table_configs, :spreadsheets, :spreadsheet_rows
-
     setup do
       @spreadsheet_row = spreadsheet_rows :spreadsheet_rows_001
     end

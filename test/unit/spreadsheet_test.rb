@@ -22,10 +22,6 @@ require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
   class SpreadsheetTest < UnitTestCase
-    fixtures :projects,
-             :members, :member_roles, :roles, :users,
-             :table_configs, :spreadsheets
-
     test 'should respond to sorted_by_id' do
       assert Spreadsheet.find(1).respond_to? :sorted_by_id
     end

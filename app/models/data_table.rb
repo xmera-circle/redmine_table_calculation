@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,34 +18,46 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-class Table
+class DataTable
+  include Enumerable
+
+  attr_reader :spreadsheet, :spreadsheet_rows, :table_config
+
   def initialize(**attrs)
     @spreadsheet = attrs[:spreadsheet]
     @table_config = spreadsheet.table_config
+    @calculation_configs = table_config.calculation_configs
+    @spreadsheet_rows = spreadsheet.rows
   end
 
   def header
-    table_config.columns
+    table_config.columns.sort_by(&:position)
   end
 
-  def width
-    header.count
+  def columns
+    return [] unless spreadsheet_rows
+
+    transpose_rows.map do |column|
+      DataTableColumn.new(column: column, table_config: table_config)
+    end
   end
 
-  def length
-    rows.count
+  def transpose_rows
+    map(&:cells).transpose
   end
 
   def rows
-    spreadsheet_rows = spreadsheet.rows
     return [] unless spreadsheet_rows
 
     spreadsheet_rows.map do |row|
-      TableRow.new(row: row, width: width)
+      DataTableRow.new(row: row)
     end
   end
 
   private
 
-  attr_reader :spreadsheet, :table_config
+  # Allows to iterate through DataTableRow instances
+  def each(&block)
+    rows.each(&block)
+  end
 end

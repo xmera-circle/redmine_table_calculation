@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,31 +18,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module RedmineTableCalculation
-  module Copyable
-    ##
-    # Returns an unsaved copy of an object.
-    #
-    # @note Associates won't be copied.
-    #
-    def copy(attributes = nil)
-      attrs = self.attributes.dup.except(*attributes_to_ignore)
-      attrs.merge(attributes) if attributes
-      self.class.new(attrs)
-    end
+# The SpareTableCell is no fully equipped table cell. Instead it is a reduced
+# variation able to respond to the most important attributes.
+#
+class SpareTableCell
+  attr_reader :row_index, :column_index, :position, :name, :value, :description
 
-    module_function
+  def initialize(**attrs)
+    @row_index = attrs[:row_index]
+    @column_index = attrs[:column_index]
+    @position = attrs[:position]
+    @name = attrs[:name]
+    @value = attrs[:value]
+  end
 
-    ##
-    # List of strings with attributes which should be ignored when copying.
-    #
-    # @example
-    #   def attributes_to_ignore
-    #     %w[id parent_id]
-    #   end
-    #
-    def attributes_to_ignore
-      raise NotImplementedError
-    end
+  def custom_field
+    nil
+  end
+
+  def cast_color
+    ''
+  end
+
+  def full_text_formatting?
+    false
   end
 end

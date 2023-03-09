@@ -42,6 +42,9 @@ de:
   text_calculate_over: 'Berechnung über:'
 
   field_table: Tabelle
+  field_calculation_direction: Berechnungsrichtung
+  field_over_columns: Über Spalten
+  field_over_rows: Über Zeilen
   field_comment: Begründung
   activerecord:
     attributes:
@@ -50,8 +53,8 @@ de:
 
   error_table_config_id_not_present: muss ausgewählt werden.
   error_field_ids_invalid: gehören zu einer anderen Tabelle.
-  error_columns_and_rows_selected: können nicht beide aktiviert werden.
-  error_columns_and_rows_unselected: können nicht beide deaktiviert sein.
+  error_calculation_direction_not_well_defined: muss eindeutig sein.
+  error_calculation_direction_not_present: muss ausgewält werden.
   error_records_with_required_field_could_not_be_saved: "%{value} hat mind. 1 Datenblattzeile,
    die nicht gespeichert werden konnte. Wahrscheinlich ist ein erforderliches Feld nicht ausgefüllt."
 

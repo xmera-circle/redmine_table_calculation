@@ -34,7 +34,7 @@ module RedmineTableCalculation
       get calculation_configs_path
       assert_response :success
       assert_select 'table.calculation-configs'
-      assert_select 'table.list.calculation-configs tbody tr', 2
+      assert_select 'table.list.calculation-configs tbody tr', 3
     end
 
     test 'should render new form' do

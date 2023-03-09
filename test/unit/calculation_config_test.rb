@@ -22,8 +22,6 @@ require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
   class CalculationConfigTest < UnitTestCase
-    fixtures :table_configs, :calculation_configs
-
     test 'should belong to table' do
       association = CalculationConfig.reflect_on_association(:table_config)
       assert_equal :table_config, association.name

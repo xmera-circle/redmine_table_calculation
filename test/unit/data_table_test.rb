@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2022-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,34 +21,32 @@
 require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
-  class SpreadsheetTableTest < UnitTestCase
-    fixtures :projects,
-             :members, :member_roles, :roles, :users,
-             :table_configs, :spreadsheets, :spreadsheet_rows
-
+  class DataTableTest < UnitTestCase
     setup do
-      spreadsheet = spreadsheets :spreadsheets_001
-      @table = SpreadsheetTable.new(spreadsheet)
+      default_data_table
     end
 
-    test 'should respond to sorted_by_id' do
-      assert @table.respond_to? :sorted_by_id
+    test 'should have header' do
+      assert_equal @columns.keys, @data_table.header
     end
 
-    test 'should respond to rows' do
-      assert @table.respond_to? :rows
+    test 'should return table rows' do
+      klasses = @data_table.rows.map(&:class).uniq
+      assert_equal 1, klasses.count
+      assert_equal DataTableRow, klasses.first
     end
 
-    test 'should respond to row_ids' do
-      assert @table.respond_to? :row_ids
+    test 'should return empty array when table has no rows' do
+      table_config = TableConfig.generate!(name: 'Empty Table')
+      spreadsheet = Spreadsheet.generate!(table_config: table_config)
+      data_table = DataTable.new(spreadsheet: spreadsheet)
+      assert_equal [], data_table.rows
     end
 
-    test 'should return spreadsheet rows' do
-      assert_equal [1, 2], @table.rows.map(&:id)
-    end
-
-    test 'should return spreadsheet row ids' do
-      assert_equal [1, 2], @table.row_ids
+    test 'should return table columns' do
+      columns = @data_table.columns
+      assert_equal 4, columns.count
+      assert_equal @columns.keys.map(&:id), columns.map(&:id)
     end
   end
 end

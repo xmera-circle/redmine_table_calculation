@@ -78,6 +78,7 @@ class SpreadsheetRowsController < ApplicationController
 
   def new_row
     SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
+                       table_config: @spreadsheet.table_config,
                        position: @spreadsheet.rows.count + 1)
   end
 

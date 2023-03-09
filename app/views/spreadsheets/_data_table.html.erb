@@ -33,17 +33,16 @@
     <% table.rows.each do |row| %> 
       <%= content_tag :tr do %>
         <% row.cells.each do |cell| %>
-          <% formatted_value = cell.full_text_formatting? ? textilizable(format_value(cell.value, cell.send(:column))) : format_value(cell.value, cell.send(:column)) %>
-            <%= content_tag(:td, formatted_value, class: 'name', data: { color: cell.cast_color }) %>
+            <%= content_tag(:td, format_table_value(cell.value, cell.custom_field), class: 'name', data: { color: cell.cast_color }) %>
         <% end %>
         <%= tag.td class: 'buttons' do %>
           <% if User.current.allowed_to?(:edit_spreadsheet_row, @project) %>
             <%= link_to l(:button_edit), 
-                edit_spreadsheet_row_path(row, spreadsheet_id: @spreadsheet), 
+                edit_spreadsheet_row_path(row.id, spreadsheet_id: @spreadsheet), 
                 :class => 'icon icon-edit' %>
           <% end %>
           <% if User.current.allowed_to?(:destroy_spreadsheet, @project) %>
-            <%= delete_link(spreadsheet_row_path(row, spreadsheet_id: @spreadsheet)) %>
+            <%= delete_link(spreadsheet_row_path(row.id, spreadsheet_id: @spreadsheet)) %>
           <% end %>
         <% end %>
       <% end %>

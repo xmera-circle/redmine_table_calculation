@@ -26,11 +26,12 @@ class Spreadsheet < ActiveRecord::Base
   belongs_to :project, inverse_of: :spreadsheets
   belongs_to :table_config, inverse_of: :spreadsheets
   belongs_to :author, class_name: 'User'
-  has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
+  has_many :rows, -> { order(:position) }, class_name: 'SpreadsheetRow', inverse_of: :spreadsheet, dependent: :destroy
 
   validates :name, uniqueness: { scope: :project_id }
   validates :name, presence: true
-  validates :table_config_id, presence: true # table_config is not required when not validated!
+  # table_config will only be required when validated this way!
+  validates :table_config_id, presence: true
 
   safe_attributes(
     :name,
@@ -40,6 +41,11 @@ class Spreadsheet < ActiveRecord::Base
     :author_id
   )
 
+  # is used in project in order to get easily a data table
+  def data_table
+    DataTable.new(spreadsheet: self)
+  end
+
   delegate :column_ids, to: :secure_table
 
   def calculation_configs?
@@ -48,8 +54,10 @@ class Spreadsheet < ActiveRecord::Base
 
   def copy(attributes = nil)
     copy = super(attributes)
-    row_attributes = { spreadsheet_id: copy.id }
+    row_attributes = { spreadsheet_id: copy.id, table_config: copy.table_config }
     copy.rows = copy_rows(row_attributes)
+    copy.save
+    copy.reload
     copy.copy_row_values(self)
     copy
   end

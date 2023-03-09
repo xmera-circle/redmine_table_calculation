@@ -22,8 +22,6 @@ require File.expand_path('../test_helper', __dir__)
 
 module RedmineTableCalculation
   class TableConfigTest < UnitTestCase
-    fixtures :projects, :table_configs, :projects_table_configs
-
     test 'should have many columns' do
       association = TableConfig.reflect_on_association(:columns)
       assert_equal :columns, association.name

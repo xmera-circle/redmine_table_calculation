@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
+# Copyright (C) 2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,31 +18,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+require File.expand_path('../test_helper', __dir__)
+
 module RedmineTableCalculation
-  module Copyable
-    ##
-    # Returns an unsaved copy of an object.
-    #
-    # @note Associates won't be copied.
-    #
-    def copy(attributes = nil)
-      attrs = self.attributes.dup.except(*attributes_to_ignore)
-      attrs.merge(attributes) if attributes
-      self.class.new(attrs)
+  class DataTableColumnTest < UnitTestCase
+    setup do
+      default_data_table
     end
 
-    module_function
+    test 'should return cells' do
+      klasses = data_table_row(1).cells.map(&:class).uniq
+      assert_equal 1, klasses.count
+      assert_equal DataTableCell, klasses.first
+    end
 
-    ##
-    # List of strings with attributes which should be ignored when copying.
-    #
-    # @example
-    #   def attributes_to_ignore
-    #     %w[id parent_id]
-    #   end
-    #
-    def attributes_to_ignore
-      raise NotImplementedError
+    test 'should return values' do
+      assert_equal %w[Apple Orange Banana], data_table_column(1).values
+      assert_equal @enumerations.map(&:id).map(&:to_s), data_table_column(2).values
+      assert_equal %w[4 6 8], data_table_column(3).values
+      assert_equal %w[3.95 1.8 4.25], data_table_column(4).values
     end
   end
 end
