@@ -95,6 +95,7 @@ module SpreadsheetsHelper
   # format
   def format_table_value(value, custom_field)
     return value unless custom_field
+    return value if value == '-'
 
     html = true
     format_object(custom_field.format.formatted_value(self, custom_field, value, false, html), html)
