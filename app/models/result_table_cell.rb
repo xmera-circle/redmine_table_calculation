@@ -114,8 +114,4 @@ class ResultTableCell
     item = enumerations.find { |enum| enum.position == result }
     item&.id
   end
-
-  def uncalculable?
-    raw_result_value == '-'
-  end
 end
