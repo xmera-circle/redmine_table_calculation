@@ -25,7 +25,8 @@ module RedmineTableCalculation
                 partial: 'redmine_table_calculation/redmine_table_calculation_header_tags'
 
       def view_layouts_base_html_head(context = {})
-        return unless /(Spreadsheets|Projects|Tables|Calculations)/.match?(context[:controller].class.name.to_s)
+        controller_class_name = context[:controller].class.name.to_s
+        return unless /(Spreadsheets|Projects|TableConfigs|CalculationConfigs)/.match?(controller_class_name)
 
         "\n".html_safe + javascript_include_tag('table_calculation.js', plugin: :redmine_table_calculation) +
           "\n".html_safe + stylesheet_link_tag('table_calculation.css', plugin: :redmine_table_calculation)

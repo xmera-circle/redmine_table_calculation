@@ -30,7 +30,6 @@ Redmine::Plugin.register :redmine_table_calculation do
 
   requires_redmine version_or_higher: '4.1.0'
   requires_redmine_plugin :redmine_project_types, version_or_higher: '4.0.0'
-  requires_redmine_plugin :redmine_colored_enumeration, version_or_higher: '0.1.0'
 
   menu(:project_menu,
        :menu_table_calculation,
@@ -41,7 +40,7 @@ Redmine::Plugin.register :redmine_table_calculation do
 
   menu :admin_menu,
        :menu_table_config,
-       :tables_path,
+       :table_configs_path,
        caption: :label_menu_table_config,
        html: { class: 'icon icon-tables' }
 

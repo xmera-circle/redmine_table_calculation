@@ -24,32 +24,40 @@ class Spreadsheet < ActiveRecord::Base
   include RedmineTableCalculation::Sortable
 
   belongs_to :project, inverse_of: :spreadsheets
-  belongs_to :table, inverse_of: :spreadsheets
+  belongs_to :table_config, inverse_of: :spreadsheets
   belongs_to :author, class_name: 'User'
-  has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
+  has_many :rows, -> { order(:position) }, class_name: 'SpreadsheetRow', inverse_of: :spreadsheet, dependent: :destroy
 
   validates :name, uniqueness: { scope: :project_id }
   validates :name, presence: true
-  validates :table_id, presence: true # table is not required when not validated!
+  # table_config will only be required when validated this way!
+  validates :table_config_id, presence: true
 
   safe_attributes(
     :name,
     :description,
-    :table_id,
+    :table_config_id,
     :project_id,
     :author_id
   )
 
+  # is used in project in order to get easily a data table
+  def data_table
+    DataTable.new(spreadsheet: self)
+  end
+
   delegate :column_ids, to: :secure_table
 
-  def calculations?
-    secure_table.calculations.present?
+  def calculation_configs?
+    secure_table.calculation_configs.present?
   end
 
   def copy(attributes = nil)
     copy = super(attributes)
-    row_attributes = { spreadsheet_id: copy.id }
+    row_attributes = { spreadsheet_id: copy.id, table_config: copy.table_config }
     copy.rows = copy_rows(row_attributes)
+    copy.save
+    copy.reload
     copy.copy_row_values(self)
     copy
   end
@@ -67,7 +75,7 @@ class Spreadsheet < ActiveRecord::Base
   end
 
   def secure_table
-    table || NullTable.new
+    table_config || NullTableConfig.new
   end
 
   protected

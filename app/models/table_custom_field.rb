@@ -27,7 +27,10 @@ class TableCustomField < CustomField
     TableCustomField.sorted.collect { |custom_field| [custom_field.name, custom_field.id.to_s] }
   end
 
+  # Supports color fields as provided by Redmine Colored Enumeration plugin
   def cast_color(value)
+    return '' unless Redmine::Plugin.installed?(:redmine_colored_enumeration)
+
     format.cast_color(self, value)
   end
 end

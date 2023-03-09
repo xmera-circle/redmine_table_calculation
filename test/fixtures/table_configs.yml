@@ -1,0 +1,9 @@
+--- 
+table_configs_001:
+  id: 1
+  name: Table Config 1
+  description: Table Config 1 for testing purposes
+table_configs_002:
+  id: 2
+  name: Table Config 2
+  description: Table Config 2 for testing purposes

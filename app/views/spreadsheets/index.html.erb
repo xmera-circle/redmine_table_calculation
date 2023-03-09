@@ -34,13 +34,13 @@
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
   <%= tag.div class: 'splitcontent' do %>
-    <% @spreadsheets.select {|sheet| sheet.calculations? }.each do |spreadsheet|%>
+    <% @spreadsheets.select {|sheet| sheet.calculation_configs? }.each do |spreadsheet|%>
       <%= render partial: 'card', locals: { spreadsheet: spreadsheet,
                                             guests: @guests,
                                             project: @project }%>
     <% end %>
     <%= tag.div class: 'splitcontentleft' do %>
-      <% @spreadsheets.reject {|sheet| sheet.calculations? }.each_with_index do |spreadsheet, index| %>
+      <% @spreadsheets.reject {|sheet| sheet.calculation_configs? }.each_with_index do |spreadsheet, index| %>
           <% next unless odd?(index) %>
           <%= render partial: 'card', locals: { spreadsheet: spreadsheet,
                                                 guests: @guests,
@@ -48,7 +48,7 @@
       <% end %>
     <% end %>
     <%= tag.div class: 'splitcontentright' do %>
-      <% @spreadsheets.reject {|sheet| sheet.calculations? }.each_with_index do |spreadsheet, index| %>
+      <% @spreadsheets.reject {|sheet| sheet.calculation_configs? }.each_with_index do |spreadsheet, index| %>
           <% next unless even?(index) %>
           <%= render partial: 'card', locals: { spreadsheet: spreadsheet,
                                                 guests: @guests,

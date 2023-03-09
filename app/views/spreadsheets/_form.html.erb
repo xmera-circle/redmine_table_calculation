@@ -26,10 +26,10 @@
   <%= content_tag :p, f.text_field(:name, size: 30, required: true) %>
   <%= content_tag :p, f.text_area(:description, class: 'wiki-edit',size: '5x5') %>
   <%= tag.p do %>
-    <%= label(:spreadsheet, :table_id) do %>
-				<%= l(:label_table) %><span class="required"> *</span>
+    <%= label(:spreadsheet, :table_config_id) do %>
+				<%= l(:label_table_config) %><span class="required"> *</span>
 		<% end %>
-    <%= f.collection_select(:table_id, table_select_options, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
+    <%= f.collection_select(:table_config_id, table_config_select_options, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
   <% end %>
   <%= wikitoolbar_for 'spreadsheet_description' %>
 <% end %>

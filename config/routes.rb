@@ -19,8 +19,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 scope '/admin' do
-  resources :tables, except: %i[show]
-  resources :calculations, except: %i[show]
+  resources :table_configs, except: %i[show]
+  resources :calculation_configs, except: %i[show]
 end
 
 resources :projects do

@@ -49,7 +49,9 @@ module RedmineTableCalculation
         destination = context[:destination_project]
         selection = context[:selection]
         destination.copy_spreadsheets(source) if copy?(selection)
-      rescue ActiveRecord::RecordNotSaved
+      # Probably, this rescue is not necessary anymore since
+      # validations are skipped in SpreadsheetRow#assign_values
+      rescue ActiveRecord::RecordNotSaved, ActiveRecord::RecordInvalid
         error_message = l(:error_records_with_required_field_could_not_be_saved, source.name)
         source.errors.add(:base, error_message)
         raise ActiveModel::ValidationError, source

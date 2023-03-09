@@ -23,7 +23,7 @@ class SpreadsheetRow < ActiveRecord::Base
   include RedmineTableCalculation::Copyable
   acts_as_customizable type_class: :table
 
-  belongs_to :spreadsheet
+  belongs_to :spreadsheet, inverse_of: :rows
 
   after_destroy :destroy_row_values
 
@@ -34,13 +34,13 @@ class SpreadsheetRow < ActiveRecord::Base
     :custom_field_values
   )
 
-  ##
-  # Is required by ApplicationHelper#format_object.
-  #
-  def visible?
-    true
+  def initialize(attributes = nil, *_args)
+    table_config = attributes.delete(:table_config)
+    super attributes
+    @table_config = table_config
   end
 
+  # overrides Redmine::Acts::Customizable#available_custom_fields
   def available_custom_fields
     CustomField.where(id: column_ids).sorted.to_a
   end
@@ -64,7 +64,16 @@ class SpreadsheetRow < ActiveRecord::Base
   #
   def assign_values(values)
     self.custom_field_values = values
-    save
+    # skip validations to allow rows with empty required custom fields!
+    save(validate: false)
+  end
+
+  ##
+  # Is required by ApplicationHelper#format_object in order to render
+  # 'CustomValue' and 'CustomFieldValue' according to their format.
+  #
+  def visible?
+    true
   end
 
   private
@@ -76,18 +85,13 @@ class SpreadsheetRow < ActiveRecord::Base
     %w[id spreadsheet_id created_on updated_on]
   end
 
-  ##
-  # TODO: delegate to table
-  #
-  def column_ids
-    table.column_ids
+  delegate :column_ids, to: :table_config, allow_nil: true
+
+  def table_config
+    @table_config ||= spreadsheet&.table_config
   end
 
   def destroy_row_values
     CustomValue.where(customized_id: id).delete_all
-  end
-
-  def table
-    spreadsheet.table || NullTable.new
   end
 end

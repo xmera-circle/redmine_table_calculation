@@ -26,10 +26,9 @@ module RedmineTableCalculation
     # @note Associates won't be copied.
     #
     def copy(attributes = nil)
-      copy = self.class.new
-      copy.attributes = self.attributes.dup.except(*attributes_to_ignore)
-      copy.attributes = attributes if attributes
-      copy
+      attrs = self.attributes.dup.except(*attributes_to_ignore)
+      attrs.merge(attributes) if attributes
+      self.class.new(attrs)
     end
 
     module_function

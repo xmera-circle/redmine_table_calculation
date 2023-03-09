@@ -9,28 +9,30 @@ en:
   label_table: Table
   label_table_plural: Tables
   label_table_config: Table configuration
+  label_table_config_plural: Table configurations
+  label_table_config_new: New table configuration
   label_table_new: New Table
   label_name: Name
   label_description: Description
   label_column_plural: Columns
   label_row_plural: Rows
-  label_calculation: Calculation
-  label_calculation_plural: Calculations
-  label_calculation_new: New Calculation
+  label_calculation_config: Calculation configuration
+  label_calculation_config_plural: Calculation configurations
+  label_calculation_config_new: New calculation configuration
   label_formula: Formula
-  label_field_plural: Fields
   label_max: Maximum 
   label_min: Minimum
   label_sum: Sum
   label_data_plural: Records
-  label_calculation_details: Calculation Details
+  label_calculation: Calculation
+  label_calculation_details: Calculation details
   label_calculation_summary: Summary
-  label_spreadsheet_home: Main Page
+  label_spreadsheet_home: Main page
   label_spreadsheet: Spreadsheet
-  label_spreadsheet_new: New Spreadsheet
-  label_edit_spreadsheet: Edit Spreadsheet
-  label_view_spreadsheet: View Spreadsheet
-  label_single_spreadsheet: Single View
+  label_spreadsheet_new: New spreadsheet
+  label_edit_spreadsheet: Edit spreadsheet
+  label_view_spreadsheet: View spreadsheet
+  label_single_spreadsheet: Single view
   label_spreadsheet_configuration: Configuration
   label_spreadsheet_plural: Spreadsheets
   label_spreadsheet_row: Row %{count}
@@ -39,21 +41,21 @@ en:
 
   text_calculate_over: 'Calculation over:'
 
-  field_columns: Table Columns
-  field_rows: Table Rows
-  field_table: Table
-  field_fields: Fields
-  field_columns_and_rows: Columns and Rows
+  field_table_config: Table configuration
+  field_calculation_direction: Calculation direction
+  field_over_columns: Over columns
+  field_over_rows: Over rows
   field_comment: Rational
   activerecord:
     attributes:
       calculation: 
         inheritable: Aggregate results of associated projects
 
-  error_table_id_not_present: needs to be choosen.
-  error_field_ids_invalid: belongs to another table.
-  error_columns_and_rows_selected: could not be selected together.
-  error_columns_and_rows_unselected: could not be unselected together.
+  error_table_config_id_not_present: needs to be choosen.
+  error_column_ids_invalid: belongs to another table.
+  error_column_ids_doubled: already exists.
+  error_calculation_direction_not_well_defined: could not be selected together.
+  error_calculation_direction_not_present: needs to be selected.
   error_records_with_required_field_could_not_be_saved: "%{value} has at least 1 spreadsheet row
    which cannot be saved. Probably, there is a required field without value."
 

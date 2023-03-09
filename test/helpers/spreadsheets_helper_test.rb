@@ -26,9 +26,9 @@ module TableCaclulation
     include RedmineTableCalculation::ProjectCreator
     include SpreadsheetsHelper
 
-    fixtures :projects, :projects_tables,
+    fixtures :projects, :projects_table_configs,
              :members, :member_roles, :roles, :users,
-             :tables, :calculations, :spreadsheets
+             :table_configs, :calculation_configs, :spreadsheets
 
     def setup
       @plain_project = projects :projects_002
@@ -42,23 +42,23 @@ module TableCaclulation
 
     test 'should return all tables for plain projects' do
       @project = @plain_project
-      expected_tables = Table.select(:id, :name)
-      current_tables = table_select_options
-      assert_equal expected_tables, current_tables
+      expected_table_configs = TableConfig.select(:id, :name)
+      current_table_configs = table_config_select_options
+      assert_equal expected_table_configs, current_table_configs
     end
 
     test 'should return all tables for project with project type' do
       @project = @project_with_project_type
-      expected_tables = Table.where(id: 1).select(:id, :name)
-      current_tables = table_select_options
-      assert_equal expected_tables, current_tables
+      expected_table_configs = TableConfig.where(id: 1).select(:id, :name)
+      current_table_configs = table_config_select_options
+      assert_equal expected_table_configs, current_table_configs
     end
 
     test 'should return all tables for project type master' do
       @project = @project_type_master
-      expected_tables = Table.where(id: 1).select(:id, :name)
-      current_tables = table_select_options
-      assert_equal expected_tables, current_tables
+      expected_table_configs = TableConfig.where(id: 1).select(:id, :name)
+      current_table_configs = table_config_select_options
+      assert_equal expected_table_configs, current_table_configs
     end
   end
 end

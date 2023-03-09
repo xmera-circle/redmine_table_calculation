@@ -31,15 +31,15 @@ module TableCaclulation
 
     fixtures :projects, :users, :roles, :members,
              :member_roles, :enabled_modules,
-             :tables, :calculations, :spreadsheets,
-             :projects_tables, :spreadsheet_rows
+             :table_configs, :calculation_configs, :spreadsheets,
+             :projects_table_configs, :spreadsheet_rows
 
     def setup
       @project_type_master = find_project_type(id: 4)
-      table = Table.find(2)
+      table_config = TableConfig.find(2)
       string_column = TableCustomField.generate!(name: 'Name', field_format: 'string')
       int_column = TableCustomField.generate!(name: 'Count', field_format: 'int')
-      table.columns << [string_column, int_column]
+      table_config.columns << [string_column, int_column]
       first_row = SpreadsheetRow.find(3)
       first_row.custom_field_values = { string_column.id => 'Smartphone', int_column.id => 5 }
       first_row.save
@@ -127,18 +127,18 @@ module TableCaclulation
     end
 
     # ProjectsController#create based on project type
-    # @note Exception handling in ProjectsController is implemented in Redmine Project Types
-    test 'should render error message when creating project failed due to invalid spreadsheet' do
+    test 'should create project based on project type master with spreadsheet having required fields' do
+      # prepare spreadsheet
       spreadsheet = @project_type_master.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_field(spreadsheet, optional_field)
-      add_content_to_spreadsheet(spreadsheet, optional_field)
+      add_column_to_table_config(object: spreadsheet, column: optional_field)
+      add_content_to_spreadsheet(object: spreadsheet, column: optional_field)
       required_field = TableCustomField.generate!(name: 'Number', field_format: 'int', is_required: 1)
-      add_spreadsheet_field(spreadsheet, required_field)
+      add_column_to_table_config(object: spreadsheet, column: required_field)
 
       log_user('jsmith', 'jsmith')
 
-      assert_no_difference 'Project.count' do
+      assert_difference 'Project.count' do
         post projects_path, params: {
           project: {
             name: 'Project with project type',
@@ -149,22 +149,21 @@ module TableCaclulation
           }
         }
       end
-      assert_redirected_to settings_project_path(id: @project_type_master.identifier)
-      assert flash[:error].match(/has at least 1 spreadsheet row which cannot be saved/)
+      assert_redirected_to 'http://www.example.com/projects/project-with-project-type/settings'
     end
 
     # ProjectsController#copy
-    # @note Exception handling in ProjectsController is implemented in Redmine Project Types
-    test 'should render error message when copying project failed due to invalid spreadsheet' do
+    test 'should copy project with spreadsheet having required fields' do
+      # prepare spreadsheet
       spreadsheet = @project_type_master.spreadsheets.first
       optional_field = TableCustomField.generate!(name: 'Description')
-      add_spreadsheet_field(spreadsheet, optional_field)
-      add_content_to_spreadsheet(spreadsheet, optional_field)
+      add_column_to_table_config(object: spreadsheet, column: optional_field)
+      add_content_to_spreadsheet(object: spreadsheet, column: optional_field)
       required_field = TableCustomField.generate!(name: 'Number', field_format: 'int', is_required: 1)
-      add_spreadsheet_field(spreadsheet, required_field)
+      add_column_to_table_config(object: spreadsheet, column: required_field)
 
       log_user('admin', 'admin')
-      assert_no_difference 'Project.count' do
+      assert_difference 'Project.count' do
         post copy_project_path(id: 4),
              params: {
                project: {
@@ -175,8 +174,7 @@ module TableCaclulation
                only: %w[spreadsheets]
              }
       end
-      assert_redirected_to settings_project_path(id: @project_type_master.identifier)
-      assert flash[:error].match(/has at least 1 spreadsheet row which cannot be saved/)
+      assert_redirected_to 'http://www.example.com/projects/unique-copy/settings'
     end
   end
 end

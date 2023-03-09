@@ -31,9 +31,26 @@ require_relative 'project_type_creator'
 require_relative 'project_creator'
 require_relative 'test_object_creators'
 require_relative 'prepare_spreadsheet'
+require_relative 'prepare_data_table'
 
 # The gem minitest-reporters gives color to the command-line
 require 'minitest/reporters'
 Minitest::Reporters.use!
 # require "minitest/rails/capybara"
 require 'mocha/minitest'
+
+module RedmineTableCalculation
+  class UnitTestCase < ActiveSupport::TestCase
+    extend LoadFixtures
+    include ProjectCreator
+    include Redmine::I18n
+    include ProjectTypeCreator
+    include PrepareSpreadsheet
+    include PrepareDataTable
+
+    fixtures :projects, :projects_table_configs,
+             :members, :member_roles, :roles, :users,
+             :table_configs, :spreadsheets, :spreadsheet_rows,
+             :calculation_configs
+  end
+end

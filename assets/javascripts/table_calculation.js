@@ -1,5 +1,5 @@
 /* Redmine Table Calculation
-   Copyright (C) 2021  Liane Hampe, xmera */
+   Copyright (C) 2021-2023  Liane Hampe, xmera Solutions GmbH */
 
 function coloredSpreadsheetEnumerationBadge() {
   $('td.name').each(function () {

@@ -5,11 +5,11 @@ spreadsheets_001:
   description: Spreadsheet1 for testing purposes
   project_id: 1
   author_id: 2
-  table_id: 1
+  table_config_id: 1
 spreadsheets_002:
   id: 2
   name: Spreadsheet2
   description: Spreadsheet2 for testing purposes
   project_id: 4
   author_id: 2
-  table_id: 2
+  table_config_id: 2
