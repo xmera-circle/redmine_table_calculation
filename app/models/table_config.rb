@@ -36,6 +36,8 @@ class TableConfig < ActiveRecord::Base
 
   has_many :calculation_configs, dependent: :destroy, inverse_of: :table_config
 
+  after_commit :enable_table_calculation_module
+
   validates :name, presence: true
   validates :name, uniqueness: true
 
@@ -47,10 +49,20 @@ class TableConfig < ActiveRecord::Base
   )
 
   def column_assigned?(id)
-    columns.to_a.map(&:id).include? id.to_i
+    column_ids.include? id.to_i
   end
 
   def project_type_assigned?(id)
-    project_types.to_a.map(&:id).include? id.to_i
+    project_type_ids.include? id.to_i
+  end
+
+  private
+
+  def enable_table_calculation_module
+    project_types.each do |project_type|
+      next if project_type.module_enabled?(:table_calculation)
+
+      project_type.enable_module!(:table_calculation)
+    end
   end
 end
