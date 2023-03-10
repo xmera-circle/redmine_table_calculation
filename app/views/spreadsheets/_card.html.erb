@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% if @project.module_enabled? :table_calculation %>
+<% if @project.module_enabled?(:table_calculation) && User.current.allowed_to?(:view_spreadsheet, @project) %>
   <%= tag.div class: 'spreadsheet box' do %>
     <%= tag.div class: 'contextual' do %>
       <%= actions_dropdown do %>
