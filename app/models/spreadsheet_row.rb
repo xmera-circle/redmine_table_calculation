@@ -23,7 +23,7 @@ class SpreadsheetRow < ActiveRecord::Base
   include RedmineTableCalculation::Copyable
   acts_as_customizable type_class: :table
 
-  belongs_to :spreadsheet, inverse_of: :rows
+  belongs_to :spreadsheet, inverse_of: :rows, touch: true
 
   after_destroy :destroy_row_values
 

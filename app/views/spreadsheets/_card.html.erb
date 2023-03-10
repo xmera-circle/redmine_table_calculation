@@ -37,7 +37,9 @@
     <% tag.div class: 'wiki' do %>
       <%= textilizable(spreadsheet, :description) %>
     <% end %>
-    <%= render_spreadsheet_result_table(spreadsheet: spreadsheet) %>
+    <% cache spreadsheet do %>
+      <%= render_spreadsheet_result_table(spreadsheet: spreadsheet) %>
+    <% end %>
     <%= tag.small do %>
       <%= authoring spreadsheet.created_on, spreadsheet.author %>.
       <% if spreadsheet.created_on != spreadsheet.updated_on %>

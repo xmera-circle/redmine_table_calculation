@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
-# This program is free software; you can redistribute it and/or
+# This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
@@ -18,23 +18,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module RedmineTableCalculation
-  ##
-  # Provide user login test
-  #
-  module ProjectCreator
-    def project(id:, type:)
-      project = Project.find(id.to_i)
-      project.project_type_id = type
-      project.save
-      project
-    end
-
-    def save_project(project)
-      project.identifier ||= 'new-project'
-      project.name ||= 'New Project'
-      project.save
-      project
-    end
-  end
-end
+# This empty class is required in order to access TableCustomField objects
+# in Administration » Custom fields » Table
+# rubocop:disable Lint/EmptyClass
+class Table; end
+# rubocop:enable Lint/EmptyClass

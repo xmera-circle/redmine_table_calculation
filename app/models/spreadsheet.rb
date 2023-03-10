@@ -53,13 +53,13 @@ class Spreadsheet < ActiveRecord::Base
   end
 
   def copy(attributes = nil)
-    copy = super(attributes)
-    row_attributes = { spreadsheet_id: copy.id, table_config: copy.table_config }
-    copy.rows = copy_rows(row_attributes)
-    copy.save
-    copy.reload
-    copy.copy_row_values(self)
-    copy
+    attributes ||= {}
+    attributes.merge(table_config: table_config)
+    copied = super(attributes)
+    copied.save
+    copied.rows << copy_rows
+    copied.copy_row_values(self)
+    copied
   end
 
   private
