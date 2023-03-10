@@ -41,7 +41,7 @@
                 <% if defined?(FinalResultTable) &&
                       sheet.table_config.calculation_configs.present? && 
                       sheet.table_config.calculation_configs.pluck(:inheritable).any? && 
-                      User.current.allowed_to?(:view_spreadsheet_results, @project) %>
+                      User.current.allowed_to?(:view_spreadsheet, @project) %>
                   <%= tag.ul style: 'padding-left: 1rem' do %>
                     <%= tag.li link_to(table_config.calculation_configs.map(&:name).join(', '), 
                         results_project_spreadsheet_path(@project, id: sheet),
