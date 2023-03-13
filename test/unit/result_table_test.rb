@@ -23,7 +23,7 @@ require File.expand_path('../test_helper', __dir__)
 module RedmineTableCalculation
   class ResultTableTest < UnitTestCase
     setup do
-      default_data_table
+      setup_default_data_table
       @result_table = ResultTable.new(data_table: @data_table)
     end
 
@@ -46,14 +46,6 @@ module RedmineTableCalculation
 
     test 'should respond to calculation configs' do
       assert @result_table.respond_to?(:calculation_configs)
-    end
-
-    test 'should have rows' do
-      skip
-    end
-
-    test 'should have columns' do
-      skip
     end
   end
 end

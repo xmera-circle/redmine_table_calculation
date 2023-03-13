@@ -21,6 +21,5 @@
 class RenameCalculationIdColumnToCalculationConfigId < ActiveRecord::Migration[5.2]
   def change
     rename_column :custom_fields_calculation_configs, :calculation_id, :calculation_config_id
-    rename_column :spreadsheet_row_results, :calculation_id, :calculation_config_id
   end
 end

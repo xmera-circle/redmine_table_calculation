@@ -102,7 +102,7 @@ module TableCaclulation
       get new_project_spreadsheet_spreadsheet_row_path(project_id: @project.id,
                                                        spreadsheet_id: spreadsheet.id)
       assert_response :success
-      assert_select '.box.tabular.settings'
+      assert_select '.box.tabular'
       assert_select 'input[id^="spreadsheet_row_custom_field_values_"]', 2
     end
 
