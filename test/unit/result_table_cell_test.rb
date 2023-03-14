@@ -23,7 +23,7 @@ require File.expand_path('../test_helper', __dir__)
 module RedmineTableCalculation
   class ResultTableCellTest < UnitTestCase
     setup do
-      default_data_table
+      setup_default_data_table
       @result_table = ResultTable.new(data_table: @data_table)
       @quality_column = data_table_column(2)
       @quality_table_cell = ResultTableCell.new(column: @quality_column,

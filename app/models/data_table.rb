@@ -26,7 +26,7 @@ class DataTable
   def initialize(**attrs)
     @spreadsheet = attrs[:spreadsheet]
     @table_config = spreadsheet.table_config
-    @calculation_configs = table_config.calculation_configs
+    @calculation_configs = table_config.calculation_configs # TODO: Required?
     @spreadsheet_rows = spreadsheet.rows
   end
 

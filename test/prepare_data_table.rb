@@ -20,7 +20,7 @@
 
 module RedmineTableCalculation
   ##
-  # Ready to use data table
+  # Ready to use data table of the spreadsheet 'Data Sheet'
   #
   # |Name  |Quality|Amount|Price|
   # |------|-------|------|-----|
@@ -34,7 +34,14 @@ module RedmineTableCalculation
   # Price:Float
   #
   module PrepareDataTable
-    def default_data_table
+    def setup_default_data_table
+      define_table_config
+      define_calculation_config
+      generate_spreadsheet
+      @data_table = DataTable.new(spreadsheet: @spreadsheet)
+    end
+
+    def define_table_config
       @name_field = TableCustomField.generate!(name: 'Name')
       @quality_field = TableCustomField.generate!(name: 'Quality',
                                                   field_format: 'enumeration',
@@ -45,6 +52,9 @@ module RedmineTableCalculation
       @price_field = TableCustomField.generate!(name: 'Price', field_format: 'float')
       fields = [@name_field, @quality_field, @amount_field, @price_field]
       @table_config = create_table_config(name: 'Data Table', columns: fields)
+    end
+
+    def define_calculation_config
       @max_config = CalculationConfig.generate!(table_config_id: @table_config.id,
                                                 name: 'Calculate maximum quality',
                                                 formula: 'max',
@@ -57,21 +67,29 @@ module RedmineTableCalculation
                                                 name: 'Calculate sum of amount',
                                                 formula: 'sum',
                                                 columns: [@amount_field])
+    end
+
+    def default_column_content
       @columns = {}
       @columns[@name_field] = { values: %w[Apple Orange Banana] }
       @columns[@quality_field] = { values: @enumeration_values }
       @columns[@amount_field] = { values: [4, 6, 8] }
       @columns[@price_field] = { values: [3.95, 1.80, 4.25] }
+      @columns
+    end
 
-      @spreadsheet = Spreadsheet.generate!(name: 'Data Sheet', table_config: @table_config)
-      @columns.each do |column, configs|
+    def generate_spreadsheet(**attrs)
+      name = attrs[:name] || 'Data Sheet'
+      column_content = attrs[:column_content] || default_column_content
+      @spreadsheet = Spreadsheet.generate!(name: name, table_config: @table_config)
+      column_content.each do |column, configs|
         row_index = 1
         configs[:values].each do |value|
           add_content_to_spreadsheet(object: @spreadsheet, column: column, content: value, row_index: row_index)
           row_index += 1
         end
       end
-      @data_table = DataTable.new(spreadsheet: @spreadsheet)
+      @spreadsheet
     end
 
     def data_table_row(row_index)

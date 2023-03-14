@@ -23,7 +23,7 @@ require File.expand_path('../test_helper', __dir__)
 module RedmineTableCalculation
   class DataTableTest < UnitTestCase
     setup do
-      default_data_table
+      setup_default_data_table
     end
 
     test 'should have header' do

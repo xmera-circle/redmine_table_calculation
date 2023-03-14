@@ -35,7 +35,7 @@ class ResultTableHeader
   # underlying table.
   def columns
     sorted = cells.sort_by(&:position)
-    sorted.prepend(SpareTableCell.new(column_index: 0, name: l(:label_calculation)))
+    sorted.prepend(SpareTableCell.new(column_index: 0, position: 0, name: l(:label_calculation)))
   end
 
   # Allows to iterate through TableCustomField instances
