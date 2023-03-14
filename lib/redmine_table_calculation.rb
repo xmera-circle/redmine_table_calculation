@@ -33,6 +33,7 @@ require_relative 'redmine_table_calculation/overrides/project_patch'
 # Others
 require_relative 'redmine_table_calculation/copyable'
 require_relative 'redmine_table_calculation/sortable'
+require_relative 'redmine_table_calculation/calculation_utils'
 
 ##
 # Plugin Setup
