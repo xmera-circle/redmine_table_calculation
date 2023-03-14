@@ -19,6 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 class ResultTable
+  include RedmineTableCalculation::CalculationUtils
   delegate :columns, :rows, :header, to: :data_table, prefix: true
 
   # @param data_table [DataTable] A DataTable object.
@@ -54,12 +55,6 @@ class ResultTable
 
   delegate :table_config, to: :data_table
   delegate :calculation_configs, to: :table_config
-
-  # Iterates through each calculation config and collects the columns
-  def calculation_columns
-    column_collection = calculation_configs.map(&:columns)
-    column_collection.flatten.uniq.sort_by(&:position)
-  end
 
   # A single result row determined by the given calculation config.
   def result_row(calculation_config)
