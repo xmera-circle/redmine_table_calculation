@@ -25,5 +25,15 @@ module RedmineTableCalculation
       column_collection = calculation_configs.map(&:columns)
       column_collection.flatten.uniq.sort_by(&:position)
     end
+
+    def calculable?(column)
+      calculation_columns.include?(column)
+    end
+
+    # Iterates through each table column and sorts them by position
+    def table_columns
+      column_collection = table_config.columns
+      column_collection.sort_by(&:position)
+    end
   end
 end

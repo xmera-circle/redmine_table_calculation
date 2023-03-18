@@ -44,3 +44,7 @@ table.list.calculation-configs th.name,
 table.list.spreadsheets th.name {
   text-align: left;
 }
+
+.controller-spreadsheets.action-results fieldset {
+  overflow:auto;
+}
