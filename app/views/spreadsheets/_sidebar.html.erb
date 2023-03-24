@@ -29,7 +29,6 @@
 
   <%= tag.ul id: 'sidebar-menu' do %>
     <% @spreadsheets.map(&:table_config).uniq.each do |table_config| %>
-      <% table_config = table_config ? table_config : NullTableConfig.new %>
       <%= tag.div class: 'table-config-object' do %>   
         <%= tag.strong table_config.name %>
           <%= tag.ul do %>
@@ -38,7 +37,7 @@
                 <%= tag.li link_to(sheet.name, 
                     project_spreadsheet_path(@project, sheet),
                     class: selected_spreadsheet(sheet.id, :show) ) %>
-                <% if defined?(FinalResultTable) &&
+                <% if defined?(FrozenResultTable) &&
                       sheet.table_config.calculation_configs.present? && 
                       sheet.table_config.calculation_configs.pluck(:inheritable).any? && 
                       User.current.allowed_to?(:view_spreadsheet, @project) %>

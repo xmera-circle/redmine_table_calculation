@@ -42,6 +42,7 @@ de:
   text_calculate_over: 'Berechnung über:'
 
   field_table: Tabelle
+  field_table_config: Tabellenkonfiguration
   field_calculation_direction: Berechnungsrichtung
   field_over_columns: Über Spalten
   field_over_rows: Über Zeilen

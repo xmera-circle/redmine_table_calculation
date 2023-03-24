@@ -20,7 +20,7 @@
 
 class ResultTable
   include RedmineTableCalculation::CalculationUtils
-  delegate :columns, :rows, :header, to: :data_table, prefix: true
+  delegate :rows, :header, to: :data_table, prefix: true
 
   # @param data_table [DataTable] A DataTable object.
   def initialize(**attrs)
@@ -58,6 +58,17 @@ class ResultTable
 
   # A single result row determined by the given calculation config.
   def result_row(calculation_config)
-    ResultTableRow.new(columns: data_table_columns, calculation_config: calculation_config)
+    ResultTableRow.new(columns: data_table_columns(calculation_config), calculation_config: calculation_config)
+  end
+
+  # Differentciate between columns for a certain calculation if necessary
+  #
+  # @note It is necessary when columns are provided by an AggregatedDataTable
+  #       as used in RedmineTableCalculationInheritance.
+  def data_table_columns(calculation_config)
+    cols = data_table.columns
+    return cols if cols.is_a?(Array)
+
+    cols[calculation_config]
   end
 end

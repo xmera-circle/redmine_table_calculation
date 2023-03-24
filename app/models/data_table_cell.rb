@@ -23,6 +23,8 @@ class DataTableCell
   delegate :id, to: :column, prefix: true
   delegate :id, to: :row, prefix: true
 
+  attr_reader :description
+
   def initialize(**attrs)
     @custom_field_value = attrs[:custom_field_value]
     @column = custom_field_value.custom_field

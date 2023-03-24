@@ -41,6 +41,7 @@ en:
 
   text_calculate_over: 'Calculation over:'
 
+  field_table: Table
   field_table_config: Table configuration
   field_calculation_direction: Calculation direction
   field_over_columns: Over columns

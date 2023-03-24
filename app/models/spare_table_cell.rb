@@ -30,8 +30,15 @@ class SpareTableCell
     @position = attrs[:position]
     @name = attrs[:name]
     @value = attrs[:value]
+    @description = attrs[:description]
   end
 
+  # TableCustomField id
+  def column_id
+    nil
+  end
+
+  # TableCustomField
   def custom_field
     nil
   end

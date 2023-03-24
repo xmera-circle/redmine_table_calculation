@@ -26,6 +26,18 @@ module RedmineTableCalculation
       column_collection.flatten.uniq.sort_by(&:position)
     end
 
+    def calculation_column_positions
+      calculation_column.map(&:position)
+    end
+
+    def calculation_column_ids
+      return unless calculation_configs.presence
+
+      calculation_configs
+        .map(&:column_ids)
+        .flatten
+    end
+
     def calculable?(column)
       calculation_columns.include?(column)
     end
