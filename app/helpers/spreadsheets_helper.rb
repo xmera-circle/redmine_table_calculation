@@ -20,12 +20,16 @@
 
 module SpreadsheetsHelper
   def date_and_author(record)
+    return '' unless record.presence
+
     updated, author = latest_update_with_author(record)
-    authoring(updated, author, label: :label_updated_time_by)
+    "(#{authoring(updated, author, label: :label_updated_time_by)})".html_safe
   end
 
   def latest_update_with_author(record)
     found = latest(record)
+    return [] unless found.presence
+
     [found.updated_on, found.author]
   end
 

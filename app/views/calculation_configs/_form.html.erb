@@ -31,7 +31,10 @@
 		<% end %>
     <%= f.collection_select(:table_config_id, TableConfig.all.collect, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
   <% end %>
-  <%= content_tag :p, f.select(:formula, TableFormula.operators.collect {|k,v| [l(v),k] }, {required: true} ,{ include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---" }) %>
+  <%= tag.p do %>
+    <%= f.select(:formula, TableFormula.operators.collect {|k,v| [l(v),k] }, {required: true} ,{ include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---" }) %>
+    <%= tag.em l(:info_text_calculation_direction), class: 'info'%>
+  <% end %>
   <%= tag.p do %>
     <%= label(:calculation_config, :column_ids) do %>
     		<%= l(:label_column_plural) %><span class="required"> *</span>

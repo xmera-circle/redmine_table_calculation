@@ -39,7 +39,7 @@ de:
   label_spreadsheet_row_edit: bearbeiten
   label_spreadsheet_row_new: Neue Zeile
 
-  text_calculate_over: 'Berechnung über:'
+  info_text_calculation_direction: Die Berechnung efolgt über Spalten.
 
   field_table: Tabelle
   field_table_config: Tabellenkonfiguration
