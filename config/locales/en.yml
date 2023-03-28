@@ -39,8 +39,9 @@ en:
   label_spreadsheet_row_edit: edit
   label_spreadsheet_row_new: New Row
 
-  text_calculate_over: 'Calculation over:'
+  info_text_calculation_direction: The calculation will be down over columns.
 
+  field_table: Table
   field_table_config: Table configuration
   field_calculation_direction: Calculation direction
   field_over_columns: Over columns

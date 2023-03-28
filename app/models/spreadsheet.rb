@@ -46,10 +46,10 @@ class Spreadsheet < ActiveRecord::Base
     DataTable.new(spreadsheet: self)
   end
 
-  delegate :column_ids, to: :secure_table
+  delegate :column_ids, to: :table_config
 
   def calculation_configs?
-    secure_table.calculation_configs.present?
+    table_config.calculation_configs.present?
   end
 
   def copy(attributes = nil)
@@ -72,10 +72,6 @@ class Spreadsheet < ActiveRecord::Base
     sorted_rows.map do |row|
       row.copy(attributes)
     end
-  end
-
-  def secure_table
-    table_config || NullTableConfig.new
   end
 
   protected

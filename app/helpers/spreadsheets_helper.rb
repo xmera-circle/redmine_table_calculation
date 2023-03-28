@@ -19,6 +19,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module SpreadsheetsHelper
+  def date_and_author(record)
+    return '' unless record.presence
+
+    updated, author = latest_update_with_author(record)
+    "(#{authoring(updated, author, label: :label_updated_time_by)})".html_safe
+  end
+
+  def latest_update_with_author(record)
+    found = latest(record)
+    return [] unless found.presence
+
+    [found.updated_on, found.author]
+  end
+
+  def latest(record)
+    record
+      .order('updated_on DESC')
+      .limit(1)
+      .take
+  end
+
   def table_config_select_options
     return project_table_configs.select(:id, :name) unless project_type_id || project_type_master
     return project_type_table_configs.select(:id, :name) if project_type_id
@@ -94,9 +115,24 @@ module SpreadsheetsHelper
   # Cast and format custom field values according to the underlying field
   # format
   def format_table_value(value, custom_field)
-    return value unless custom_field
     return value if value == '-'
+    return format_spare_table_value(value) unless custom_field
 
+    format_table_custom_field_value(custom_field, value)
+  end
+
+  def format_spare_table_value(value)
+    case value
+    when ActiveSupport::TimeWithZone
+      format_time(value)
+    when String
+      textilizable(value)
+    else
+      value
+    end
+  end
+
+  def format_table_custom_field_value(custom_field, value)
     html = true
     format_object(custom_field.format.formatted_value(self, custom_field, value, false, html), html)
   end

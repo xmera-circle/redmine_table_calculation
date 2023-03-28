@@ -40,7 +40,7 @@
 <p class="author">
 <%= authoring @spreadsheet.created_on, @spreadsheet.author %>.
 <% if @spreadsheet.created_on != @spreadsheet.updated_on %>
-<%= l(:label_updated_time, time_tag(@spreadsheet.updated_on)).html_safe %>.
+<%= l(:label_updated_time, time_tag(latest(@spreadsheet.rows).updated_on)).html_safe %>.
 <% end %>
 </p>
 

@@ -45,6 +45,13 @@ table.list.spreadsheets th.name {
   text-align: left;
 }
 
+/* inheritance */
 .controller-spreadsheets.action-results fieldset {
   overflow:auto;
+}
+.controller-spreadsheets.action-results table.list tbody tr.group > td {
+  background-color: white;
+}
+.singe-calculation-results {
+  padding-top: 2em;
 }
