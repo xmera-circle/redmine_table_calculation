@@ -2,7 +2,8 @@
 
 Create spreadsheets with simple calculation capabilities
 
-![Redmine Plugin Version](https://img.shields.io/badge/Redmine_Plugin-v1.0.5-red) ![Redmine Version](https://img.shields.io/badge/Redmine-v4.x.x-blue) ![Language Support](https://img.shields.io/badge/Languages-en,_de-green) ![Version Stage](https://img.shields.io/badge/Stage-release-important)
+![Redmine Plugin Version](https://img.shields.io/badge/Redmine_Plugin-v2.0.0-red) ![Redmine Version](https://img.shields.io/badge/Redmine-v5.0.z-blue) ![Language Support](https://img.shields.io/badge/Languages-en,_de-green) ![Version Stage](https://img.shields.io/badge/Stage-release-important) ![develop](https://github.com/xmera-circle/redmine_table_calculation/actions/workflows/5-0-stable.yml/badge.svg)
+
 
 Redmine Table Calculation is a plugin which lets the user create spreadsheets with simple calculation capabilities for each project.
 
@@ -33,8 +34,7 @@ Instructions for the installation of this plugin can be found in the [official d
 To run the plugin you need the following dependencies installed:
 
 * [redmine_project_types](https://github.com/xmera-circle/redmine_project_types)
-* [redmine_colored_enumeration](https://github.com/xmera-circle/redmine_colored_enumeration)
-* [advanced_plugin_helper](https://github.com/xmera-circle/advanced_plugin_helper)
+
 
 ## Changelog
 

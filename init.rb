@@ -24,12 +24,12 @@ Redmine::Plugin.register :redmine_table_calculation do
   name 'Table Calculation'
   author 'Liane Hampe (xmera Solutions GmbH)'
   description 'Create a custom table and calculate over columns'
-  version '1.0.4'
+  version '2.0.0'
   url 'https://circle.xmera.de/projects/redmine-table-calculation'
   author_url 'https://circle.xmera.de/users/5'
 
   requires_redmine version_or_higher: '4.1.0'
-  requires_redmine_plugin :redmine_project_types, version_or_higher: '4.0.0'
+  requires_redmine_plugin :redmine_project_types, version_or_higher: '4.2.3'
 
   menu(:project_menu,
        :menu_table_calculation,

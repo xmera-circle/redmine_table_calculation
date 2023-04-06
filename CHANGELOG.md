@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.0.0 - 2023-04-06
+
+### Changed
+
+* migration for redmine_table_calculation_inheritance to be empty
+* data model for table building and rendering
+* naming of some tables and columns due to the new data model
+
+### Added
+
+* activation of table module in project type when this type is added in table configuration
+
+### Fixed
+
+* display of custom fields with radiobuttons and checkboxes
+* display of second calculation row with other columns than the first row
+
+### Deleted
+
+* permission of spreadsheet results
+
 ## 1.0.5 - 2022-12-09
 
 ### Fixed
