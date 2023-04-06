@@ -52,6 +52,6 @@ table.list.spreadsheets th.name {
 .controller-spreadsheets.action-results table.list tbody tr.group > td {
   background-color: white;
 }
-.singe-calculation-results {
+#grouped-calculation-results {
   padding-top: 2em;
 }

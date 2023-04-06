@@ -21,9 +21,9 @@
 class ResultTableCell
   include Enumerable
 
-  attr_reader :custom_field
+  attr_reader :custom_field, :description
 
-  delegate :full_text_formatting?, :description, to: :custom_field
+  delegate :full_text_formatting?, to: :custom_field
   delegate :index, to: :column, prefix: true
 
   # @param column [DataTableColumn] A column from the underlying DataTable.

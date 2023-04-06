@@ -40,12 +40,11 @@ en:
   label_spreadsheet_row_new: New Row
 
   info_text_calculation_direction: The calculation will be down over columns.
+  info_text_missing_table_configuration_selection: Wenn there is no selection please enable the project type of this project in the table configuration view.
 
   field_table: Table
   field_table_config: Table configuration
-  field_calculation_direction: Calculation direction
-  field_over_columns: Over columns
-  field_over_rows: Over rows
+  field_inheritable: Inherit results of associated objects
   field_comment: Rational
   activerecord:
     attributes:
