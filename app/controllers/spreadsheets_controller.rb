@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table spreadsheet.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,6 +34,8 @@ class SpreadsheetsController < ApplicationController
 
   def show
     index
+    prepare_data_table
+    prepare_result_table
   end
 
   def new
@@ -86,5 +88,13 @@ class SpreadsheetsController < ApplicationController
   def new_spreadsheet
     Spreadsheet.new(project_id: @project.id,
                     author_id: User.current.id)
+  end
+
+  def prepare_data_table
+    @data_table = DataTable.new(spreadsheet: @spreadsheet)
+  end
+
+  def prepare_result_table
+    @result_table = ResultTable.new(data_table: @data_table)
   end
 end

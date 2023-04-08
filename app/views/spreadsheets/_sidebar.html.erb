@@ -3,7 +3,7 @@
 
 # This file is part of the Plugin Redmine Table spreadsheet.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,22 +28,21 @@
   <% end %>
 
   <%= tag.ul id: 'sidebar-menu' do %>
-    <% @spreadsheets.map(&:table).uniq.each do |table| %>
-      <% table = table ? table : NullTable.new %>
-      <%= tag.div class: 'table-object' do %>   
-        <%= tag.strong table.name %>
+    <% @spreadsheets.map(&:table_config).uniq.each do |table_config| %>
+      <%= tag.div class: 'table-config-object' do %>   
+        <%= tag.strong table_config.name %>
           <%= tag.ul do %>
             <% @spreadsheets.map(&:itself).each do |sheet| %>
-              <% if sheet.table == table && User.current.allowed_to?(:view_spreadsheet, @project)%>
+              <% if sheet.table_config == table_config && User.current.allowed_to?(:view_spreadsheet, @project)%>
                 <%= tag.li link_to(sheet.name, 
                     project_spreadsheet_path(@project, sheet),
                     class: selected_spreadsheet(sheet.id, :show) ) %>
-                <% if defined?(FinalResultTable) &&
-                      sheet.table.calculations.present? && 
-                      sheet.table.calculations.pluck(:inheritable).any? && 
-                      User.current.allowed_to?(:view_spreadsheet_results, @project) %>
+                <% if defined?(FrozenResultTable) &&
+                      sheet.table_config.calculation_configs.present? && 
+                      sheet.table_config.calculation_configs.pluck(:inheritable).any? && 
+                      User.current.allowed_to?(:view_spreadsheet, @project) %>
                   <%= tag.ul style: 'padding-left: 1rem' do %>
-                    <%= tag.li link_to(table.calculations.map(&:name).join(', '), 
+                    <%= tag.li link_to(table_config.calculation_configs.map(&:name).join(', '), 
                         results_project_spreadsheet_path(@project, id: sheet),
                         class: selected_spreadsheet(sheet.id, :results)) %>
                   <% end %>

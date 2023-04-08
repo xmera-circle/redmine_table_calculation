@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,15 +20,8 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
-  class SpreadsheetTest < ActiveSupport::TestCase
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::ProjectTypeCreator
-
-    fixtures :projects,
-             :members, :member_roles, :roles, :users,
-             :tables, :spreadsheets
-
+module RedmineTableCalculation
+  class SpreadsheetTest < UnitTestCase
     test 'should respond to sorted_by_id' do
       assert Spreadsheet.find(1).respond_to? :sorted_by_id
     end
@@ -41,8 +34,8 @@ module TableCaclulation
       assert Spreadsheet.find(1).respond_to? :column_ids
     end
 
-    test 'should respond to calculations' do
-      assert Spreadsheet.find(1).respond_to? :calculations?
+    test 'should respond to calculation_configs' do
+      assert Spreadsheet.find(1).respond_to? :calculation_configs?
     end
 
     test 'should respond to copy' do
@@ -50,7 +43,7 @@ module TableCaclulation
     end
 
     test 'spreadsheet should not be valid without name' do
-      sheet = Spreadsheet.new(table_id: Table.find(1).id)
+      sheet = Spreadsheet.new(table_config_id: TableConfig.find(1).id)
       assert_not sheet.valid?
       assert_equal %i[name], sheet.errors.keys
     end
@@ -58,7 +51,7 @@ module TableCaclulation
     test 'spreadsheet should not be valid without table' do
       sheet = Spreadsheet.new(name: 'New Sheet')
       assert_not sheet.valid?
-      assert_equal %i[table_id], sheet.errors.keys
+      assert_equal %i[table_config_id], sheet.errors.keys
     end
   end
 end

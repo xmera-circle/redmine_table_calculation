@@ -3,7 +3,7 @@
 
 # This file is part of the Plugin Redmine Table spreadsheet.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,13 +23,19 @@
 <%= error_messages_for 'spreadsheet' %>
 
 <%= tag.div class: 'box tabular settings' do %>
+  <% if User.current.admin? %>
+    <%=tag.div class: 'contextual' do %>
+      <%= link_to l(:label_administration), table_configs_path, :class => "icon icon-settings" %>
+    <% end %>
+  <% end %>
   <%= content_tag :p, f.text_field(:name, size: 30, required: true) %>
   <%= content_tag :p, f.text_area(:description, class: 'wiki-edit',size: '5x5') %>
   <%= tag.p do %>
-    <%= label(:spreadsheet, :table_id) do %>
-				<%= l(:label_table) %><span class="required"> *</span>
+    <%= label(:spreadsheet, :table_config_id) do %>
+				<%= l(:label_table_config) %><span class="required"> *</span>
 		<% end %>
-    <%= f.collection_select(:table_id, table_select_options, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
+    <%= f.collection_select(:table_config_id, table_config_select_options, :id, :name, include_blank: "--- #{l(:actionview_instancetag_blank_option)} ---") %>
+    <%= tag.em l(:info_text_missing_table_configuration_selection), class: 'info' %>
   <% end %>
   <%= wikitoolbar_for 'spreadsheet_description' %>
 <% end %>

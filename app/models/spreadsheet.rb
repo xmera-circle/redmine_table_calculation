@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,38 +20,46 @@
 
 class Spreadsheet < ActiveRecord::Base
   include Redmine::SafeAttributes
-  include TableCalculation::Copyable
-  include TableCalculation::Sortable
+  include RedmineTableCalculation::Copyable
+  include RedmineTableCalculation::Sortable
 
   belongs_to :project, inverse_of: :spreadsheets
-  belongs_to :table, inverse_of: :spreadsheets
+  belongs_to :table_config, inverse_of: :spreadsheets
   belongs_to :author, class_name: 'User'
-  has_many :rows, class_name: 'SpreadsheetRow', dependent: :destroy
+  has_many :rows, -> { order(:position) }, class_name: 'SpreadsheetRow', inverse_of: :spreadsheet, dependent: :destroy
 
   validates :name, uniqueness: { scope: :project_id }
   validates :name, presence: true
-  validates :table_id, presence: true # table is not required when not validated!
+  # table_config will only be required when validated this way!
+  validates :table_config_id, presence: true
 
   safe_attributes(
     :name,
     :description,
-    :table_id,
+    :table_config_id,
     :project_id,
     :author_id
   )
 
-  delegate :column_ids, to: :secure_table
+  # is used in project in order to get easily a data table
+  def data_table
+    DataTable.new(spreadsheet: self)
+  end
 
-  def calculations?
-    secure_table.calculations.present?
+  delegate :column_ids, to: :table_config
+
+  def calculation_configs?
+    table_config.calculation_configs.present?
   end
 
   def copy(attributes = nil)
-    copy = super(attributes)
-    row_attributes = { spreadsheet_id: copy.id }
-    copy.rows = copy_rows(row_attributes)
-    copy.copy_row_values(self)
-    copy
+    attributes ||= {}
+    attributes.merge(table_config: table_config)
+    copied = super(attributes)
+    copied.save
+    copied.rows << copy_rows
+    copied.copy_row_values(self)
+    copied
   end
 
   private
@@ -64,10 +72,6 @@ class Spreadsheet < ActiveRecord::Base
     sorted_rows.map do |row|
       row.copy(attributes)
     end
-  end
-
-  def secure_table
-    table || NullTable.new
   end
 
   protected

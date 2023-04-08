@@ -9,15 +9,18 @@ de:
   label_table: Tabelle
   label_table_plural: Tabellen
   label_table_config: Tabellenkonfiguration
+  label_table_config_plural: Tabellenkonfigurationen
+  label_table_config_new: Neue Tabellenkonfiguration
   label_table_new: Neue Tabelle
-  label_name: Name 
+  label_name: Name
+  label_description: Beschreibung
   label_column_plural: Spalten
   label_row_plural: Reihen
   label_calculation: Berechnung
-  label_calculation_plural: Berechnungen
-  label_calculation_new: Neue Berechnung
+  label_calculation_config: Berechnung
+  label_calculation_config_plural: Berechnungen
+  label_calculation_config_new: Neue Berechnung
   label_formula: Formel
-  label_field_plural: Felder
   label_max: Maximum 
   label_min: Minimum
   label_sum: Summe
@@ -36,23 +39,22 @@ de:
   label_spreadsheet_row_edit: bearbeiten
   label_spreadsheet_row_new: Neue Zeile
 
-  text_calculate_over: 'Berechnung über:'
+  info_text_calculation_direction: Die Berechnung efolgt über Spalten.
+  info_text_missing_table_configuration_selection: Wenn keine Auswahl angezeigt wird, aktivieren Sie bitte die Projektklasse für dieses Projekt in der Tabellenkonfiguration.
 
-  field_columns: Tabellenspalten
-  field_rows: Tabellenreihen
   field_table: Tabelle
-  field_fields: Felder
-  field_columns_and_rows: Spalten und Zeilen
+  field_table_config: Tabellenkonfiguration
+  field_inheritable: Ergebnisse von assoziierten Objekten vererben
   field_comment: Begründung
   activerecord:
     attributes:
       calculation: 
         inheritable: Ergebnisse von assoziierten Projekten aggregieren
 
-  error_table_id_not_present: muss ausgewählt werden.
+  error_table_config_id_not_present: muss ausgewählt werden.
   error_field_ids_invalid: gehören zu einer anderen Tabelle.
-  error_columns_and_rows_selected: können nicht beide aktiviert werden.
-  error_columns_and_rows_unselected: können nicht beide deaktiviert sein.
+  error_calculation_direction_not_well_defined: muss eindeutig sein.
+  error_calculation_direction_not_present: muss ausgewält werden.
   error_records_with_required_field_could_not_be_saved: "%{value} hat mind. 1 Datenblattzeile,
    die nicht gespeichert werden konnte. Wahrscheinlich ist ein erforderliches Feld nicht ausgefüllt."
 

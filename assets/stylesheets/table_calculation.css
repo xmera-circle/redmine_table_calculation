@@ -8,16 +8,13 @@
 .controller-spreadsheets #sidebar h3 {
   font-weight:bold;
 }
-.table-object {
+.table-config-object {
   border-bottom: 1px solid lightgray;
   padding-bottom: 1rem;
   overflow: hidden;
 }
-.table-object:not(:first-of-type) {
+.table-config-object:not(:first-of-type) {
   padding-top: 1rem;
-}
-.controller-spreadsheets .contextual [href*="edit"]::before {
-    content: "";
 }
 
 table.enumeration-badge {
@@ -40,4 +37,21 @@ table.enumeration-badge td {
   height: 16px;
   padding: 0;
   border: 0 none;
+}
+
+table.list.table-configs th.name,
+table.list.calculation-configs th.name,
+table.list.spreadsheets th.name {
+  text-align: left;
+}
+
+/* inheritance */
+.controller-spreadsheets.action-results fieldset {
+  overflow:auto;
+}
+.controller-spreadsheets.action-results table.list tbody tr.group > td {
+  background-color: white;
+}
+#grouped-calculation-results {
+  padding-top: 2em;
 }

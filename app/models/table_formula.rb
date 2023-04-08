@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,23 +29,23 @@ class TableFormula
     sum: :label_sum
   }
 
-  ##
-  # @params values Array(String|Integer)
-  # @params operation TableFormula.operators.key
+  # @param operation [Symbol] An element of TableFormula.operators.key.
+  # @param values [Array(Integer, Float)] Values on which the operation should
+  #                                       be executed.
   #
   def initialize(operation, values)
     @operation = operation
-    @values = values
+    # remove nil values in case of SpareTableCell objects included
+    @values = values&.compact
   end
 
-  ##
-  # If String values are given, they will be casted to Integer.
-  # Strings bearing other characters than numbers will turn to 0.
-  #
+  # Check whether the operation is registered and
+  # whether values given at all.
   def exec
-    return '-' unless valid? operation
+    return '-' unless valid?(operation)
+    return '-' if values.blank?
 
-    values&.map(&:to_i)&.send(operation)
+    values&.send(operation)
   end
 
   private

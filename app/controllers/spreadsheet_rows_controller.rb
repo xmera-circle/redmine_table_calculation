@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table spreadsheet.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -78,6 +78,7 @@ class SpreadsheetRowsController < ApplicationController
 
   def new_row
     SpreadsheetRow.new(spreadsheet_id: @spreadsheet.id,
+                       table_config: @spreadsheet.table_config,
                        position: @spreadsheet.rows.count + 1)
   end
 

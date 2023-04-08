@@ -4,7 +4,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2020 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,25 +22,26 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
+module RedmineTableCalculation
   class SpreadsheetColorTest < ApplicationSystemTestCase
-    include TableCalculation::Enumerations
-    include TableCalculation::ProjectTypeCreator
+    extend LoadFixtures
+    include Enumerations
+    include ProjectTypeCreator
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,
-             :tables, :calculations, :spreadsheets, :spreadsheet_rows
+             :table_configs, :calculation_configs, :spreadsheets, :spreadsheet_rows
 
     def setup
       super
       @project_type_master = find_project_type(id: 4)
       @project_type_master.enable_module!(:table_calculation)
-      table = Table.find(2)
+      table_config = TableConfig.find(2)
       enum_column = create_colored_custom_field
       enum_values = enum_column.enumerations.pluck(:id)
       int_column = TableCustomField.generate!(name: 'Count', field_format: 'int')
       int_values = [5, 2]
-      table.columns << [enum_column, int_column]
+      table_config.columns << [enum_column, int_column]
       first_row = SpreadsheetRow.find(3)
       first_row.custom_field_values = { enum_column.id => enum_values.first, int_column.id => int_values.first }
       first_row.save

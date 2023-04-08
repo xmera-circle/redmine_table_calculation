@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +27,10 @@ class TableCustomField < CustomField
     TableCustomField.sorted.collect { |custom_field| [custom_field.name, custom_field.id.to_s] }
   end
 
+  # Supports color fields as provided by Redmine Colored Enumeration plugin
   def cast_color(value)
+    return '' unless Redmine::Plugin.installed?(:redmine_colored_enumeration)
+
     format.cast_color(self, value)
   end
 end

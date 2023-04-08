@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,9 +19,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 module SpreadsheetsHelper
-  def table_select_options
-    return project_tables.select(:id, :name) unless project_type_id || project_type_master
-    return project_type_tables.select(:id, :name) if project_type_id
+  def date_and_author(record)
+    return '' unless record.presence
+
+    updated, author = latest_update_with_author(record)
+    "(#{authoring(updated, author, label: :label_updated_time_by)})".html_safe
+  end
+
+  def latest_update_with_author(record)
+    found = latest(record)
+    return [] unless found.presence
+
+    [found.updated_on, found.author]
+  end
+
+  def latest(record)
+    record
+      .order('updated_on DESC')
+      .limit(1)
+      .take
+  end
+
+  def table_config_select_options
+    return project_table_configs.select(:id, :name) unless project_type_id || project_type_master
+    return project_type_table_configs.select(:id, :name) if project_type_id
 
     project_type_master_tables.select(:id, :name)
   end
@@ -33,13 +54,13 @@ module SpreadsheetsHelper
   end
 
   def project_type_master_tables
-    @project.tables
+    @project.table_configs
   end
 
-  delegate :tables, to: :project_type, prefix: true
+  delegate :table_configs, to: :project_type, prefix: true
 
-  def project_tables
-    Table
+  def project_table_configs
+    TableConfig
   end
 
   def project_type_id
@@ -78,41 +99,41 @@ module SpreadsheetsHelper
     !odd?(index)
   end
 
-  ##
-  # This method formats the given (custom) value by using
-  # CustomFieldsHelper#format_value or a special format for non custom value
-  # fields.
-  #
-  # @param value [String|Integer] The value of a custom field.
-  # @param column [CustomField] The column of the table, i.e. the custom field
-  #  corresponding to the given value.
-  #
-  def value(value, column)
-    return non_custom_field_value(value) if column.nil?
-
-    format_value(value, column)
+  def render_spreadsheet_result_table(**attrs)
+    spreadsheet = attrs[:spreadsheet]
+    result_table = attrs[:result_table] || ResultTable.new(data_table: spreadsheet.data_table)
+    render partial: 'spreadsheets/result_table',
+           locals: { table: result_table }
   end
 
-  def color(value, column)
-    return '' unless column
-
-    column.cast_color(value)
+  def render_spreadsheet_table(**attrs)
+    table = attrs[:data_table] || attrs[:spreadsheet].data_table
+    render partial: 'spreadsheets/data_table',
+           locals: { table: table }
   end
 
-  def render_spreadsheet_result_table(spreadsheet)
-    render partial: 'spreadsheets/calculation_results',
-           locals: { table: SpreadsheetResultTable.new(spreadsheet) }
+  # Cast and format custom field values according to the underlying field
+  # format
+  def format_table_value(value, custom_field)
+    return value if value == '-'
+    return format_spare_table_value(value) unless custom_field
+
+    format_table_custom_field_value(custom_field, value)
   end
 
-  def render_spreadsheet_table(spreadsheet)
-    render partial: 'table',
-           locals: { table: SpreadsheetTable.new(spreadsheet) }
+  def format_spare_table_value(value)
+    case value
+    when ActiveSupport::TimeWithZone
+      format_time(value)
+    when String
+      textilizable(value)
+    else
+      value
+    end
   end
 
-  ##
-  # Consider by default string values to be textilizable.
-  #
-  def non_custom_field_value(value)
-    value.is_a?(String) ? textilizable(value) : value
+  def format_table_custom_field_value(custom_field, value)
+    html = true
+    format_object(custom_field.format.formatted_value(self, custom_field, value, false, html), html)
   end
 end

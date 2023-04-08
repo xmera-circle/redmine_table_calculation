@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,14 +22,14 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class SpreadsheetRowsControllerTest < ActionDispatch::IntegrationTest
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::AuthenticateUser
-    include TableCalculation::ProjectTypeCreator
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::AuthenticateUser
+    include RedmineTableCalculation::ProjectTypeCreator
     include Redmine::I18n
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,
-             :tables, :calculations, :spreadsheets, :spreadsheet_rows
+             :table_configs, :calculation_configs, :spreadsheets, :spreadsheet_rows
 
     def setup
       @manager = User.find(2)
@@ -41,8 +41,8 @@ module TableCaclulation
       @project_type_master = find_project_type(id: 4)
       @project_type_master.enable_module!(:table_calculation)
       @project_type_master.members << Member.create(user_id: @manager.id, roles: [@manager_role])
-      second_table = Table.find(2)
-      second_table.columns << [@description_field, @count_field]
+      second_table_config = TableConfig.find(2)
+      second_table_config.columns << [@description_field, @count_field]
       @third_row = SpreadsheetRow.find(3)
       @third_row.custom_field_values = { @description_field.id => 'Item 3', @count_field.id => 3 }
       @third_row.save
@@ -50,8 +50,8 @@ module TableCaclulation
       @project = Project.find(1)
       @project.enable_module!(:table_calculation)
 
-      first_table = Table.find(1)
-      first_table.columns << [@description_field, @count_field]
+      first_table_config = TableConfig.find(1)
+      first_table_config.columns << [@description_field, @count_field]
       @first_row = SpreadsheetRow.find(1)
       @first_row.custom_field_values = { @description_field.id => 'Item 1', @count_field.id => 1 }
       @first_row.save
@@ -102,7 +102,7 @@ module TableCaclulation
       get new_project_spreadsheet_spreadsheet_row_path(project_id: @project.id,
                                                        spreadsheet_id: spreadsheet.id)
       assert_response :success
-      assert_select '.box.tabular.settings'
+      assert_select '.box.tabular'
       assert_select 'input[id^="spreadsheet_row_custom_field_values_"]', 2
     end
 

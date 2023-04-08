@@ -3,7 +3,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 %>
 
-<% if @project.module_enabled? :table_calculation %>
+<% if @project.module_enabled?(:table_calculation) && User.current.allowed_to?(:view_spreadsheet, @project) %>
   <%= tag.div class: 'spreadsheet box' do %>
     <%= tag.div class: 'contextual' do %>
       <%= actions_dropdown do %>
@@ -37,11 +37,13 @@
     <% tag.div class: 'wiki' do %>
       <%= textilizable(spreadsheet, :description) %>
     <% end %>
-    <%= render_spreadsheet_result_table(spreadsheet) %>
+    <% cache spreadsheet do %>
+      <%= render_spreadsheet_result_table(spreadsheet: spreadsheet) %>
+    <% end %>
     <%= tag.small do %>
       <%= authoring spreadsheet.created_on, spreadsheet.author %>.
       <% if spreadsheet.created_on != spreadsheet.updated_on %>
-        <%= l(:label_updated_time, time_tag(spreadsheet.updated_on)).html_safe %>.
+        <%= l(:label_updated_time, time_tag(latest(spreadsheet.rows).updated_on)).html_safe %>.
       <% end %>
     <% end %>
   <% end %>

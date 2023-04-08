@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2022-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,14 +20,8 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
-  class SpreadsheetRowTest < ActiveSupport::TestCase
-    extend TableCalculation::LoadFixtures
-
-    fixtures :projects,
-             :members, :member_roles, :roles, :users,
-             :tables, :spreadsheets, :spreadsheet_rows
-
+module RedmineTableCalculation
+  class SpreadsheetRowTest < UnitTestCase
     setup do
       @spreadsheet_row = spreadsheet_rows :spreadsheet_rows_001
     end

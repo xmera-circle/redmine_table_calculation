@@ -1,0 +1,19 @@
+--- 
+calculation_configs_001:
+  id: 1
+  table_config_id: 1
+  name: Calculate MAX
+  description: Calculation of the maximum per column
+  formula: max 
+calculation_configs_002:
+  id: 2
+  table_config_id: 2
+  name: Calculate MIN
+  description: Calculation of the minimum per column
+  formula: min
+calculation_configs_003:
+  id: 3
+  table_config_id: 1
+  name: Calculate SUM
+  description: Caclulation of the sum per column
+  formula: sum

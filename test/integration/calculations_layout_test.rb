@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,33 +20,32 @@
 
 require File.expand_path('../test_helper', __dir__)
 
-module TableCaclulation
+module RedmineTableCalculation
   class CalculationsLayoutTest < ActionDispatch::IntegrationTest
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::AuthenticateUser
-    include TableCalculation::ProjectTypeCreator
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::AuthenticateUser
+    include RedmineTableCalculation::ProjectTypeCreator
     include Redmine::I18n
 
-    fixtures :users, :tables, :calculations
+    fixtures :users, :table_configs, :calculation_configs
 
-    test 'should render index with config calculations' do
+    test 'should render index with calculation configs' do
       log_user('admin', 'admin')
-      get calculations_path
+      get calculation_configs_path
       assert_response :success
-      assert_select 'table.config-calculations'
-      assert_select 'table.list.config-calculations tbody tr', 2
+      assert_select 'table.calculation-configs'
+      assert_select 'table.list.calculation-configs tbody tr', 3
     end
 
     test 'should render new form' do
       log_user('admin', 'admin')
-      get new_calculation_path
+      get new_calculation_config_path
       assert_response :success
-      assert_select '#calculation_name'
-      assert_select '#calculation_description'
-      assert_select '#calculation_table_id'
-      assert_select '#calculation_formula'
-      assert_select '#calculation_field_ids'
-      assert_select '#calculation_columns'
+      assert_select '#calculation_config_name'
+      assert_select '#calculation_config_description'
+      assert_select '#calculation_config_table_config_id'
+      assert_select '#calculation_config_formula'
+      assert_select '#calculation_config_column_ids'
     end
   end
 end

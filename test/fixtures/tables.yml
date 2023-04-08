@@ -1,9 +1,0 @@
---- 
-tables_001:
-  id: 1
-  name: Table1
-  description: Table1 for testing purposes
-tables_002:
-  id: 2
-  name: Table2
-  description: Table2 for testing purposes

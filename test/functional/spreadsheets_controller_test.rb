@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This plugin program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,14 +22,14 @@ require File.expand_path('../test_helper', __dir__)
 
 module TableCaclulation
   class SpreadsheetsControllerTest < ActionDispatch::IntegrationTest
-    extend TableCalculation::LoadFixtures
-    include TableCalculation::AuthenticateUser
-    include TableCalculation::ProjectTypeCreator
+    extend RedmineTableCalculation::LoadFixtures
+    include RedmineTableCalculation::AuthenticateUser
+    include RedmineTableCalculation::ProjectTypeCreator
     include Redmine::I18n
 
     fixtures :projects,
              :members, :member_roles, :roles, :users,
-             :tables, :calculations, :spreadsheets
+             :table_configs, :calculation_configs, :spreadsheets
 
     def setup
       @manager = User.find(2)
@@ -54,7 +54,7 @@ module TableCaclulation
 
       assert_no_difference 'Spreadsheet.count' do
         post project_spreadsheets_path(project_id: @project.identifier),
-             params: { spreadsheet: { name: 'testsheet', table_id: 2 } }
+             params: { spreadsheet: { name: 'testsheet', table_config_id: 2 } }
       end
       assert_response 403
     end
@@ -67,7 +67,7 @@ module TableCaclulation
 
       assert_difference 'Spreadsheet.count' do
         post project_spreadsheets_path(project_id: @project.identifier),
-             params: { spreadsheet: { name: 'testsheet', table_id: 2 } }
+             params: { spreadsheet: { name: 'testsheet', table_config_id: 2 } }
       end
       assert_redirected_to project_spreadsheet_path @project, Spreadsheet.last
     end

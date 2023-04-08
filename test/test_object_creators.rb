@@ -2,7 +2,7 @@
 
 # This file is part of the Plugin Redmine Table Calculation Inheritance.
 #
-# Copyright (C) 2021 - 2022 Liane Hampe <liaham@xmera.de>, xmera.
+# Copyright (C) 2020-2023 Liane Hampe <liaham@xmera.de>, xmera Solutions GmbH.
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,17 +18,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
-module TableCalculation
+module RedmineTableCalculation
   module TestObjectCreators
-    def Table.generate!(attributes = {})
-      @generated_table_name ||= +'Table 0'
-      @generated_table_name.succ!
-      table = new(attributes)
-      table.name = @generated_table_name.dup if table.name.blank?
-      table.description = 'A test table' if table.description.blank?
-      yield table if block_given?
-      table.save!
-      table
+    def TableConfig.generate!(attributes = {})
+      @generated_table_config_name ||= +'Table Config 0'
+      @generated_table_config_name.succ!
+      table_config = new(attributes)
+      table_config.name = @generated_table_config_name.dup if table_config.name.blank?
+      table_config.description = 'A test table config' if table_config.description.blank?
+      yield table_config if block_given?
+      table_config.save!
+      table_config
+    end
+
+    def CalculationConfig.generate!(attributes = {})
+      @generated_calc_config_name ||= +'Calculation Config 0'
+      @generated_calc_config_name.succ!
+      calc_config = new(attributes)
+      calc_config.name = @generated_calc_config_name.dup if calc_config.name.blank?
+      calc_config.description = 'A test calculation config' if calc_config.description.blank?
+      yield calc_config if block_given?
+      calc_config.save!
+      calc_config
     end
 
     def Spreadsheet.generate!(attributes = {})
@@ -40,6 +51,18 @@ module TableCalculation
       yield sheet if block_given?
       sheet.save!
       sheet
+    end
+
+    def TableCustomField.generate!(attributes = {})
+      enumerations = attributes.delete(:enumerations)
+      field = super
+      if enumerations.present?
+        enumerations.each do |_key, values|
+          field.enumerations.build(values)
+          field.save!
+        end
+      end
+      field
     end
   end
 end
