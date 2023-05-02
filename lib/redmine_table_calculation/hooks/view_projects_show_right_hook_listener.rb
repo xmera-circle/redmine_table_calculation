@@ -18,6 +18,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+plugin = 'plugins/redmine_project_types_relations'
+dependency = 'lib/project_types_relations/hooks/view_projects_show_right_hook_listener'
+require Rails.root.join(plugin, dependency).to_s
+
 module RedmineTableCalculation
   module Hooks
     class ViewProjectsShowRightHookListener < ProjectTypesRelations::Hooks::ViewProjectsShowRightHookListener
